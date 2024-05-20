@@ -1,5 +1,5 @@
 <script>
-	import NavBarMin from '../../lib/NavBarMin.svelte';
+	import NavBar from '../../lib/NavBar.svelte';
 </script>
 
 <svelte:head>
@@ -7,7 +7,7 @@
 </svelte:head>
 
 <main>
-	<NavBarMin />
+	<NavBar />
 	<slot />
 </main>
 

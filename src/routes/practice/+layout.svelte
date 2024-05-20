@@ -6,10 +6,8 @@
 	<title>Practice</title>
 </svelte:head>
 
-<main>
-	<NavBar />
-	<slot />
-</main>
+<NavBar />
+<slot />
 
 <style>
 </style>

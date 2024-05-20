@@ -1,4 +1,5 @@
 <script>
+	import { page } from '$app/stores';
 	import DropdownLang from './Navbar/DropdownLang.svelte';
 	import DropdownList from './Navbar/DropdownList.svelte';
 	import Setting from './components/Setting.svelte';
@@ -6,8 +7,10 @@
 
 <nav>
 	<a href="/">Vocab</a>
-	<DropdownLang />
-	<DropdownList />
+	{#if $page.url.pathname === '/practice'}
+		<DropdownLang />
+		<DropdownList />
+	{/if}
 
 	<Setting />
 </nav>
