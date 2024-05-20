@@ -13,15 +13,15 @@
 
 <style>
 	.setting-button {
+		display: flex;
+		align-items: center;
 		padding: 0;
 		border: none;
 		background: none;
 		text-decoration: none;
-		position: fixed;
-		top: 10px;
-		right: 1rem;
-		color: black;
+		color: #dbeafe;
 		font-size: 2rem;
+		margin-left: auto;
 	}
 	.setting-button:hover {
 		cursor: pointer;

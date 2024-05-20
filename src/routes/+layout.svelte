@@ -1,5 +1,4 @@
 <script>
-	import Setting from '../lib/components/Setting.svelte';
 	import './globals.css';
 </script>
 
@@ -8,9 +7,11 @@
 </svelte:head>
 
 <main>
-	<Setting />
 	<slot />
 </main>
 
 <style>
+	main {
+		height: 100%;
+	}
 </style>

@@ -23,9 +23,10 @@
 <style>
 	.general {
 		width: 100%;
-		margin-left: 10%;
-		margin-right: 10%;
-		margin-top: 2rem;
+		height: 100%;
+		padding: 10%;
+		padding-right: 10%;
+		padding-top: 2rem;
 	}
 	.stats-container {
 		display: flex;
