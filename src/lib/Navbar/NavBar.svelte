@@ -1,12 +1,12 @@
 <script>
 	import { page } from '$app/stores';
-	import DropdownLang from './Navbar/DropdownLang.svelte';
-	import DropdownList from './Navbar/DropdownList.svelte';
-	import Setting from './components/Setting.svelte';
+	import DropdownLang from './DropdownLang.svelte';
+	import DropdownList from './DropdownList.svelte';
+	import Setting from '$lib/components/Setting.svelte';
 </script>
 
 <nav>
-	<a href="/">Vocab</a>
+	<a data-sveltekit-reload href="/">Vocab</a>
 	{#if $page.url.pathname === '/practice'}
 		<DropdownLang />
 		<DropdownList />

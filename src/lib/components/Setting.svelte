@@ -1,7 +1,9 @@
 <script>
 	import SettingIcon from '../Icons/Setting-icon.svelte';
+	let menu = false;
+
 	function clickHandler() {
-		return 0;
+		menu = !menu;
 	}
 </script>
 
@@ -9,7 +11,20 @@
 	<SettingIcon />
 </button>
 
-<div></div>
+{#if menu}
+	<div class="setting-menu">
+		<ul>
+			<li>
+				<a href="/about">About</a>
+			</li>
+			<li>
+				<a href="/stats">Stats</a>
+			</li>
+			<li>Mode:</li>
+			<li></li>
+		</ul>
+	</div>
+{/if}
 
 <style>
 	.setting-button {
@@ -25,5 +40,17 @@
 	}
 	.setting-button:hover {
 		cursor: pointer;
+	}
+
+	.setting-menu {
+		position: absolute;
+		top: 4.5rem;
+		right: 1rem;
+		border-radius: 1rem;
+		padding: 0.5rem 2rem;
+		background-color: #000;
+	}
+	a {
+		text-decoration: none;
 	}
 </style>

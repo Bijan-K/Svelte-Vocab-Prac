@@ -6,8 +6,8 @@
 	<p>A simple webapp for practicing Vocabulary</p>
 
 	<div>
-		<a href="/practice">Practice</a>
-		<a href="/stats">Stats</a>
+		<a data-sveltekit-reload href="/practice">Practice</a>
+		<a data-sveltekit-reload href="/stats">Stats</a>
 	</div>
 </div>
 
