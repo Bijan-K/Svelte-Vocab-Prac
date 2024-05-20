@@ -1,13 +1,13 @@
 <script>
-	import NavBarMin from '../../lib/NavBarMin.svelte';
+	import NavBar from '../../lib/NavBar.svelte';
 </script>
 
 <svelte:head>
-	<title>About</title>
+	<title>Practice</title>
 </svelte:head>
 
 <main>
-	<NavBarMin />
+	<NavBar />
 	<slot />
 </main>
 

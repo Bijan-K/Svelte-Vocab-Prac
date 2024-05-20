@@ -9,7 +9,7 @@
 	nav {
 		display: flex;
 		padding: 1rem;
-		background-color: rgba(0, 0, 0, 0.703);
+		background-color: rgba(0, 0, 0, 0.112);
 	}
 	span {
 		color: white;
