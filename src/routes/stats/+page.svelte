@@ -22,6 +22,9 @@
 
 <style>
 	.general {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
 		width: 100%;
 		height: 100%;
 		padding: 10%;
@@ -31,7 +34,19 @@
 	.stats-container {
 		display: flex;
 		gap: 1rem;
+		justify-content: space-between;
 	}
+	.stats-container .info {
+		padding: 1rem;
+	}
+	.info h2 {
+		font-size: 3rem;
+	}
+	.info h4 {
+		font-size: 2rem;
+		padding-top: 3rem;
+	}
+
 	.chart {
 		border: grey 2px solid;
 	}

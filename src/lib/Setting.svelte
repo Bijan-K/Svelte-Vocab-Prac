@@ -1,5 +1,5 @@
 <script>
-	import SettingIcon from '../Icons/Setting-icon.svelte';
+	import SettingIcon from './Icons/Setting-icon.svelte';
 	let menu = false;
 
 	function clickHandler() {
@@ -14,6 +14,9 @@
 {#if menu}
 	<div class="setting-menu">
 		<ul>
+			<li>
+				<a href="/practice">Practice</a>
+			</li>
 			<li>
 				<a href="/about">About</a>
 			</li>
@@ -44,11 +47,21 @@
 
 	.setting-menu {
 		position: absolute;
-		top: 4.5rem;
+		top: 5rem;
 		right: 1rem;
 		border-radius: 1rem;
-		padding: 0.5rem 2rem;
+		padding: 0.5rem 1rem;
 		background-color: #000;
+	}
+	.setting-menu li {
+		padding: 0.1rem;
+		font-size: larger;
+		color: #dbeafe;
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0;
 	}
 	a {
 		text-decoration: none;

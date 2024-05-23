@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import DropdownLang from './DropdownLang.svelte';
 	import DropdownList from './DropdownList.svelte';
-	import Setting from '$lib/components/Setting.svelte';
+	import Setting from '$lib/Setting.svelte';
 </script>
 
 <nav>
