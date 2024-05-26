@@ -1,11 +1,7 @@
 <script>
 </script>
 
-<svelte:head>
-	<title>About</title>
-</svelte:head>
-
-<div class="general">
+<div class="about-container">
 	<h2>About</h2>
 
 	<p>
@@ -16,7 +12,10 @@
 </div>
 
 <style>
-	.general {
+	.about-container {
 		margin: 10px 10%;
+	}
+	h2 {
+		font-size: 4rem;
 	}
 </style>

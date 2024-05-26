@@ -8,8 +8,9 @@
 	</div>
 
 	<div class="btn-container">
-		<a class="prac-btn" data-sveltekit-reload href="/practice">Practice</a>
-		<a class="stats-btn" data-sveltekit-reload href="/stats">Stats</a>
+		<a class="btn" data-sveltekit-reload href="/practice">Practice</a>
+		<a class="btn" data-sveltekit-reload href="/stats">Stats</a>
+		<a class="btn" data-sveltekit-reload href="/about">About</a>
 	</div>
 </div>
 
@@ -38,14 +39,7 @@
 		display: flex;
 		gap: 1rem;
 	}
-	.stats-btn {
-		text-decoration: none;
-		color: beige;
-		background-color: darkcyan;
-		padding: 1rem 1.5rem;
-		border-radius: 0.25rem;
-	}
-	.prac-btn {
+	.btn {
 		text-decoration: none;
 		color: beige;
 		background-color: darkcyan;

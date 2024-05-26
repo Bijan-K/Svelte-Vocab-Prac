@@ -1,5 +1,7 @@
 <script>
-	import SettingIcon from './Icons/Setting-icon.svelte';
+	import SettingIcon from '../Icons/Setting-icon.svelte';
+	import { page } from '$app/stores';
+
 	let menu = false;
 
 	function clickHandler() {
@@ -7,7 +9,11 @@
 	}
 </script>
 
-<button class="setting-button" on:click={clickHandler}>
+<button
+	class:setting-margin={$page.url.pathname !== '/practice'}
+	class="setting-button"
+	on:click={clickHandler}
+>
 	<SettingIcon />
 </button>
 
@@ -39,8 +45,11 @@
 		text-decoration: none;
 		color: #dbeafe;
 		font-size: 2rem;
+	}
+	.setting-margin {
 		margin-left: auto;
 	}
+
 	.setting-button:hover {
 		cursor: pointer;
 	}

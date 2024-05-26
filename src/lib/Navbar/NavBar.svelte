@@ -2,11 +2,12 @@
 	import { page } from '$app/stores';
 	import DropdownLang from './DropdownLang.svelte';
 	import DropdownList from './DropdownList.svelte';
-	import Setting from '$lib/Setting.svelte';
+	import Setting from '$lib/Navbar/Setting.svelte';
 </script>
 
 <nav>
-	<a data-sveltekit-reload href="/">Vocab</a>
+	<a data-sveltekit-reload href="/">Vocab </a>
+
 	{#if $page.url.pathname === '/practice'}
 		<DropdownLang />
 		<DropdownList />
@@ -21,6 +22,7 @@
 		padding: 1rem;
 		gap: 0.5rem;
 		background-color: rgba(0, 0, 0, 0.703);
+		min-height: 10%;
 	}
 	a {
 		text-decoration: none;

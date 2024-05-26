@@ -43,4 +43,7 @@
 </div>
 
 <style>
+	.dropdown {
+		margin-left: auto;
+	}
 </style>
