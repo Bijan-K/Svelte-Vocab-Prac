@@ -38,9 +38,13 @@
 		<li>Instagram</li>
 		<li>Twitter</li>
 		<li>Github</li>
-		<li class="active1">Mistakes</li>
+
+		<li class="plus">+</li>
 	</ul>
 </div>
 
 <style>
+	.plus {
+		text-align: center;
+	}
 </style>
