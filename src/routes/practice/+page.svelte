@@ -1,18 +1,23 @@
 <script>
+	import CorrectBtn from '../../lib/CoreButtons/CorrectBtn.svelte';
+	import WrongBtn from '../../lib/CoreButtons/WrongBtn.svelte';
+	import FadeDownBtn from '../../lib/CoreButtons/FadeDownBtn.svelte';
+
 	let mode = 'test';
 </script>
 
 <div class="practice-container">
 	{#if mode == 'test'}
-		<div>typewriter</div>
+		<div class="text">typewriter</div>
 	{:else if mode == 'add'}
 		<input type="text" />
 	{/if}
 
-	<div>
-		<button>right</button>
-		<button>wrong</button>
-		<button>down</button>
+	<div class="core-btn">
+		<CorrectBtn />
+
+		<FadeDownBtn />
+		<WrongBtn />
 	</div>
 </div>
 
@@ -22,8 +27,20 @@
 		align-items: center;
 		justify-content: center;
 		display: flex;
-		gap: 1rem;
+		gap: 5rem;
 		flex-direction: column;
 		flex: 2fr 1fr;
+	}
+	.text {
+		font-size: 2rem;
+	}
+
+	.core-btn {
+		transform: translateY(+50%);
+		background-color: #0f172a;
+		border-radius: 0.5rem;
+		padding: 2rem 3rem;
+		display: flex;
+		gap: 0.5rem;
 	}
 </style>
