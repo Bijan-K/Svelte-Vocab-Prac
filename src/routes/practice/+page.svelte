@@ -14,10 +14,10 @@
 	{/if}
 
 	<div class="core-btn">
-		<CorrectBtn />
+		<WrongBtn />
 
 		<FadeDownBtn />
-		<WrongBtn />
+		<CorrectBtn />
 	</div>
 </div>
 

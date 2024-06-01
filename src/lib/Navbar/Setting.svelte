@@ -1,5 +1,5 @@
 <script>
-	import SettingIcon from '../Icons/Setting-icon.svelte';
+	import SettingIcon from '../Icons/SettingIcon.svelte';
 	import { page } from '$app/stores';
 
 	let menu = false;
