@@ -2,10 +2,6 @@
 	import './globals.css';
 </script>
 
-<svelte:head>
-	<title>Vocabulary Practice</title>
-</svelte:head>
-
 <main>
 	<slot />
 </main>

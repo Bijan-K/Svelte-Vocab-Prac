@@ -1,6 +1,10 @@
 <script>
 </script>
 
+<svelte:head>
+	<title>Vocabulary Practice</title>
+</svelte:head>
+
 <div class="container">
 	<div class="text-container">
 		<h1>Vocabulary Practice</h1>
