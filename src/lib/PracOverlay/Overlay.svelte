@@ -7,7 +7,6 @@
 		<button></button>
 		<button></button>
 		<button></button>
-
 		<input type="text" />
 	</div>
 </div>

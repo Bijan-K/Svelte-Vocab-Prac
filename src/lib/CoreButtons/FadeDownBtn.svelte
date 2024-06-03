@@ -17,7 +17,8 @@
 		justify-content: center;
 		transform: rotate(-90deg);
 		border: none;
-		padding: 0.25rem;
+		padding: 0.5rem 1rem;
+
 		background: none;
 		color: #eee;
 		font-size: 2rem;

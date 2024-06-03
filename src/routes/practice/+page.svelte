@@ -2,8 +2,10 @@
 	import CorrectBtn from '../../lib/CoreButtons/CorrectBtn.svelte';
 	import WrongBtn from '../../lib/CoreButtons/WrongBtn.svelte';
 	import FadeDownBtn from '../../lib/CoreButtons/FadeDownBtn.svelte';
+	import QuestionBtn from '../../lib/CoreButtons/QuestionBtn.svelte';
 
 	let mode = 'test';
+	let questionMode = false;
 </script>
 
 <div class="practice-container">
@@ -15,8 +17,11 @@
 
 	<div class="core-btn">
 		<WrongBtn />
-
-		<FadeDownBtn />
+		{#if questionMode}
+			<FadeDownBtn />
+		{:else}
+			<QuestionBtn />
+		{/if}
 		<CorrectBtn />
 	</div>
 </div>

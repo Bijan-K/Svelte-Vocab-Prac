@@ -25,8 +25,27 @@ export let data = writable([
 	}
 ]);
 
-export let stats = writable(0);
+export let stats = writable({
+	chart: [
+		{
+			date: new Date(),
+			info: {
+				incorrect: 0,
+				correct: 0
+			}
+		}
+	],
+	streak: 0,
+	Mistake_lang: [
+		{
+			lang: 'english',
+			Mistakes: [{ word: 'word', times: 0 }]
+		}
+	]
+});
 
-export let current = writable(0);
-
-export let showLayout = writable(true);
+export let current = writable({
+	lang: 'english',
+	list: '',
+	currentDay: ''
+});
