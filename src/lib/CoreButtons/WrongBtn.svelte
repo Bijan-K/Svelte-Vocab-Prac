@@ -16,16 +16,15 @@
 		align-items: center;
 		justify-content: center;
 		border: none;
-		padding: 0.5rem 1rem;
+		padding: 0.75rem 2rem;
 		background: none;
 		color: #eee;
 		font-size: 2rem;
 		border-radius: 0.5rem;
-		background-color: rgb(252, 61, 61);
+		background-color: rgb(159 18 57);
 	}
 	div:hover {
 		cursor: pointer;
-		background-color: aqua;
 	}
 	div:active {
 		transform: translateY(+10%);

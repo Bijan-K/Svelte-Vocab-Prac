@@ -49,3 +49,5 @@ export let current = writable({
 	list: '',
 	currentDay: ''
 });
+
+export let iframeState = writable(false);

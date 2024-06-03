@@ -1,7 +1,9 @@
 <script>
 	import FadeDownIcon from '$lib/Icons/FadeDownIcon.svelte';
+	import { iframeState } from '$lib/stores.js';
+
 	function clickHandler() {
-		console.log('clicked');
+		iframeState.update((n) => !n);
 	}
 </script>
 
@@ -15,7 +17,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transform: rotate(-90deg);
 		border: none;
 		padding: 0.5rem 1rem;
 
@@ -23,13 +24,12 @@
 		color: #eee;
 		font-size: 2rem;
 		border-radius: 0.5rem;
-		background-color: rgb(61, 141, 252);
 	}
 	div:hover {
 		cursor: pointer;
-		background-color: aqua;
+		border-bottom: #eee 2px solid;
 	}
 	div:active {
-		transform: translateY(+10%) rotate(-90deg);
+		transform: translateY(+10%);
 	}
 </style>

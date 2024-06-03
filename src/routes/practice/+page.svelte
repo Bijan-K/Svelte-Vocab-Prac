@@ -3,9 +3,9 @@
 	import WrongBtn from '../../lib/CoreButtons/WrongBtn.svelte';
 	import FadeDownBtn from '../../lib/CoreButtons/FadeDownBtn.svelte';
 	import QuestionBtn from '../../lib/CoreButtons/QuestionBtn.svelte';
+	import { fade, fly, slide } from 'svelte/transition';
 
 	let mode = 'test';
-	let questionMode = false;
 </script>
 
 <div class="practice-container">
@@ -15,13 +15,11 @@
 		<input type="text" />
 	{/if}
 
+	<!-- <FadeDownBtn /> -->
+
 	<div class="core-btn">
 		<WrongBtn />
-		{#if questionMode}
-			<FadeDownBtn />
-		{:else}
-			<QuestionBtn />
-		{/if}
+		<QuestionBtn />
 		<CorrectBtn />
 	</div>
 </div>
@@ -37,15 +35,20 @@
 		flex: 2fr 1fr;
 	}
 	.text {
-		font-size: 2rem;
+		transform: translateY(-100%);
+		font-size: 5rem;
 	}
 
 	.core-btn {
-		transform: translateY(+50%);
+		position: fixed;
+
+		bottom: 12%;
 		background-color: #0f172a;
 		border-radius: 0.5rem;
 		padding: 2rem 3rem;
 		display: flex;
 		gap: 0.5rem;
+		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+			var(--tw-shadow);
 	}
 </style>
