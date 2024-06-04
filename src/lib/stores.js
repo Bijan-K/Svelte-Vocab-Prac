@@ -50,6 +50,6 @@ export let current = writable({
 	currentDay: ''
 });
 
-export let iframeState = writable(false);
+export let overlayState = writable(false);
 
 export let menuState = writable(false);

@@ -1,13 +1,5 @@
 <script>
 	import QuestionIcon from '$lib/Icons/QuestionIcon.svelte';
-	import { iframeState } from '$lib/stores.js';
-
-	function clickHandler() {
-		iframeState.update((n) => {
-			console.log(iframeState);
-			return !n;
-		});
-	}
 </script>
 
 <div on:click={clickHandler}>

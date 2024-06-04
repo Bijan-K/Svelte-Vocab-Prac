@@ -1,10 +1,5 @@
 <script>
 	import FadeDownIcon from '$lib/Icons/FadeDownIcon.svelte';
-	import { iframeState } from '$lib/stores.js';
-
-	function clickHandler() {
-		iframeState.update((n) => !n);
-	}
 </script>
 
 <div on:click={clickHandler}>
