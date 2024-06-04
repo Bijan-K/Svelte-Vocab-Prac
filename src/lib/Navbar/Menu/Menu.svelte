@@ -8,8 +8,12 @@
 	out:slide={{ duration: 500, easing: quintOut, axis: 'x' }}
 	class="menuOverlay"
 >
-	<div>ashfkajsdh</div>
-	<h2>HELLLOOO</h2>
+	<h2>Directories:</h2>
+	<div class="dir-holder">
+		<a href="/practice"> Practice</a>
+		<a href="/stats">Stats</a>
+		<a href="/about">About</a>
+	</div>
 </div>
 
 <style>
@@ -22,5 +26,11 @@
 		background-color: #111;
 		padding: 0.5rem;
 		border-left: #eee 1px solid;
+	}
+	.dir-holder {
+		display: flex;
+		flex-direction: column;
+		padding-left: 0.5rem;
+		gap: 0.3rem;
 	}
 </style>

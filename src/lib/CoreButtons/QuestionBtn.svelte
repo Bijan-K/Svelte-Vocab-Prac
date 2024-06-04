@@ -2,7 +2,7 @@
 	import QuestionIcon from '$lib/Icons/QuestionIcon.svelte';
 </script>
 
-<div on:click={clickHandler}>
+<div>
 	<QuestionIcon />
 </div>
 

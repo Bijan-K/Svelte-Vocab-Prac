@@ -27,6 +27,10 @@
 			});
 		});
 	});
+
+	function clickHanlder() {
+		console.log('Asd');
+	}
 </script>
 
 <div class="dropdown">
@@ -38,7 +42,7 @@
 		<li>Instagram</li>
 		<li>Twitter</li>
 		<li>Github</li>
-		<li class="active">English</li>
+		<li on:click={clickHanlder} class="active">English</li>
 	</ul>
 </div>
 

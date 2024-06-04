@@ -6,17 +6,29 @@ export let data = writable([
 		lists: [
 			{
 				name: 'mistakes',
+				words: []
+			},
+			{
+				name: 'default',
 				words: [
 					{
-						word: 'word',
+						word: 'salient',
 						known: false
 					},
 					{
-						word: 'word2',
+						word: 'brevity',
 						known: false
 					},
 					{
-						word: 'word3',
+						word: 'exposition',
+						known: false
+					},
+					{
+						word: 'appendix',
+						known: false
+					},
+					{
+						word: 'terse',
 						known: false
 					}
 				]
@@ -45,7 +57,7 @@ export let stats = writable({
 });
 
 export let current = writable({
-	lang: 'english',
+	lang: '',
 	list: '',
 	currentDay: ''
 });

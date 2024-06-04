@@ -33,6 +33,7 @@
 		background-color: rgba(0, 0, 0, 0.744);
 		max-height: 10%;
 		min-height: 10%;
+		z-index: 10;
 	}
 	a {
 		text-decoration: none;
