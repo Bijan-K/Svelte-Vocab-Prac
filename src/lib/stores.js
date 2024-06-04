@@ -51,3 +51,5 @@ export let current = writable({
 });
 
 export let iframeState = writable(false);
+
+export let menuState = writable(false);

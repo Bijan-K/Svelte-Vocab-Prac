@@ -1,11 +1,13 @@
 <script>
 	import SettingIcon from '../Icons/SettingIcon.svelte';
 	import { page } from '$app/stores';
+	import { menuState } from '$lib/stores.js';
 
 	let menu = false;
 
 	function clickHandler() {
 		menu = !menu;
+		menuState.update((n) => !n);
 	}
 </script>
 
