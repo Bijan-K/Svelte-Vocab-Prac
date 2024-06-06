@@ -1,3 +1,7 @@
+export function capitalizeWord(word) {
+	return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 export function returnLangs(data) {
 	const values = data.map((obj) => obj.lang);
 	return values;

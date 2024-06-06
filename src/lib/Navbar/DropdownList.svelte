@@ -1,6 +1,12 @@
 <script>
 	import { onMount } from 'svelte';
+	import { data, current } from '$lib/stores.js';
+	import { returnLists, capitalizeWord } from '$lib/functions.js';
+
 	import './style.css';
+
+	console.log(current.lang);
+	$: lists = returnLists($data, 'english');
 
 	onMount(() => {
 		const dropdown1 = document.querySelector('.dropdown1');
@@ -35,9 +41,9 @@
 		<div class="caret1"></div>
 	</div>
 	<ul class="menu1">
-		<li>Instagram</li>
-		<li>Twitter</li>
-		<li>Github</li>
+		{#each lists as list}
+			<li>{capitalizeWord(list)}</li>
+		{/each}
 
 		<li class="plus">+</li>
 	</ul>

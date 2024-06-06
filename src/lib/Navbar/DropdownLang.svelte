@@ -1,6 +1,10 @@
 <script>
 	import { onMount } from 'svelte';
+	import { data, current } from '$lib/stores.js';
+	import { returnLangs, capitalizeWord } from '$lib/functions.js';
+
 	import './style.css';
+	$: langs = returnLangs($data);
 
 	onMount(() => {
 		const dropdown = document.querySelector('.dropdown');
@@ -17,6 +21,15 @@
 		options.forEach((option) => {
 			option.addEventListener('click', () => {
 				selected.innerText = option.innerText;
+				// assign variable
+				current.update((n) => {
+					if (option.innerText == '+') {
+						n.lang = data[0].lang;
+						return n;
+					}
+					n.lang = option.innerText.lowerCase();
+					return n;
+				});
 				select.classList.remove('select-clicked');
 				caret.classList.remove('caret-rotate');
 				menu.classList.remove('menu-open');
@@ -27,22 +40,19 @@
 			});
 		});
 	});
-
-	function clickHanlder() {
-		console.log('Asd');
-	}
 </script>
 
 <div class="dropdown">
 	<div class="select">
-		<span class="selected">English</span>
+		<span class="selected">Default</span>
 		<div class="caret"></div>
 	</div>
 	<ul class="menu">
-		<li>Instagram</li>
-		<li>Twitter</li>
-		<li>Github</li>
-		<li on:click={clickHanlder} class="active">English</li>
+		{#each langs as lang}
+			<li class="active">{capitalizeWord(lang)}</li>
+		{/each}
+
+		<li class="plus">+</li>
 	</ul>
 </div>
 

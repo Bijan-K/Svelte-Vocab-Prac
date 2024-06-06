@@ -26,6 +26,7 @@
 		background-color: #111;
 		padding: 0.5rem;
 		border-left: #eee 1px solid;
+		z-index: 99;
 	}
 	.dir-holder {
 		display: flex;
