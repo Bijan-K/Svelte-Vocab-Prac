@@ -1,4 +1,5 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
+import { returnLists } from './functions';
 
 export let data = writable([
 	{
@@ -6,10 +7,53 @@ export let data = writable([
 		lists: [
 			{
 				name: 'mistakes',
-				words: []
+				words: [
+					{
+						word: 'hoho',
+						known: false
+					}
+				]
 			},
 			{
 				name: 'default',
+				words: [
+					{
+						word: 'salient',
+						known: false
+					},
+					{
+						word: 'brevity',
+						known: false
+					},
+					{
+						word: 'exposition',
+						known: false
+					},
+					{
+						word: 'appendix',
+						known: false
+					},
+					{
+						word: 'terse',
+						known: false
+					}
+				]
+			}
+		]
+	},
+	{
+		lang: 'arabic',
+		lists: []
+	},
+	{
+		lang: 'korean',
+		lists: [
+			{
+				name: 'mistakes',
+				words: []
+			},
+			{
+				name: 'LMAO',
 				words: [
 					{
 						word: 'salient',
@@ -59,7 +103,21 @@ export let stats = writable({
 export let current = writable({
 	lang: '',
 	list: '',
+	word: '',
 	currentDay: ''
+});
+
+export let langs = derived(data, (data) => {
+	return data.map((obj) => obj.lang);
+});
+
+export let lists = derived([data, current], (stores) => {
+	const [data, current] = stores;
+	if (current.lang == '') return data[0].lists.map((obj) => obj.name);
+
+	let lang = current.lang;
+
+	return returnLists(data, lang);
 });
 
 export let overlayState = writable(false);

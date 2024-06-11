@@ -1,4 +1,5 @@
 <script>
+	import { data, current, langs, lists } from '$lib/stores.js';
 </script>
 
 <svelte:head>

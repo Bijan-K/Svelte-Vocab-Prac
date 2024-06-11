@@ -33,5 +33,10 @@
 
 	.setting-button:hover {
 		cursor: pointer;
+		transform: translateY(-2%);
+	}
+
+	.setting-button:active {
+		transform: translateY(+5%);
 	}
 </style>

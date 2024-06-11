@@ -3,13 +3,18 @@
 	import WrongBtn from '../../lib/CoreButtons/WrongBtn.svelte';
 	import QuestionBtn from '../../lib/CoreButtons/QuestionBtn.svelte';
 	import { fade, fly, slide } from 'svelte/transition';
+	import { current } from '$lib/stores.js';
+	import { capitalizeWord, returnSingleWord } from '$lib/functions.js';
 
+	$: console.log('current ', $current.word);
 	let mode = 'test';
 </script>
 
 <div class="practice-container">
 	{#if mode == 'test'}
-		<div class="text">typewriter</div>
+		<div class="text">
+			{$current.word == '' || $current.word == undefined ? 'No words in the list' : $current.word}
+		</div>
 	{:else if mode == 'add'}
 		<input type="text" />
 	{/if}

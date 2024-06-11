@@ -1,10 +1,15 @@
 <script>
 	import { onMount } from 'svelte';
-	import { data, current } from '$lib/stores.js';
-	import { returnLangs, capitalizeWord } from '$lib/functions.js';
+
+	import { data, current, langs, lists } from '$lib/stores.js';
+	import {
+		capitalizeWord,
+		returnLists,
+		returnSingleWord,
+		returnWordsInList
+	} from '$lib/functions.js';
 
 	import './style.css';
-	$: langs = returnLangs($data);
 
 	onMount(() => {
 		const dropdown = document.querySelector('.dropdown');
@@ -20,36 +25,58 @@
 		});
 		options.forEach((option) => {
 			option.addEventListener('click', () => {
-				selected.innerText = option.innerText;
-				// assign variable
-				current.update((n) => {
-					if (option.innerText == '+') {
-						n.lang = data[0].lang;
-						return n;
-					}
-					n.lang = option.innerText.lowerCase();
-					return n;
-				});
-				select.classList.remove('select-clicked');
-				caret.classList.remove('caret-rotate');
-				menu.classList.remove('menu-open');
-				options.forEach((option) => {
-					option.classList.remove('active');
-				});
-				option.classList.add('active');
+				if (option.innerText != '+') {
+					selected.innerText = option.innerText;
+					select.classList.remove('select-clicked');
+					caret.classList.remove('caret-rotate');
+					menu.classList.remove('menu-open');
+					options.forEach((option) => {
+						option.classList.remove('active');
+					});
+					option.classList.add('active');
+
+					current.update((n) => {
+						let tmp = n;
+						tmp.lang = option.innerText.toLowerCase();
+						tmp.list = returnLists($data, tmp.lang);
+						console.log($data);
+						console.log(tmp.lang);
+						console.log(tmp.list);
+						console.log('lang thing', returnWordsInList($data, tmp.lang, tmp.list));
+						tmp.word = capitalizeWord(
+							returnSingleWord(returnWordsInList($data, tmp.lang, tmp.list))
+						);
+
+						return tmp;
+					});
+				}
 			});
+		});
+
+		options.forEach((option) => {
+			if (selected.innerText == option.innerText) {
+				option.classList.add('active');
+
+				current.update((n) => {
+					let tmp = n;
+					tmp.lang = option.innerText.toLowerCase();
+					return tmp;
+				});
+			}
 		});
 	});
 </script>
 
 <div class="dropdown">
 	<div class="select">
-		<span class="selected">Default</span>
+		<span class="selected">
+			{capitalizeWord($langs[0])}
+		</span>
 		<div class="caret"></div>
 	</div>
 	<ul class="menu">
-		{#each langs as lang}
-			<li class="active">{capitalizeWord(lang)}</li>
+		{#each $langs as lang}
+			<li>{capitalizeWord(lang)}</li>
 		{/each}
 
 		<li class="plus">+</li>

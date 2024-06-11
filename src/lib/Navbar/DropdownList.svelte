@@ -1,12 +1,9 @@
 <script>
 	import { onMount } from 'svelte';
-	import { data, current } from '$lib/stores.js';
-	import { returnLists, capitalizeWord } from '$lib/functions.js';
+	import { current, lists, data } from '$lib/stores.js';
+	import { capitalizeWord, returnWordsInList, returnSingleWord } from '$lib/functions.js';
 
 	import './style.css';
-
-	console.log(current.lang);
-	$: lists = returnLists($data, 'english');
 
 	onMount(() => {
 		const dropdown1 = document.querySelector('.dropdown1');
@@ -22,26 +19,51 @@
 		});
 		options1.forEach((option) => {
 			option.addEventListener('click', () => {
-				selected1.innerText = option.innerText;
-				select1.classList.remove('select-clicked1');
-				caret1.classList.remove('caret-rotate1');
-				menu1.classList.remove('menu-open1');
-				options1.forEach((option) => {
-					option.classList.remove('active');
-				});
-				option.classList.add('active');
+				if (option.innerText != '+') {
+					selected1.innerText = option.innerText;
+					select1.classList.remove('select-clicked1');
+					caret1.classList.remove('caret-rotate1');
+					menu1.classList.remove('menu-open1');
+
+					options1.forEach((option) => {
+						option.classList.remove('active');
+					});
+					option.classList.add('active');
+
+					current.update((n) => {
+						let tmp = n;
+						tmp.list = option.innerText.toLowerCase();
+						tmp.word = capitalizeWord(
+							returnSingleWord(returnWordsInList($data, tmp.lang, tmp.list))
+						);
+
+						return tmp;
+					});
+				}
 			});
+		});
+
+		options1.forEach((option) => {
+			if (selected1.innerText == option.innerText) {
+				option.classList.add('active');
+				current.update((n) => {
+					let tmp = n;
+					tmp.list = option.innerText.toLowerCase();
+					tmp.word = returnSingleWord(returnWordsInList($data, tmp.lang, tmp.list));
+					return tmp;
+				});
+			}
 		});
 	});
 </script>
 
 <div class="dropdown1">
 	<div class="select1">
-		<span class="selected1">Mistakes</span>
+		<span class="selected1">{capitalizeWord($lists[0])}</span>
 		<div class="caret1"></div>
 	</div>
 	<ul class="menu1">
-		{#each lists as list}
+		{#each $lists as list}
 			<li>{capitalizeWord(list)}</li>
 		{/each}
 
@@ -50,7 +72,4 @@
 </div>
 
 <style>
-	.plus {
-		text-align: center;
-	}
 </style>

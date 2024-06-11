@@ -6,9 +6,9 @@
 </svelte:head>
 
 <div class="general">
+	<h2>Stats</h2>
 	<div class="stats-container">
 		<div class="info">
-			<h2>Stats</h2>
 			<h4>Streak :</h4>
 		</div>
 		<div class="chart">
@@ -16,7 +16,10 @@
 		</div>
 	</div>
 	<div class="mistakes-container">
-		<h2>Mistakes go here</h2>
+		<div>List name</div>
+		<div>
+			<input type="options" />
+		</div>
 	</div>
 </div>
 
@@ -39,15 +42,20 @@
 	.stats-container .info {
 		padding: 1rem;
 	}
-	.info h2 {
+	h2 {
 		font-size: 3rem;
+		text-align: center;
+	}
+	.info {
+		width: 20%;
 	}
 	.info h4 {
+		text-align: start;
 		font-size: 2rem;
-		padding-top: 3rem;
 	}
 
 	.chart {
+		width: 80%;
 		border: grey 2px solid;
 	}
 </style>

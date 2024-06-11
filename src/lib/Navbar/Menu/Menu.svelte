@@ -1,4 +1,6 @@
 <script>
+	import { page } from '$app/stores';
+	import LinkIcon from '$lib/Icons/LinkIcon.svelte';
 	import { slide, crossfade } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 </script>
@@ -10,10 +12,23 @@
 >
 	<h2>Directories:</h2>
 	<div class="dir-holder">
-		<a href="/practice"> Practice</a>
-		<a href="/stats">Stats</a>
-		<a href="/about">About</a>
+		<a href="/practice">
+			<LinkIcon />
+			<span> Practice </span></a
+		>
+		<a href="/stats">
+			<LinkIcon />
+			<span> Stats </span>
+		</a>
+		<a href="/about">
+			<LinkIcon />
+			<span> About </span></a
+		>
 	</div>
+
+	{#if $page.url.pathname === '/practice'}
+		<h2>Prac setting</h2>
+	{/if}
 </div>
 
 <style>
@@ -31,7 +46,21 @@
 	.dir-holder {
 		display: flex;
 		flex-direction: column;
-		padding-left: 0.5rem;
+		padding: 0.5rem;
 		gap: 0.3rem;
+	}
+	a {
+		text-decoration: none;
+		color: #eee;
+		font-size: 1.1rem;
+		display: flex;
+		justify-content: start;
+		align-items: center;
+	}
+	a span {
+		padding-left: 0.5rem;
+	}
+	a:hover {
+		text-decoration: underline;
 	}
 </style>
