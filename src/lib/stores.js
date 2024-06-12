@@ -50,10 +50,15 @@ export let data = writable([
 		lists: [
 			{
 				name: 'mistakes',
-				words: []
+				words: [
+					{
+						word: 'korean word',
+						known: false
+					}
+				]
 			},
 			{
-				name: 'LMAO',
+				name: 'list2',
 				words: [
 					{
 						word: 'salient',

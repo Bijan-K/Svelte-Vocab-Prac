@@ -6,7 +6,8 @@
 		capitalizeWord,
 		returnLists,
 		returnSingleWord,
-		returnWordsInList
+		returnWordsInList,
+		DropdownListCheck
 	} from '$lib/functions.js';
 
 	import './style.css';
@@ -35,19 +36,29 @@
 					});
 					option.classList.add('active');
 
+					// active class for list
 					current.update((n) => {
 						let tmp = n;
 						tmp.lang = option.innerText.toLowerCase();
-						tmp.list = returnLists($data, tmp.lang);
-						console.log($data);
-						console.log(tmp.lang);
-						console.log(tmp.list);
-						console.log('lang thing', returnWordsInList($data, tmp.lang, tmp.list));
+						tmp.list = returnLists($data, tmp.lang)[0];
 						tmp.word = capitalizeWord(
 							returnSingleWord(returnWordsInList($data, tmp.lang, tmp.list))
 						);
-
 						return tmp;
+					});
+
+					// active class for list
+					const dropdown1 = document.querySelector('.dropdown1');
+					const options1 = dropdown1.querySelectorAll('.menu1 li');
+					const selected1 = dropdown1.querySelector('.selected1');
+					selected1.innerText = capitalizeWord($current.list);
+					options1.forEach((option3) => {
+						if (option3.innerText.toLowerCase() == $current.list) {
+							options1.forEach((option3) => {
+								option3.classList.remove('active');
+							});
+							option3.classList.add('active');
+						}
 					});
 				}
 			});

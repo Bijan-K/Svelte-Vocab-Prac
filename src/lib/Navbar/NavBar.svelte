@@ -4,8 +4,12 @@
 	import DropdownList from './DropdownList.svelte';
 	import Setting from '$lib/Navbar/Setting.svelte';
 
-	import { menuState } from '$lib/stores.js';
+	import { menuState, current } from '$lib/stores.js';
 	import Menu from '$lib/Navbar/Menu/Menu.svelte';
+
+	$: console.log('current lang : ', $current.lang);
+	$: console.log('current list : ', $current.list);
+	$: console.log('current word : ', $current.word);
 </script>
 
 <nav>

@@ -1,3 +1,6 @@
+import { current } from './stores.js';
+
+// init
 export function getDefaultLang(data) {
 	if (data[0].lang) return data[0].lang, data[0].lists[0].name;
 	return 'notfound', ['notfound'];
@@ -67,4 +70,57 @@ export function returnSingleWord(list) {
 	if (list.length == 0) return 'empty list';
 
 	return list[Math.floor(Math.random() * list.length)].word;
+}
+
+// dropdown check
+export function DropdownListCheck() {
+	const dropdown1 = document.querySelector('.dropdown1');
+	const select1 = dropdown1.querySelector('.select1');
+	const caret1 = dropdown1.querySelector('.caret1');
+	const menu1 = dropdown1.querySelector('.menu1');
+	const options1 = dropdown1.querySelectorAll('.menu1 li');
+	const selected1 = dropdown1.querySelector('.selected1');
+	select1.addEventListener('click', () => {
+		select1.classList.toggle('select-clicked1');
+		caret1.classList.toggle('caret-rotate1');
+		menu1.classList.toggle('menu-open1');
+	});
+
+	options1.forEach((option) => {
+		option.addEventListener('click', () => {
+			if (option.innerText != '+') {
+				selected1.innerText = option.innerText;
+				console.log('option innertext', option.innerText);
+				select1.classList.remove('select-clicked1');
+				caret1.classList.remove('caret-rotate1');
+				menu1.classList.remove('menu-open1');
+
+				options1.forEach((option) => {
+					option.classList.remove('active');
+				});
+				option.classList.add('active');
+				console.log('this is option', option);
+
+				current.update((n) => {
+					let tmp = n;
+					tmp.list = option.innerText.toLowerCase();
+					tmp.word = capitalizeWord(returnSingleWord(returnWordsInList($data, tmp.lang, tmp.list)));
+					return tmp;
+				});
+			}
+		});
+	});
+}
+
+export function DropdownLangCheck(word) {
+	selected.innerText = word;
+	// select.classList.toggle('select-clicked1');
+
+	select.classList.remove('select-clicked');
+	caret.classList.remove('caret-rotate');
+	menu.classList.remove('menu-open');
+	options.forEach((option) => {
+		option.classList.remove('active');
+	});
+	option.classList.add('active');
 }
