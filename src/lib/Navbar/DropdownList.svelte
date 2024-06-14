@@ -1,22 +1,17 @@
 <script>
 	import { onMount } from 'svelte';
 	import { current, lists, data } from '$lib/stores.js';
-	import {
-		capitalizeWord,
-		returnWordsInList,
-		returnSingleWord,
-		DropdownListCheck
-	} from '$lib/functions.js';
+	import { capitalizeWord, returnWordsInList, returnSingleWord } from '$lib/functions.js';
 
 	import './style.css';
 
 	onMount(() => {
-		const dropdown1 = document.querySelector('.dropdown1');
-		const select1 = dropdown1.querySelector('.select1');
-		const caret1 = dropdown1.querySelector('.caret1');
-		const menu1 = dropdown1.querySelector('.menu1');
-		const options1 = dropdown1.querySelectorAll('.menu1 li');
-		const selected1 = dropdown1.querySelector('.selected1');
+		let dropdown1 = document.querySelector('.dropdown1');
+		let select1 = dropdown1.querySelector('.select1');
+		let caret1 = dropdown1.querySelector('.caret1');
+		let menu1 = dropdown1.querySelector('.menu1');
+		let options1 = dropdown1.querySelectorAll('.menu1 li');
+		let selected1 = dropdown1.querySelector('.selected1');
 
 		select1.addEventListener('click', () => {
 			select1.classList.toggle('select-clicked1');
@@ -28,7 +23,6 @@
 			option.addEventListener('click', () => {
 				if (option.innerText != '+') {
 					selected1.innerText = option.innerText;
-					console.log('option innertext', option.innerText);
 					select1.classList.remove('select-clicked1');
 					caret1.classList.remove('caret-rotate1');
 					menu1.classList.remove('menu-open1');
@@ -37,7 +31,6 @@
 						option.classList.remove('active');
 					});
 					option.classList.add('active');
-					console.log('this is option', option);
 
 					current.update((n) => {
 						let tmp = n;

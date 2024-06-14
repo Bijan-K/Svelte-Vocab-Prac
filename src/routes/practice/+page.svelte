@@ -6,7 +6,6 @@
 	import { current } from '$lib/stores.js';
 	import { capitalizeWord, returnSingleWord } from '$lib/functions.js';
 
-	$: console.log('current ', $current.word);
 	let mode = 'test';
 </script>
 

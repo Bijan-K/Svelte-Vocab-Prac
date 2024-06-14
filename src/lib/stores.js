@@ -9,7 +9,19 @@ export let data = writable([
 				name: 'mistakes',
 				words: [
 					{
-						word: 'hoho',
+						word: 'Mistake1',
+						known: false
+					},
+					{
+						word: 'Mistake2',
+						known: false
+					},
+					{
+						word: 'Mistake3',
+						known: false
+					},
+					{
+						word: 'Mistake4',
 						known: false
 					}
 				]

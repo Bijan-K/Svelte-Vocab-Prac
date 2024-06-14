@@ -1,8 +1,15 @@
 <script>
 	import QuestionIcon from '$lib/Icons/QuestionIcon.svelte';
+	import { current } from '$lib/stores.js';
+
+	function clickHandler() {
+		let word = $current.word;
+		let url = `https://google.com/search=q?define+${word}`;
+		window.open(`https://www.google.com/search?q=define+${word}`, '_blank').focus();
+	}
 </script>
 
-<div>
+<div on:click={clickHandler}>
 	<QuestionIcon />
 </div>
 

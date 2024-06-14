@@ -27,7 +27,13 @@
 	</div>
 
 	{#if $page.url.pathname === '/practice'}
-		<h2>Prac setting</h2>
+		<h2>Practice Settings:</h2>
+		<p>lmao</p>
+	{:else if $page.url.pathname === '/stats'}
+		<h2>Stats Settings:</h2>
+		<input />
+	{:else if $page.url.pathname === '/about'}
+		<h2>About Setting:</h2>
 	{/if}
 </div>
 

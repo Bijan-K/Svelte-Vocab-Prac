@@ -1,7 +1,26 @@
 <script>
 	import TickIcon from '$lib/Icons/TickIcon.svelte';
+	import { current, data } from '$lib/stores.js';
+	import {
+		changeWordKnownToCorrect,
+		newCurrentWordList,
+		filterKnownIsTrue
+	} from '$lib/functions.js';
+
 	function clickHandler() {
-		console.log('clicked2');
+		data.update((n) => {
+			console.log(
+				'Data update',
+				changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word)
+			);
+			return changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
+		});
+
+		current.update((n) => {
+			let tmp = n;
+			tmp.word = filterKnownIsTrue(newCurrentWordList($data, $current.lang, $current.list)).word;
+			return tmp;
+		});
 	}
 </script>
 
