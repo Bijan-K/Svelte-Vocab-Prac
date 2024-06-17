@@ -5,27 +5,36 @@
 	import { fade, fly, slide } from 'svelte/transition';
 	import { current } from '$lib/stores.js';
 	import { capitalizeWord, returnSingleWord } from '$lib/functions.js';
+	import { onMount } from 'svelte';
+
+	// Initial animation
+	let display = false;
+	onMount(() => {
+		display = true;
+	});
 
 	let mode = 'test';
 </script>
 
-<div class="practice-container">
-	{#if mode == 'test'}
-		<div class="text">
-			{$current.word == '' || $current.word == undefined ? 'No words in the list' : $current.word}
-		</div>
-	{:else if mode == 'add'}
-		<input type="text" />
-	{/if}
+{#if display}
+	<div in:fly={{ y: 20, duration: 200 }} class="practice-container">
+		{#if mode == 'test'}
+			<div class="text">
+				{$current.word == '' || $current.word == undefined ? 'No words in the list' : $current.word}
+			</div>
+		{:else if mode == 'add'}
+			<input class="input" type="text" placeholder="Type the word you want to add" />
+		{/if}
 
-	<!-- <FadeDownBtn /> -->
+		<!-- <FadeDownBtn /> -->
+	</div>
 
-	<div class="core-btn">
+	<div in:fade={{ y: 20, duration: 200 }} class="core-btn">
 		<WrongBtn />
 		<QuestionBtn />
 		<CorrectBtn />
 	</div>
-</div>
+{/if}
 
 <style>
 	.practice-container {
@@ -44,14 +53,21 @@
 
 	.core-btn {
 		position: fixed;
-
 		bottom: 12%;
+		left: 50%;
+		transform: translateX(-50%);
 		background-color: #0f172a;
 		border-radius: 0.5rem;
 		padding: 2rem 3rem;
 		display: flex;
 		gap: 0.5rem;
-		box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
-			var(--tw-shadow);
+	}
+
+	.input {
+		border: none;
+		padding: 0.5rem;
+		background: transparent;
+		border-left: 1px #eee solid;
+		border-bottom: 1px #eee solid;
 	}
 </style>

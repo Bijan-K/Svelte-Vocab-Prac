@@ -1,12 +1,25 @@
-<div class="about-container">
-	<h2>About</h2>
+<script>
+	import { fly } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
+	import { onMount } from 'svelte';
 
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum labore, excepturi temporibus
-		quas quo quam aliquid magni repellendus saepe natus ex sapiente, numquam sint est inventore?
-		Vitae, deleniti sit. Perspiciatis!
-	</p>
-</div>
+	let display = false;
+	onMount(() => {
+		display = true;
+	});
+</script>
+
+{#if display}
+	<div in:fly={{ y: 20, duration: 200 }} class="about-container">
+		<h2>About</h2>
+
+		<p>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum labore, excepturi temporibus
+			quas quo quam aliquid magni repellendus saepe natus ex sapiente, numquam sint est inventore?
+			Vitae, deleniti sit. Perspiciatis!
+		</p>
+	</div>
+{/if}
 
 <style>
 	.about-container {

@@ -2,8 +2,8 @@
 	import XIcon from '$lib/Icons/XIcon.svelte';
 	import { current } from '$lib/stores.js';
 
-	function clickHandler() {
-		let word = $current.word;
+	function clickHandler(e) {
+		console.log(e.target.innerText);
 	}
 </script>
 

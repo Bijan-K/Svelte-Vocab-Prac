@@ -55,7 +55,12 @@ export let data = writable([
 	},
 	{
 		lang: 'arabic',
-		lists: []
+		lists: [
+			{
+				name: 'mistakes',
+				words: []
+			}
+		]
 	},
 	{
 		lang: 'korean',
