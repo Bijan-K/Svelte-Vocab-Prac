@@ -1,7 +1,12 @@
 <script>
 	import { fly } from 'svelte/transition';
-	import { quintOut } from 'svelte/easing';
+	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
+	import NegativeIcon from '$lib/Icons/NegativeIcon.svelte';
+	import FireIcon from '$lib/Icons/FireIcon.svelte';
+	import CalendarIcon from '$lib/Icons/CalendarIcon.svelte';
+	import TodayIcon from '$lib/Icons/TodayIcon.svelte';
 	import { onMount } from 'svelte';
+	import { getCurrentDate } from '$lib/functions.js';
 
 	let display = false;
 	onMount(() => {
@@ -18,13 +23,32 @@
 		<h2>Stats</h2>
 		<div class="stats-container">
 			<div class="info">
-				<h3>Streak :</h3>
-				<span> 7 Days fire </span>
-				<h3>Day :</h3>
-				<h3>T. Progress :</h3>
-			</div>
-			<div class="chart">
-				<p>Chart</p>
+				<!-- streak -->
+				<div class="stats-item">
+					<h3 class="stats-title">Streak <FireIcon /></h3>
+					<span class="stats-stat"> 7 Days </span>
+				</div>
+				<!-- current day -->
+				<div class="stats-item">
+					<h3 class="stats-title">Date <CalendarIcon /></h3>
+					<span class="stats-stat date"> {getCurrentDate()}</span>
+				</div>
+				<!-- current day record -->
+				<div class="stats-item">
+					<h3 class="stats-title">Today <TodayIcon /></h3>
+					<div>
+						<span>
+							<CheckIcon />
+
+							0</span
+						>
+						<span>
+							<NegativeIcon />
+
+							0</span
+						>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="mistakes-container">
@@ -38,10 +62,6 @@
 				<div>
 					<div>Reflect / edit</div>
 				</div>
-			</div>
-
-			<div>
-				<input type="options" />
 			</div>
 		</div>
 	</div>
@@ -62,9 +82,29 @@
 		display: flex;
 		gap: 1rem;
 		justify-content: space-between;
+		width: 100%;
 	}
 	.stats-container .info {
-		padding: 1rem;
+		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		gap: 2rem;
+	}
+	.stats-item {
+		place-self: center;
+		width: 50%;
+		height: 6rem;
+		text-align: center;
+		padding: 0.5rem;
+		border-top: 1px solid #eee;
+	}
+	.stats-title {
+		padding: 0.5rem;
+		font-size: 1.2rem;
+	}
+	.stats-stat {
+		padding: 0.5rem;
+		text-align: center;
 	}
 
 	.mode-container {
@@ -90,20 +130,6 @@
 		font-size: 3rem;
 		text-align: center;
 	}
-	.info {
-		width: 20%;
-		text-align: start;
-		border-left: 1px solid #eee;
-	}
-	.info h3 {
-		text-align: start;
-		padding: 0.5rem;
-	}
-
-	.chart {
-		width: 80%;
-		border: grey 2px solid;
-	}
 
 	.mistakes-container {
 		padding: 0.5rem;
@@ -114,5 +140,12 @@
 		justify-content: space-between;
 		flex-grow: 1;
 		border-bottom: 1px solid #eee;
+	}
+
+	.stats-item div {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		justify-content: center;
 	}
 </style>

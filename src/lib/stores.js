@@ -54,7 +54,7 @@ export let data = writable([
 		]
 	},
 	{
-		lang: 'arabic',
+		lang: 'german',
 		lists: [
 			{
 				name: 'mistakes',
@@ -63,7 +63,7 @@ export let data = writable([
 		]
 	},
 	{
-		lang: 'korean',
+		lang: 'japanese',
 		lists: [
 			{
 				name: 'mistakes',
@@ -104,20 +104,29 @@ export let data = writable([
 ]);
 
 export let stats = writable({
-	chart: [
-		{
-			date: new Date(),
-			info: {
-				incorrect: 0,
-				correct: 0
-			}
+	record: {
+		date: new Date(),
+		info: {
+			incorrect: 0,
+			correct: 0
 		}
-	],
+	},
 	streak: 0,
-	Mistake_lang: [
+	mistake_lang: [
 		{
 			lang: 'english',
-			Mistakes: [{ word: 'word', times: 0 }]
+			defineKeyword: 'define',
+			mistakes: [{ word: 'word', times: 0 }]
+		},
+		{
+			lang: 'german',
+			defineKeyword: 'definieren',
+			mistakes: [{ word: 'word', times: 0 }]
+		},
+		{
+			lang: 'japanese',
+			defineKeyword: '定義する',
+			mistakes: [{ word: 'word', times: 0 }]
 		}
 	]
 });

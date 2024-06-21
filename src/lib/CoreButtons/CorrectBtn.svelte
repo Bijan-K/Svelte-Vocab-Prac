@@ -10,10 +10,11 @@
 	function clickHandler() {
 		data.update((n) => {
 			console.log(
-				'Data update',
+				'------- Data update -------- \n',
 				changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word)
 			);
-			return changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
+			n = changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
+			return n;
 		});
 
 		current.update((n) => {

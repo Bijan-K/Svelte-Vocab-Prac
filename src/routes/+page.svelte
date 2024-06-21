@@ -9,7 +9,7 @@
 <div class="container">
 	<div class="text-container">
 		<h1>Vocabulary Practice</h1>
-		<p>A simple webapp for practicing Vocabulary</p>
+		<p class="sub-header">A simple webapp for practicing Vocabulary</p>
 	</div>
 
 	<div class="btn-container">
@@ -32,6 +32,10 @@
 	}
 	h1 {
 		font-size: 6rem;
+	}
+	.sub-header {
+		transform: translateY(70%);
+		font-size: 1.2rem;
 	}
 	.text-container {
 		display: flex;

@@ -2,10 +2,11 @@
 	import CorrectBtn from '../../lib/CoreButtons/CorrectBtn.svelte';
 	import WrongBtn from '../../lib/CoreButtons/WrongBtn.svelte';
 	import QuestionBtn from '../../lib/CoreButtons/QuestionBtn.svelte';
-	import { fade, fly, slide } from 'svelte/transition';
-	import { current } from '$lib/stores.js';
-	import { capitalizeWord, returnSingleWord } from '$lib/functions.js';
+	import { fade, fly } from 'svelte/transition';
+	import { current, stats } from '$lib/stores.js';
 	import { onMount } from 'svelte';
+
+	import { getCurrentDate, capitalizeWord, returnSingleWord } from '$lib/functions.js';
 
 	// Initial animation
 	let display = false;

@@ -1,9 +1,28 @@
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
-	import { current } from '$lib/stores.js';
+	import { addWordtoMistakesList, updateStatsMistakesList } from '$lib/functions.js';
 
-	function clickHandler(e) {
-		console.log(e.target.innerText);
+	import { data, stats, current } from '$lib/stores.js';
+
+	function clickHandler() {
+		data.update((n) => {
+			n = addWordtoMistakesList($data, $current.lang, $current.word);
+			console.log(n);
+			return n;
+		});
+
+		stats.update((n) => {
+			let tmp = n;
+			tmp.Record.info.incorrect++;
+			return tmp;
+		});
+
+		stats.update((n) => {
+			n = updateStatsMistakesList($stats, $current.lang, $current.word);
+		});
+
+		console.log('\n -- data -- \n', $data);
+		console.log('\n -- stats -- \n', $stats);
 	}
 </script>
 

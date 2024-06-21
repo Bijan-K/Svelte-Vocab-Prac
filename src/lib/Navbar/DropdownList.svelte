@@ -1,5 +1,5 @@
 <script>
-	import { onMount, afterUpdate, beforeUpdate } from 'svelte';
+	import { onMount, afterUpdate } from 'svelte';
 	import { current, lists, data } from '$lib/stores.js';
 	import { capitalizeWord, returnWordsInList, returnSingleWord } from '$lib/functions.js';
 

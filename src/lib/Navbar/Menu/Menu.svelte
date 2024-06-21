@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import LinkIcon from '$lib/Icons/LinkIcon.svelte';
-	import { slide, crossfade } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 </script>
 
@@ -28,7 +28,9 @@
 
 	{#if $page.url.pathname === '/practice'}
 		<h2>Practice Settings:</h2>
-		<p>lmao</p>
+		<span> WORD ADDER MODE BUTTON </span>
+		<span>icon</span>
+		<p>You can also use the arrow keys left, up and right to change the words</p>
 	{:else if $page.url.pathname === '/stats'}
 		<h2>Stats Settings:</h2>
 		<input />
@@ -68,5 +70,12 @@
 	}
 	a:hover {
 		text-decoration: underline;
+	}
+	p {
+		text-align: left;
+		padding-top: 0.7rem;
+		padding-bottom: 0.7rem;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
 	}
 </style>
