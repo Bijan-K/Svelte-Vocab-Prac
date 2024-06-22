@@ -149,7 +149,13 @@ export function addWordtoMistakesList(data, currentLang, word) {
 			for (let j = 0; j < currObject.lists.length; j++) {
 				const currList = currObject.lists[j];
 				if (currList.name == 'mistakes') {
-					return data[i]['lists'][0].words.push({ word: word, known: false });
+					let index = data[i]['lists'][0].words.findIndex((obj) => obj.word === word);
+					if (index != -1) {
+						data[i]['lists'][0].words[index].known = false;
+					} else {
+						data[i]['lists'][0].words.push({ word: word, known: false });
+					}
+					return data;
 				}
 			}
 		}
@@ -158,18 +164,18 @@ export function addWordtoMistakesList(data, currentLang, word) {
 
 // Add word to stats wrong list
 export function updateStatsMistakesList(stats, currentLang, word) {
-	const mistakesList = stats.mistake_lang;
-
-	for (let i = 0; i < mistakesList.length; i++) {
-		if (mistakesList[i].lang == currentLang) {
-			let mistakes = mistakesList[i];
-			if (!mistakes.some((obj) => obj.word === word)) {
-				mistakes.push({ word: word, times: 0 });
-
-				mistakesList[i] = mistakes;
-				stats.mistake_lang = mistakesList;
+	for (let i = 0; i < stats.mistake_lang.length; i++) {
+		if (stats.mistake_lang[i].lang == currentLang) {
+			// if the word did not exist
+			if (!stats.mistake_lang[i].mistakes.some((obj) => obj.word === word)) {
+				stats.mistake_lang[i].mistakes.push({ word: word, times: 0 });
 				return stats;
-			} else {
+			}
+			// increasing the count of the word
+			else {
+				let index = stats.mistake_lang[i].mistakes.findIndex((obj) => obj.word === word);
+				stats.mistake_lang[i].mistakes[index].count++;
+				return stats;
 			}
 		}
 	}

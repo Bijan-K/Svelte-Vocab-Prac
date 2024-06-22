@@ -1,6 +1,8 @@
 <script>
 	import { page } from '$app/stores';
 	import LinkIcon from '$lib/Icons/LinkIcon.svelte';
+	import InfoIcon from '$lib/Icons/InfoIcon.svelte';
+	import GithubIcon from '$lib/Icons/GithubIcon.svelte';
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 </script>
@@ -27,19 +29,56 @@
 	</div>
 
 	{#if $page.url.pathname === '/practice'}
-		<h2>Practice Settings:</h2>
-		<span> WORD ADDER MODE BUTTON </span>
-		<span>icon</span>
-		<p>You can also use the arrow keys left, up and right to change the words</p>
+		<h2 class="secondary-title">Practice Settings:</h2>
+
+		Mode:
+
+		<span> Word Adder </span>| <span>Test</span>
+
+		<div class="info">
+			<InfoIcon />
+			<p>
+				You can also use the arrow keys <u>left</u>, <u>up</u> and <u>right</u> to change the words
+			</p>
+		</div>
 	{:else if $page.url.pathname === '/stats'}
 		<h2>Stats Settings:</h2>
-		<input />
+
+		<button class="reset">Reset all</button>
 	{:else if $page.url.pathname === '/about'}
-		<h2>About Setting:</h2>
+		<h2 class="secondary-title">Source:</h2>
+		<a href="https://github.com/Bijan-K" class="github">
+			<GithubIcon />
+		</a>
 	{/if}
 </div>
 
 <style>
+	.github {
+		padding: 0.5rem;
+		cursor: pointer;
+	}
+
+	.reset {
+		font-size: large;
+		margin: 0.5rem;
+		padding: 0.25rem 0.5rem;
+		border: none;
+		color: #eee;
+		border-radius: 0.25rem;
+		background-color: #9f1239;
+	}
+	.reset:hover {
+		transform: translateY(-5%);
+	}
+	.reset:active {
+		transform: translateY(5%);
+	}
+
+	.secondary-title {
+		margin-bottom: 0.5rem;
+	}
+
 	.menuOverlay {
 		position: fixed;
 		top: 10%;
@@ -65,17 +104,17 @@
 		justify-content: start;
 		align-items: center;
 	}
-	a span {
-		padding-left: 0.5rem;
+
+	.info {
+		height: 100%;
+		margin-top: auto;
+		padding: 1rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: start;
+		gap: 1rem;
 	}
 	a:hover {
 		text-decoration: underline;
-	}
-	p {
-		text-align: left;
-		padding-top: 0.7rem;
-		padding-bottom: 0.7rem;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
 	}
 </style>

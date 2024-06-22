@@ -26,8 +26,6 @@
 		{:else if mode == 'add'}
 			<input class="input" type="text" placeholder="Type the word you want to add" />
 		{/if}
-
-		<!-- <FadeDownBtn /> -->
 	</div>
 
 	<div in:fade={{ y: 20, duration: 200 }} class="core-btn">

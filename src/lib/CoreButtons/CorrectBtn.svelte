@@ -1,6 +1,6 @@
 <script>
 	import TickIcon from '$lib/Icons/TickIcon.svelte';
-	import { current, data } from '$lib/stores.js';
+	import { current, data, stats } from '$lib/stores.js';
 	import {
 		changeWordKnownToCorrect,
 		newCurrentWordList,
@@ -9,12 +9,14 @@
 
 	function clickHandler() {
 		data.update((n) => {
-			console.log(
-				'------- Data update -------- \n',
-				changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word)
-			);
 			n = changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
 			return n;
+		});
+
+		stats.update((n) => {
+			let tmp = n;
+			tmp.record.info.correct++;
+			return tmp;
 		});
 
 		current.update((n) => {

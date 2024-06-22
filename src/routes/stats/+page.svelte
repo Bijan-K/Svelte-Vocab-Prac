@@ -1,12 +1,14 @@
 <script>
 	import { fly } from 'svelte/transition';
-	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
-	import NegativeIcon from '$lib/Icons/NegativeIcon.svelte';
+	import { onMount } from 'svelte';
+	import { current, data, stats } from '$lib/stores.js';
+	import { getCurrentDate } from '$lib/functions.js';
+	// Icons
+	import TodayIcon from '$lib/Icons/TodayIcon.svelte';
 	import FireIcon from '$lib/Icons/FireIcon.svelte';
 	import CalendarIcon from '$lib/Icons/CalendarIcon.svelte';
-	import TodayIcon from '$lib/Icons/TodayIcon.svelte';
-	import { onMount } from 'svelte';
-	import { getCurrentDate } from '$lib/functions.js';
+	import NegativeIcon from '$lib/Icons/NegativeIcon.svelte';
+	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
 
 	let display = false;
 	onMount(() => {
@@ -40,12 +42,12 @@
 						<span>
 							<CheckIcon />
 
-							0</span
+							{$stats.record.info.correct}</span
 						>
 						<span>
 							<NegativeIcon />
 
-							0</span
+							{$stats.record.info.incorrect}</span
 						>
 					</div>
 				</div>

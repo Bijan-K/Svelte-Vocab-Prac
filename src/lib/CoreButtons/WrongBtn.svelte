@@ -1,24 +1,36 @@
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
-	import { addWordtoMistakesList, updateStatsMistakesList } from '$lib/functions.js';
+	import {
+		addWordtoMistakesList,
+		updateStatsMistakesList,
+		filterKnownIsTrue,
+		newCurrentWordList
+	} from '$lib/functions.js';
 
 	import { data, stats, current } from '$lib/stores.js';
 
 	function clickHandler() {
 		data.update((n) => {
 			n = addWordtoMistakesList($data, $current.lang, $current.word);
-			console.log(n);
 			return n;
 		});
 
 		stats.update((n) => {
 			let tmp = n;
-			tmp.Record.info.incorrect++;
+			console.log(tmp.record.info.incorrect);
+			console.log(tmp.record.info.incorrect++);
 			return tmp;
 		});
 
 		stats.update((n) => {
 			n = updateStatsMistakesList($stats, $current.lang, $current.word);
+			return n;
+		});
+
+		current.update((n) => {
+			let tmp = n;
+			tmp.word = filterKnownIsTrue(newCurrentWordList($data, $current.lang, $current.list)).word;
+			return tmp;
 		});
 
 		console.log('\n -- data -- \n', $data);
