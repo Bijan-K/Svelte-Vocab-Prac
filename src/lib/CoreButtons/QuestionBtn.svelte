@@ -4,7 +4,6 @@
 
 	function clickHandler() {
 		let word = $current.word;
-		let url = `https://google.com/search=q?define+${word}`;
 		window.open(`https://www.google.com/search?q=define+${word}`, '_blank').focus();
 	}
 </script>

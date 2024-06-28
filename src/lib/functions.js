@@ -35,6 +35,48 @@ export function getCurrentDate() {
 	}
 }
 
+export function calculateStreak(dateArray, targetDate) {
+	function parseDate(dateStr) {
+		const [day, month, year] = dateStr.split(' ');
+		const monthNames = [
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December'
+		];
+		return new Date(year, monthNames.indexOf(month), parseInt(day));
+	}
+
+	dateArray.sort((a, b) => parseDate(b) - parseDate(a));
+
+	const targetIndex = dateArray.indexOf(targetDate);
+	if (targetIndex === -1) return 0;
+
+	let consecutiveDays = 1;
+	const targetDateObj = parseDate(targetDate);
+
+	for (let i = targetIndex + 1; i < dateArray.length; i++) {
+		const currentDateObj = parseDate(dateArray[i]);
+		const dayDifference = (targetDateObj - currentDateObj) / (1000 * 60 * 60 * 24);
+
+		if (dayDifference === consecutiveDays) {
+			consecutiveDays++;
+		} else {
+			break;
+		}
+	}
+
+	return consecutiveDays;
+}
+
 // init
 export function getDefaultLang(data) {
 	if (data[0].lang) return data[0].lang, data[0].lists[0].name;
@@ -132,13 +174,13 @@ export function newCurrentWordList(data, currentLang, currentList) {
 	}
 }
 
-export function filterKnownIsTrue(listWords) {
+export function selectRandomWord(listWords) {
 	console.log('listWords', listWords);
 	if (listWords.length != 0) {
 		return listWords[Math.floor(Math.random() * listWords.length)];
 	}
 
-	return { word: 'Completed ^^', known: false };
+	return { word: 'Completed ^^' };
 }
 
 // update data(wrong)
@@ -150,10 +192,11 @@ export function addWordtoMistakesList(data, currentLang, word) {
 				const currList = currObject.lists[j];
 				if (currList.name == 'mistakes') {
 					let index = data[i]['lists'][0].words.findIndex((obj) => obj.word === word);
-					if (index != -1) {
-						data[i]['lists'][0].words[index].known = false;
-					} else {
+					console.log('index of find', index);
+					if (index == -1) {
 						data[i]['lists'][0].words.push({ word: word, known: false });
+					} else {
+						data[i]['lists'][0].words[index].known = false;
 					}
 					return data;
 				}
@@ -168,13 +211,17 @@ export function updateStatsMistakesList(stats, currentLang, word) {
 		if (stats.mistake_lang[i].lang == currentLang) {
 			// if the word did not exist
 			if (!stats.mistake_lang[i].mistakes.some((obj) => obj.word === word)) {
-				stats.mistake_lang[i].mistakes.push({ word: word, times: 0 });
+				stats.mistake_lang[i].mistakes.push({ word: word, times: 1 });
+
+				console.log('Stats mistakes list', stats.mistake_lang[i]);
 				return stats;
 			}
 			// increasing the count of the word
 			else {
 				let index = stats.mistake_lang[i].mistakes.findIndex((obj) => obj.word === word);
-				stats.mistake_lang[i].mistakes[index].count++;
+				stats.mistake_lang[i].mistakes[index].times++;
+
+				console.log('Stats mistakes list', stats.mistake_lang[i]);
 				return stats;
 			}
 		}

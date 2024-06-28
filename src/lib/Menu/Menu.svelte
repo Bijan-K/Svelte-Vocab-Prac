@@ -3,6 +3,7 @@
 	import LinkIcon from '$lib/Icons/LinkIcon.svelte';
 	import InfoIcon from '$lib/Icons/InfoIcon.svelte';
 	import GithubIcon from '$lib/Icons/GithubIcon.svelte';
+	import ModeSelectPrac from '$lib/Menu/ModeSelectPrac.svelte';
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 </script>
@@ -31,22 +32,21 @@
 	{#if $page.url.pathname === '/practice'}
 		<h2 class="secondary-title">Practice Settings:</h2>
 
-		Mode:
-
-		<span> Word Adder </span>| <span>Test</span>
+		<ModeSelectPrac />
 
 		<div class="info">
 			<InfoIcon />
 			<p>
-				You can also use the arrow keys <u>left</u>, <u>up</u> and <u>right</u> to change the words
+				You can also use the arrow keys <u>left</u>, <u>up</u> and <u>right</u> as an alternative in
+				PC.
 			</p>
 		</div>
 	{:else if $page.url.pathname === '/stats'}
 		<h2>Stats Settings:</h2>
 
-		<button class="reset">Reset all</button>
+		<button class="reset">Reset all?</button>
 	{:else if $page.url.pathname === '/about'}
-		<h2 class="secondary-title">Source:</h2>
+		<h2 class="secondary-title">Source code:</h2>
 		<a href="https://github.com/Bijan-K" class="github">
 			<GithubIcon />
 		</a>

@@ -1,8 +1,10 @@
 <script>
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
+
 	import { current, data, stats } from '$lib/stores.js';
-	import { getCurrentDate } from '$lib/functions.js';
+	import { getCurrentDate, calculateStreak } from '$lib/functions.js';
+
 	// Icons
 	import TodayIcon from '$lib/Icons/TodayIcon.svelte';
 	import FireIcon from '$lib/Icons/FireIcon.svelte';
@@ -11,6 +13,8 @@
 	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
 
 	let display = false;
+	let streak = getCurrentDate($stats.record.date_list, getCurrentDate());
+
 	onMount(() => {
 		display = true;
 	});
@@ -28,12 +32,12 @@
 				<!-- streak -->
 				<div class="stats-item">
 					<h3 class="stats-title">Streak <FireIcon /></h3>
-					<span class="stats-stat"> 7 Days </span>
+					<span class="stats-stat"> {calculateStreak()} </span>
 				</div>
 				<!-- current day -->
 				<div class="stats-item">
 					<h3 class="stats-title">Date <CalendarIcon /></h3>
-					<span class="stats-stat date"> {getCurrentDate()}</span>
+					<span class="stats-stat date">{streak} {streak === 1 ? 'day' : 'days'}</span>
 				</div>
 				<!-- current day record -->
 				<div class="stats-item">

@@ -105,7 +105,8 @@ export let data = writable([
 
 export let stats = writable({
 	record: {
-		date: new Date(),
+		date_list: ['22th July 2023'],
+		t_date: new Date(),
 		info: {
 			incorrect: 0,
 			correct: 0
@@ -152,5 +153,11 @@ export let lists = derived([data, current], (stores) => {
 });
 
 export let overlayState = writable(false);
+
+// selectlist
+// selectlang
+// question
+// addword
+export let overlayMode = writable('select');
 
 export let menuState = writable(false);

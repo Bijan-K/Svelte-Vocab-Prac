@@ -1,6 +1,6 @@
 <script>
 	import { onMount, afterUpdate } from 'svelte';
-	import { current, lists, data } from '$lib/stores.js';
+	import { current, lists, data, overlayState } from '$lib/stores.js';
 	import { capitalizeWord, returnWordsInList, returnSingleWord } from '$lib/functions.js';
 
 	import './style.css';
@@ -88,6 +88,10 @@
 			}
 		});
 	});
+
+	function overlayClickHandler() {
+		overlayState.update((n) => !n);
+	}
 </script>
 
 <div class="dropdown1">
@@ -100,7 +104,8 @@
 			<li>{capitalizeWord(list)}</li>
 		{/each}
 
-		<li class="plus">+</li>
+		<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+		<li on:click={overlayClickHandler} class="plus">+</li>
 	</ul>
 </div>
 

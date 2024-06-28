@@ -3,7 +3,7 @@
 	import {
 		addWordtoMistakesList,
 		updateStatsMistakesList,
-		filterKnownIsTrue,
+		selectRandomWord,
 		newCurrentWordList
 	} from '$lib/functions.js';
 
@@ -17,8 +17,7 @@
 
 		stats.update((n) => {
 			let tmp = n;
-			console.log(tmp.record.info.incorrect);
-			console.log(tmp.record.info.incorrect++);
+			tmp.record.info.incorrect++;
 			return tmp;
 		});
 
@@ -29,7 +28,7 @@
 
 		current.update((n) => {
 			let tmp = n;
-			tmp.word = filterKnownIsTrue(newCurrentWordList($data, $current.lang, $current.list)).word;
+			tmp.word = selectRandomWord(newCurrentWordList($data, $current.lang, $current.list)).word;
 			return tmp;
 		});
 

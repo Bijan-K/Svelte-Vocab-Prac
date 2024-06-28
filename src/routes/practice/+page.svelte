@@ -3,18 +3,90 @@
 	import WrongBtn from '../../lib/CoreButtons/WrongBtn.svelte';
 	import QuestionBtn from '../../lib/CoreButtons/QuestionBtn.svelte';
 	import { fade, fly } from 'svelte/transition';
-	import { current, stats } from '$lib/stores.js';
 	import { onMount } from 'svelte';
 
-	import { getCurrentDate, capitalizeWord, returnSingleWord } from '$lib/functions.js';
+	import {
+		changeWordKnownToCorrect,
+		addWordtoMistakesList,
+		updateStatsMistakesList,
+		selectRandomWord,
+		newCurrentWordList
+	} from '$lib/functions.js';
+	import { current, data, stats } from '$lib/stores.js';
 
 	// Initial animation
 	let display = false;
+	let mode = 'test';
+
+	function handleUp() {
+		let word = $current.word;
+		window.open(`https://www.google.com/search?q=define+${word}`, '_blank').focus();
+	}
+	function handleLeft() {
+		data.update((n) => {
+			n = addWordtoMistakesList($data, $current.lang, $current.word);
+			return n;
+		});
+
+		stats.update((n) => {
+			let tmp = n;
+			tmp.record.info.incorrect++;
+			return tmp;
+		});
+
+		stats.update((n) => {
+			n = updateStatsMistakesList($stats, $current.lang, $current.word);
+			return n;
+		});
+
+		current.update((n) => {
+			let tmp = n;
+			tmp.word = selectRandomWord(newCurrentWordList($data, $current.lang, $current.list)).word;
+			return tmp;
+		});
+	}
+	function handleRight() {
+		data.update((n) => {
+			n = changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
+			return n;
+		});
+
+		stats.update((n) => {
+			let tmp = n;
+			tmp.record.info.correct++;
+			return tmp;
+		});
+
+		current.update((n) => {
+			let tmp = n;
+			tmp.word = selectRandomWord(newCurrentWordList($data, $current.lang, $current.list)).word;
+			return tmp;
+		});
+	}
+
+	function handleKeydown(event) {
+		switch (event.key) {
+			case 'ArrowUp':
+				handleUp();
+				break;
+			case 'ArrowLeft':
+				handleLeft();
+				break;
+			case 'ArrowRight':
+				handleRight();
+				break;
+		}
+	}
+
 	onMount(() => {
 		display = true;
-	});
 
-	let mode = 'test';
+		window.addEventListener('keydown', handleKeydown);
+
+		return () => {
+			window.removeEventListener('keydown', handleKeydown);
+		};
+	});
 </script>
 
 {#if display}

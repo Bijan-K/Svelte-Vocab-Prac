@@ -5,7 +5,7 @@
 	import Setting from '$lib/Navbar/Setting.svelte';
 
 	import { menuState, current } from '$lib/stores.js';
-	import Menu from '$lib/Navbar/Menu/Menu.svelte';
+	import Menu from '$lib/Menu/Menu.svelte';
 
 	$: console.log('current lang : ', $current.lang);
 	$: console.log('current list : ', $current.list);

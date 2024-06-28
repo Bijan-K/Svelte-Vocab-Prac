@@ -4,7 +4,7 @@
 	import {
 		changeWordKnownToCorrect,
 		newCurrentWordList,
-		filterKnownIsTrue
+		selectRandomWord
 	} from '$lib/functions.js';
 
 	function clickHandler() {
@@ -21,7 +21,7 @@
 
 		current.update((n) => {
 			let tmp = n;
-			tmp.word = filterKnownIsTrue(newCurrentWordList($data, $current.lang, $current.list)).word;
+			tmp.word = selectRandomWord(newCurrentWordList($data, $current.lang, $current.list)).word;
 			return tmp;
 		});
 	}
