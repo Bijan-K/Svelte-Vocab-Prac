@@ -17,9 +17,6 @@
 		let options = dropdown.querySelectorAll('.menu li');
 		let selected = dropdown.querySelector('.selected');
 
-		console.log('on mount started');
-		console.log(select);
-
 		// its own function
 		select.addEventListener('click', () => {
 			select.classList.toggle('select-clicked');

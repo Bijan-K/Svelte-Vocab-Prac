@@ -36,6 +36,8 @@ export function getCurrentDate() {
 }
 
 export function calculateStreak(dateArray, targetDate) {
+	if (dateArray.length == 0) return 0;
+
 	function parseDate(dateStr) {
 		const [day, month, year] = dateStr.split(' ');
 		const monthNames = [
@@ -74,7 +76,7 @@ export function calculateStreak(dateArray, targetDate) {
 		}
 	}
 
-	return consecutiveDays;
+	return consecutiveDays - 1;
 }
 
 // init
@@ -111,7 +113,6 @@ export function returnWordsInList(data, lang, list) {
 }
 
 export function returnSingleWord(list) {
-	console.log(list);
 	if (list.length == 0) return 'empty list';
 
 	return list[Math.floor(Math.random() * list.length)].word;
@@ -130,9 +131,7 @@ export function findWord(data, lang, list, word) {
 				if (currentList.name == list) {
 					for (let k = 0; k < currentList.words.length; k++) {
 						const currentWord = currentList.words[k];
-						console.log('--- word --- \n', currentWord, word);
 						if (currentWord.word == word) {
-							console.log('the numbers ---- ', i, j, k);
 							return [i, j, k];
 						}
 					}
@@ -147,7 +146,6 @@ export function findWord(data, lang, list, word) {
 export function changeWordKnownToCorrect(data, currentLang, currentList, word) {
 	const [i, j, k] = [...findWord(data, currentLang, currentList, word)];
 
-	console.log('---- this is I ---- \n', i);
 	if (i != -1) {
 		data[i]['lists'][j]['words'][k].known = true;
 	}
@@ -163,10 +161,6 @@ export function newCurrentWordList(data, currentLang, currentList) {
 			for (let j = 0; j < thisObject.lists.length; j++) {
 				const thisList = thisObject.lists[j];
 				if (thisList.name == currentList) {
-					console.log(
-						'-- this list words -- \n',
-						thisList.words.filter((item) => item.known == false)
-					);
 					return thisList.words.filter((item) => item.known == false);
 				}
 			}
@@ -175,7 +169,6 @@ export function newCurrentWordList(data, currentLang, currentList) {
 }
 
 export function selectRandomWord(listWords) {
-	console.log('listWords', listWords);
 	if (listWords.length != 0) {
 		return listWords[Math.floor(Math.random() * listWords.length)];
 	}
@@ -192,7 +185,6 @@ export function addWordtoMistakesList(data, currentLang, word) {
 				const currList = currObject.lists[j];
 				if (currList.name == 'mistakes') {
 					let index = data[i]['lists'][0].words.findIndex((obj) => obj.word === word);
-					console.log('index of find', index);
 					if (index == -1) {
 						data[i]['lists'][0].words.push({ word: word, known: false });
 					} else {
@@ -213,7 +205,6 @@ export function updateStatsMistakesList(stats, currentLang, word) {
 			if (!stats.mistake_lang[i].mistakes.some((obj) => obj.word === word)) {
 				stats.mistake_lang[i].mistakes.push({ word: word, times: 1 });
 
-				console.log('Stats mistakes list', stats.mistake_lang[i]);
 				return stats;
 			}
 			// increasing the count of the word
@@ -221,7 +212,6 @@ export function updateStatsMistakesList(stats, currentLang, word) {
 				let index = stats.mistake_lang[i].mistakes.findIndex((obj) => obj.word === word);
 				stats.mistake_lang[i].mistakes[index].times++;
 
-				console.log('Stats mistakes list', stats.mistake_lang[i]);
 				return stats;
 			}
 		}

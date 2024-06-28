@@ -105,7 +105,7 @@ export let data = writable([
 
 export let stats = writable({
 	record: {
-		date_list: ['22th July 2023'],
+		date_list: [],
 		t_date: new Date(),
 		info: {
 			incorrect: 0,

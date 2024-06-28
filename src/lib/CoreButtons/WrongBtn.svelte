@@ -31,9 +31,6 @@
 			tmp.word = selectRandomWord(newCurrentWordList($data, $current.lang, $current.list)).word;
 			return tmp;
 		});
-
-		console.log('\n -- data -- \n', $data);
-		console.log('\n -- stats -- \n', $stats);
 	}
 </script>
 

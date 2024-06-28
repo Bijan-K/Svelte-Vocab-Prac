@@ -13,7 +13,7 @@
 	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
 
 	let display = false;
-	let streak = getCurrentDate($stats.record.date_list, getCurrentDate());
+	let streak = calculateStreak($stats.record.date_list, getCurrentDate());
 
 	onMount(() => {
 		display = true;
@@ -32,12 +32,12 @@
 				<!-- streak -->
 				<div class="stats-item">
 					<h3 class="stats-title">Streak <FireIcon /></h3>
-					<span class="stats-stat"> {calculateStreak()} </span>
+					<span class="stats-stat"> {streak} {streak === 1 ? 'day' : 'days'} </span>
 				</div>
 				<!-- current day -->
 				<div class="stats-item">
 					<h3 class="stats-title">Date <CalendarIcon /></h3>
-					<span class="stats-stat date">{streak} {streak === 1 ? 'day' : 'days'}</span>
+					<span class="stats-stat date">{getCurrentDate()}</span>
 				</div>
 				<!-- current day record -->
 				<div class="stats-item">
