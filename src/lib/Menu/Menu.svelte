@@ -117,4 +117,7 @@
 	a:hover {
 		text-decoration: underline;
 	}
+	a span {
+		padding-left: 0.25rem;
+	}
 </style>

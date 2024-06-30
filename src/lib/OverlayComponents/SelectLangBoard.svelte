@@ -15,9 +15,12 @@
 		</div>
 
 		<!-- title -->
+		<h2>Adding new Language</h2>
 
-		<div class="title"></div>
 		<!-- text -->
+		<div>
+			<div></div>
+		</div>
 	</div>
 </div>
 
@@ -36,9 +39,17 @@
 	}
 	.close-btn {
 		position: absolute;
-		font-size: 2rem;
-		top: 1.5rem;
-		right: 1.5rem;
+		font-size: 1.5rem;
+		top: 0.8rem;
+		right: 1rem;
 		cursor: pointer;
+	}
+
+	h2 {
+		text-align: center;
+		padding: 2rem;
+		margin-left: 10%;
+		margin-right: 10%;
+		border-bottom: 1px solid #ecfdf5;
 	}
 </style>

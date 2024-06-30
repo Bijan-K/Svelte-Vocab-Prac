@@ -14,21 +14,32 @@
 			<XIcon />
 		</div>
 
-		<h3>Are you sure?</h3>
-		<div class="">
-			<button>Yes </button>
-			<button>No </button>
-		</div>
+		<!-- title -->
+		<h2 class="title">Adding new List</h2>
+		<!-- text -->
+
+		<!--  -->
 	</div>
 </div>
 
 <style>
 	.board {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 5rem;
-		width: 50%;
+		border-radius: 2rem;
+		height: 70vh;
+		width: 50vw;
 		background-color: #475569;
+		z-index: 901;
+	}
+	.container {
+		position: relative;
+		height: 100%;
+		width: 100%;
+	}
+	.close-btn {
+		position: absolute;
+		font-size: 1.5rem;
+		top: 0.8rem;
+		right: 1rem;
+		cursor: pointer;
 	}
 </style>

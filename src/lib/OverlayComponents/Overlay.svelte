@@ -1,7 +1,9 @@
 <script>
 	import { overlayState, overlayMode } from '$lib/stores.js';
-	import SelectBoard from './SelectBoard.svelte';
-	import QuestionBoard from './QuestionBoard.svelte';
+	import SelectListBoard from './SelectListBoard.svelte';
+	import SelectLangBoard from './SelectLangBoard.svelte';
+	import ConformationBoard from './ConformationBoard.svelte';
+	import InputBoard from './InputBoard.svelte';
 
 	function clickHandler() {
 		overlayState.update((n) => !n);
@@ -12,10 +14,14 @@
 {#if $overlayState}
 	<div class="overlay">
 		<div class="overlay-toggle" on:click={clickHandler}></div>
-		{#if $overlayMode == 'select'}
-			<SelectBoard />
-		{:else}
-			<QuestionBoard />
+		{#if $overlayMode == 'selectlist'}
+			<SelectListBoard />
+		{:else if $overlayMode == 'selectlang'}
+			<SelectLangBoard />
+		{:else if $overlayMode == 'conformation'}
+			<ConformationBoard />
+		{:else if $overlayMode == 'newword'}
+			<InputBoard />
 		{/if}
 	</div>
 {/if}

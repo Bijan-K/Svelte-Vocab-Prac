@@ -135,8 +135,7 @@ export let stats = writable({
 export let current = writable({
 	lang: '',
 	list: '',
-	word: '',
-	currentDay: ''
+	word: ''
 });
 
 export let langs = derived(data, (data) => {
@@ -152,12 +151,16 @@ export let lists = derived([data, current], (stores) => {
 	return returnLists(data, lang);
 });
 
-export let overlayState = writable(false);
-
 // selectlist
 // selectlang
 // question
 // addword
-export let overlayMode = writable('select');
+export let overlayMode = writable('newword');
+
+export let overlayState = writable(true);
 
 export let menuState = writable(false);
+
+export let showSelector = writable(false);
+
+export let statsMode = writable('reflect');
