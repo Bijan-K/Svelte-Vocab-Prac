@@ -1,8 +1,10 @@
 <script>
 	import EditIcon from '$lib/Icons/EditIcon.svelte';
 	import RemoveIcon from '$lib/Icons/RemoveIcon.svelte';
+	import NegativeIcon from '$lib/Icons/NegativeIcon.svelte';
+	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
 
-	export let word = '';
+	export let word = { word: 'nothing here', known: false };
 
 	function editHandler() {
 		//
@@ -14,6 +16,14 @@
 </script>
 
 <div class="wordbox">
+	<div class="known">
+		{#if word.known}
+			<CheckIcon />
+		{:else}
+			<NegativeIcon />
+		{/if}
+	</div>
+
 	<div class="btn-holder">
 		<span on:click={editHandler} class="btn"><EditIcon /></span>
 		<span on:click={removeHandler} class="btn"><RemoveIcon /></span>
@@ -47,5 +57,10 @@
 
 		display: flex;
 		gap: 10px;
+	}
+	.known {
+		position: absolute;
+		top: 5px;
+		left: 5px;
 	}
 </style>

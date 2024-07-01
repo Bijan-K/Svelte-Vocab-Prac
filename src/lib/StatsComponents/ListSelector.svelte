@@ -8,6 +8,14 @@
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
 
+	function changeList(e) {
+		let lang = e.target.innerText;
+		current.update((n) => {
+			n.list = lang.toLowerCase();
+			return n;
+		});
+	}
+
 	$: listArray = returnLists($data, $current.lang);
 </script>
 
@@ -17,7 +25,7 @@
 	class="selector-container"
 >
 	{#each listArray as list}
-		<span>
+		<span on:click={changeList}>
 			{capitalizeFirstLetter(list)}
 		</span>
 	{/each}

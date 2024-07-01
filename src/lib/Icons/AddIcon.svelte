@@ -1,5 +1,5 @@
 <svg
-	style="transform: translateY(15%) scale(120%)"
+	style="transform: translateY(15%) scale(160%)"
 	xmlns="http://www.w3.org/2000/svg"
 	width="1em"
 	height="1em"

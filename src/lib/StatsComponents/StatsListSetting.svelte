@@ -1,7 +1,22 @@
 <script>
-	import { showSelector, statsSettingMode, overlayMode, overlayState } from '$lib/stores.js';
+	import {
+		showSelector,
+		statsSettingMode,
+		overlayMode,
+		overlayState,
+		current,
+		data
+	} from '$lib/stores.js';
+	import { resetKnown } from '$lib/functions.js';
 
 	import AddIcon from '$lib/Icons/AddIcon.svelte';
+	import RefreshIcon from '../Icons/RefreshIcon.svelte';
+
+	function capitalizeFirstLetter(string) {
+		if (!string) return '';
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
 	function switchMode() {
 		statsSettingMode.update((n) => {
 			if (n == 'reflect') {
@@ -9,6 +24,10 @@
 				return 'edit';
 			}
 			if (n == 'edit') {
+				current.update((n) => {
+					n.list = 'mistakes';
+					return n;
+				});
 				showSelector.update((n) => false);
 				return 'reflect';
 			}
@@ -26,6 +45,15 @@
 		overlayMode.update((n) => 'newword');
 		overlayState.update((n) => !n);
 	}
+
+	function resetlist() {
+		data.update((n) => {
+			n = resetKnown($data, $current.lang, $current.list);
+			return n;
+		});
+
+		current.update((n) => n);
+	}
 </script>
 
 <!--Content Header -->
@@ -33,13 +61,13 @@
 	<div class="mode-header">
 		<div class="mode-options">
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-			<button on:click={setSelector} id="lang">English</button>
+			<button on:click={setSelector} id="lang">{capitalizeFirstLetter($current.lang)}</button>
 			<p>/</p>
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 			<button
 				disabled={$statsSettingMode == 'reflect' ? true : false}
 				on:click={setSelector}
-				id="list">Mistakes</button
+				id="list">{capitalizeFirstLetter($current.list)}</button
 			>
 		</div>
 
@@ -47,7 +75,11 @@
 			{#if $statsSettingMode == 'reflect'}
 				<span on:click={switchMode} class="relfect">Reflect</span>
 			{:else if $statsSettingMode == 'edit'}
-				<span on:click={addNewWord}>
+				<span class="refreshIcon" on:click={resetlist}>
+					<RefreshIcon />
+				</span>
+
+				<span class="plusIcon" on:click={addNewWord}>
 					<AddIcon />
 				</span>
 				<span on:click={switchMode}>Edit</span>
@@ -115,5 +147,25 @@
 		cursor: pointer;
 		border-radius: 0.5rem;
 		padding: 0.5rem;
+	}
+
+	.refreshIcon:hover {
+		background-color: transparent !important;
+	}
+	.refreshIcon:hover {
+		transition: all 0.25s ease-out;
+		transform: rotate(360deg);
+	}
+
+	.refreshIcon:active {
+		transition: all 0.25s ease-out;
+		transform: rotate(360deg) translateY(+5%);
+	}
+	.plusIcon {
+		background-color: transparent !important;
+	}
+	.plusIcon:hover {
+		transition: all 0.25s ease-out;
+		transform: rotate(90deg);
 	}
 </style>

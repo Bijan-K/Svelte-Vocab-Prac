@@ -7,6 +7,14 @@
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
 
+	function changeLang(e) {
+		let lang = e.target.innerText;
+		current.update((n) => {
+			n.lang = lang.toLowerCase();
+			return n;
+		});
+	}
+
 	$: langArray = $data.map((obj) => obj.lang);
 </script>
 
@@ -16,7 +24,7 @@
 	class="selector-container"
 >
 	{#each langArray as lang}
-		<span>
+		<span on:click={changeLang}>
 			{capitalizeFirstLetter(lang)}
 		</span>
 	{/each}

@@ -120,6 +120,30 @@ export function returnSingleWord(list) {
 
 ///// buttons
 
+export function resetKnown(data, Lang, List) {
+	for (let i = 0; i < data.length; i++) {
+		const currentObject = data[i];
+		if (currentObject.lang == Lang) {
+			for (let j = 0; j < currentObject.lists.length; j++) {
+				const currentList = currentObject.lists[j];
+				if (currentList.name == List) {
+					let newArray = currentList.words.map((obj) => {
+						if (obj.known === true) {
+							return { ...obj, known: false };
+						}
+						return obj;
+					});
+					data[i]['lists'][j].words = newArray;
+
+					return data;
+				}
+			}
+		}
+	}
+
+	return data;
+}
+
 // update data (correct)
 export function findWord(data, lang, list, word) {
 	for (let i = 0; i < data.length; i++) {
@@ -217,5 +241,3 @@ export function updateStatsMistakesList(stats, currentLang, word) {
 		}
 	}
 }
-
-// export function
