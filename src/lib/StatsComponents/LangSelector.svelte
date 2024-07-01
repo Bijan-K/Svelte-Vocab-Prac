@@ -11,6 +11,7 @@
 		let lang = e.target.innerText;
 		current.update((n) => {
 			n.lang = lang.toLowerCase();
+			n.list = 'mistakes';
 			return n;
 		});
 	}
