@@ -1,11 +1,19 @@
 <script>
 	import { page } from '$app/stores';
+	import { slide } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
+
+	import { data, current, langs, overlayMode, overlayState } from '$lib/stores.js';
+
 	import LinkIcon from '$lib/Icons/LinkIcon.svelte';
 	import InfoIcon from '$lib/Icons/InfoIcon.svelte';
 	import GithubIcon from '$lib/Icons/GithubIcon.svelte';
 	import ModeSelectPrac from '$lib/Menu/ModeSelectPrac.svelte';
-	import { slide } from 'svelte/transition';
-	import { quintOut } from 'svelte/easing';
+
+	function resetHandler() {
+		overlayState.update((n) => !n);
+		overlayMode.update((n) => 'conformation');
+	}
 </script>
 
 <div
@@ -44,7 +52,7 @@
 	{:else if $page.url.pathname === '/stats'}
 		<h2>Stats Settings:</h2>
 
-		<button class="reset">Reset all?</button>
+		<button on:click={resetHandler} class="reset">Reset all?</button>
 	{:else if $page.url.pathname === '/about'}
 		<h2 class="secondary-title">Source code:</h2>
 		<a href="https://github.com/Bijan-K" class="github">

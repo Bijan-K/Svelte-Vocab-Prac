@@ -151,16 +151,14 @@ export let lists = derived([data, current], (stores) => {
 	return returnLists(data, lang);
 });
 
-// selectlist
-// selectlang
-// question
-// addword
-export let overlayMode = writable('newword');
+// modes:
+// selectlist selectlang conformation newword
+export let overlayMode = writable(false);
 
-export let overlayState = writable(true);
+export let overlayState = writable(false);
 
 export let menuState = writable(false);
 
 export let showSelector = writable(false);
 
-export let statsMode = writable('reflect');
+export let statsSettingMode = writable('reflect');

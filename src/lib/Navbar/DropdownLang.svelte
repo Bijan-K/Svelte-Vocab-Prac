@@ -1,7 +1,7 @@
 <script>
 	import './style.css';
 	import { onMount } from 'svelte';
-	import { data, current, langs } from '$lib/stores.js';
+	import { data, current, langs, overlayMode, overlayState } from '$lib/stores.js';
 	import {
 		capitalizeWord,
 		returnLists,
@@ -101,6 +101,11 @@
 			}
 		});
 	});
+
+	function overlayHandler() {
+		overlayState.update((n) => !n);
+		overlayMode.update((n) => 'selectlang');
+	}
 </script>
 
 <div class="dropdown">
@@ -115,7 +120,8 @@
 			<li>{capitalizeWord(lang)}</li>
 		{/each}
 
-		<li class="plus">+</li>
+		<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+		<li on:click={overlayHandler} class="plus">+</li>
 	</ul>
 </div>
 

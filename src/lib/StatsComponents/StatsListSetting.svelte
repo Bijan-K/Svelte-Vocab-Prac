@@ -1,23 +1,30 @@
 <script>
-	import { current, showSelector, statsMode } from '$lib/stores.js';
+	import { showSelector, statsSettingMode, overlayMode, overlayState } from '$lib/stores.js';
 
 	import AddIcon from '$lib/Icons/AddIcon.svelte';
 	function switchMode() {
-		mode.update((n) => {
-			if (n == 'reflect') return 'edit';
-			if (n == 'edit') return 'reflect';
+		statsSettingMode.update((n) => {
+			if (n == 'reflect') {
+				showSelector.update((n) => false);
+				return 'edit';
+			}
+			if (n == 'edit') {
+				showSelector.update((n) => false);
+				return 'reflect';
+			}
 		});
 	}
 
 	function setSelector(e) {
-		console.log(e);
-		let selectorMode = e.target.id;
-
-		showSelector.update((n) => selectorMode);
+		showSelector.update((n) => {
+			if (n == e.target.id) return false;
+			return e.target.id;
+		});
 	}
 
 	function addNewWord() {
-		//
+		overlayMode.update((n) => 'newword');
+		overlayState.update((n) => !n);
 	}
 </script>
 
@@ -26,16 +33,20 @@
 	<div class="mode-header">
 		<div class="mode-options">
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-			<h4 on:click={setSelector} id="lang">English</h4>
+			<button on:click={setSelector} id="lang">English</button>
 			<p>/</p>
 			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-			<h4 on:click={setSelector} id="list">Mistakes</h4>
+			<button
+				disabled={$statsSettingMode == 'reflect' ? true : false}
+				on:click={setSelector}
+				id="list">Mistakes</button
+			>
 		</div>
 
 		<div class="mode-change-btn">
-			{#if $statsMode == 'reflect'}
+			{#if $statsSettingMode == 'reflect'}
 				<span on:click={switchMode} class="relfect">Reflect</span>
-			{:else if $statsMode == 'edit'}
+			{:else if $statsSettingMode == 'edit'}
 				<span on:click={addNewWord}>
 					<AddIcon />
 				</span>
@@ -85,11 +96,22 @@
 	.mode-options p {
 		padding: 0.5rem;
 	}
-	.mode-options h4 {
+	.mode-options button {
+		border: none;
+		background-color: transparent;
+		color: #ecfdf5;
+		font-size: 1.2rem;
 		padding: 0.5rem;
 	}
-	.mode-options h4:hover {
+	.mode-options button:not(:disabled):hover {
 		background-color: #e3e3e37e;
+		cursor: pointer;
+		border-radius: 0.5rem;
+		padding: 0.5rem;
+	}
+
+	.mode-options button:disabled {
+		color: grey;
 		cursor: pointer;
 		border-radius: 0.5rem;
 		padding: 0.5rem;

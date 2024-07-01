@@ -2,7 +2,7 @@
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
-	import { current, showSelector, statsMode } from '$lib/stores.js';
+	import { current, showSelector, statsSettingMode } from '$lib/stores.js';
 
 	import MappedMistakes from '$lib/StatsComponents/MappedMistakes.svelte';
 	import EditContainer from '$lib/StatsComponents/EditContainer.svelte';
@@ -20,7 +20,7 @@
 
 		current.update((n) => {
 			n.lang = 'english';
-			n.list = 'mistake';
+			n.list = 'mistakes';
 			return n;
 		});
 	});
@@ -37,20 +37,21 @@
 
 		<StatsHeadInfo />
 
-		<StatsListSetting />
+		<div class="setting-holder">
+			<StatsListSetting />
 
-		<!-- lang/list selectors -->
-		{#if $showSelector == 'lang'}
-			<LangSelector />
-		{:else if $showSelector == 'list' && $statsMode == 'edit'}
-			<ListSelector />
-		{/if}
-
+			<!-- lang/list selectors -->
+			{#if $showSelector == 'lang'}
+				<LangSelector />
+			{:else if $showSelector == 'list' && $statsSettingMode == 'edit'}
+				<ListSelector />
+			{/if}
+		</div>
 		<!-- Content Body -->
 		<div class="content-body">
-			{#if $statsMode == 'reflect'}
+			{#if $statsSettingMode == 'reflect'}
 				<MappedMistakes />
-			{:else if $statsMode == 'edit'}
+			{:else if $statsSettingMode == 'edit'}
 				<EditContainer />
 			{/if}
 		</div>
@@ -73,5 +74,11 @@
 	h2 {
 		font-size: 3rem;
 		text-align: center;
+	}
+	.setting-holder {
+		width: 100%;
+
+		display: flex;
+		flex-direction: column;
 	}
 </style>

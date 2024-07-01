@@ -47,7 +47,6 @@
 		text-align: center;
 	}
 	.reflect-container {
-		transform: translateY(-20%);
 		border: 1px green dashed;
 		width: 100%;
 		height: 100%;

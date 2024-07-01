@@ -1,17 +1,53 @@
 <script>
 	import { current, data, stats } from '$lib/stores.js';
+	import { slide } from 'svelte/transition';
+
+	function capitalizeFirstLetter(string) {
+		if (!string) return '';
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
+	$: langArray = $data.map((obj) => obj.lang);
 </script>
 
-<div class="selector-container">one</div>
+<div
+	in:slide={{ duration: 200, axis: 'y' }}
+	out:slide={{ duration: 200, axis: 'y' }}
+	class="selector-container"
+>
+	{#each langArray as lang}
+		<span>
+			{capitalizeFirstLetter(lang)}
+		</span>
+	{/each}
+</div>
 
 <style>
 	.selector-container {
+		margin: 0 0.5rem;
 		height: 3rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-
-		padding: 1rem;
 		gap: 1rem;
+
+		padding: 1.5rem 1rem;
+
+		border-bottom: 1px solid #eee;
+	}
+
+	span {
+		border: none;
+		background-color: transparent;
+		color: #ecfdf5;
+		font-size: 1.2rem;
+		padding: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+	span:hover {
+		background-color: #e3e3e37e;
+		cursor: pointer;
+		border-radius: 0.5rem;
+		padding: 0.5rem;
 	}
 </style>

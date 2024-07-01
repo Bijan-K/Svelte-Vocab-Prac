@@ -1,6 +1,6 @@
 <script>
 	import { onMount, afterUpdate } from 'svelte';
-	import { current, lists, data, overlayState } from '$lib/stores.js';
+	import { current, lists, data, overlayState, overlayMode } from '$lib/stores.js';
 	import { capitalizeWord, returnWordsInList, returnSingleWord } from '$lib/functions.js';
 
 	import './style.css';
@@ -91,6 +91,7 @@
 
 	function overlayClickHandler() {
 		overlayState.update((n) => !n);
+		overlayMode.update((n) => 'selectlist');
 	}
 </script>
 
