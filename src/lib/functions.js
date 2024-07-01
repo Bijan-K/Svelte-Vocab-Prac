@@ -79,7 +79,57 @@ export function calculateStreak(dateArray, targetDate) {
 	return consecutiveDays - 1;
 }
 
-// init
+// high Util
+
+// Add word to a list
+export function addWordtoList(data, Lang, List, word) {
+	for (let i = 0; i < data.length; i++) {
+		const currentObject = data[i];
+		if (currentObject.lang == Lang) {
+			for (let j = 0; j < currentObject.lists.length; j++) {
+				let currentList = currentObject.lists[j];
+				console.log(currentList.name);
+				if (currentList.name == List) {
+					if (!currentList.words.some((obj) => obj.word === word)) {
+						currentList.words.push({ word: word, known: false });
+						console.log('nw', currentList);
+
+						data[i]['lists'][j] = currentList;
+						return data;
+					}
+				}
+			}
+		}
+	}
+
+	return data;
+}
+
+// remove word from a list
+export function removeWordfromList(data, Lang, List, word) {
+	for (let i = 0; i < data.length; i++) {
+		const currentObject = data[i];
+		if (currentObject.lang == Lang) {
+			for (let j = 0; j < currentObject.lists.length; j++) {
+				let currentList = currentObject.lists[j];
+				console.log('what', currentList.name);
+				console.log('ho?', List);
+				if (currentList.name == List) {
+					console.log('we are hre ----');
+					let newArray = currentList.words.filter((obj) => obj.word !== word);
+					console.log('\n\n\n', newArray);
+					console.log(data[i]['lists'][j]);
+					data[i]['lists'][j].words = newArray;
+					return data;
+				}
+			}
+		}
+	}
+
+	return data;
+}
+
+// init functions
 export function getDefaultLang(data) {
 	if (data[0].lang) return data[0].lang, data[0].lists[0].name;
 	return 'notfound', ['notfound'];
@@ -240,33 +290,4 @@ export function updateStatsMistakesList(stats, currentLang, word) {
 			}
 		}
 	}
-}
-
-// Add word to a list
-
-export function addWordtoList(data, Lang, List, word) {
-	console.log('list', Lang);
-	console.log('legit list', List);
-	console.log('list', word);
-
-	for (let i = 0; i < data.length; i++) {
-		const currentObject = data[i];
-		if (currentObject.lang == Lang) {
-			for (let j = 0; j < currentObject.lists.length; j++) {
-				let currentList = currentObject.lists[j];
-				console.log(currentList.name);
-				if (currentList.name == List) {
-					if (!currentList.words.some((obj) => obj.word === word)) {
-						currentList.words.push({ word: word, known: false });
-						console.log('nw', currentList);
-
-						data[i]['lists'][j] = currentList;
-						return data;
-					}
-				}
-			}
-		}
-	}
-
-	return data;
 }

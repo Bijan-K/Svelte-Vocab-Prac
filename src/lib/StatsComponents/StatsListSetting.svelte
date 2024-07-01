@@ -51,8 +51,6 @@
 			n = resetKnown($data, $current.lang, $current.list);
 			return n;
 		});
-
-		current.update((n) => n);
 	}
 </script>
 

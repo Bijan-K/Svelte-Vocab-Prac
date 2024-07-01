@@ -1,17 +1,36 @@
 <script>
+	import { data, current, overlayMode, overlayState } from '$lib/stores.js';
+	import { removeWordfromList } from '$lib/functions.js';
+
 	import EditIcon from '$lib/Icons/EditIcon.svelte';
 	import RemoveIcon from '$lib/Icons/RemoveIcon.svelte';
 	import NegativeIcon from '$lib/Icons/NegativeIcon.svelte';
 	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
 
-	export let word = { word: 'nothing here', known: false };
+	export let word = { word: 'nothing here :\\', known: false };
 
 	function editHandler() {
-		//
+		let selectedWord = word.word;
+
+		data.update((n) => {
+			n = removeWordfromList($data, $current.lang, $current.list, selectedWord);
+			return n;
+		});
+
+		overlayMode.update((n) => 'newword');
+
+		overlayState.update((n) => !n);
 	}
 
 	function removeHandler() {
-		//
+		console.log('impor', word.word);
+		let selectedWord = word.word;
+
+		data.update((n) => {
+			n = removeWordfromList($data, $current.lang, $current.list, selectedWord);
+			console.log(n);
+			return n;
+		});
 	}
 </script>
 
@@ -25,8 +44,8 @@
 	</div>
 
 	<div class="btn-holder">
-		<span on:click={editHandler} class="btn"><EditIcon /></span>
-		<span on:click={removeHandler} class="btn"><RemoveIcon /></span>
+		<span on:click={editHandler} class="btn edit"><EditIcon /></span>
+		<span on:click={removeHandler} class="btn remove"><RemoveIcon /></span>
 	</div>
 
 	<span class="word">{word.word}</span>
@@ -62,5 +81,12 @@
 		position: absolute;
 		top: 5px;
 		left: 5px;
+	}
+
+	.edit:active {
+		transform: translateY(5%);
+	}
+	.remove:active {
+		transform: translateY(5%);
 	}
 </style>

@@ -20,7 +20,7 @@
 	<div class="title-holder">
 		<div class="title">
 			<h2>Mistake</h2>
-			<h2>Count</h2>
+			<h2>Times</h2>
 			<h2><QIcon /></h2>
 		</div>
 	</div>
@@ -47,38 +47,40 @@
 		text-align: center;
 	}
 	.reflect-container {
-		border: 1px green dashed;
 		width: 100%;
 		height: 100%;
 	}
 	.title-holder {
-		border: 1px yellow dashed;
-
 		padding: 1rem;
 		border-bottom: 1px solid #f0fdf4;
 		margin: 0 3%;
 	}
 	.title {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+
 		margin: 0 10%;
+	}
+	.title h2 {
+		place-self: center;
 	}
 
 	.mistake {
 		padding: 2rem;
 		font-size: 1.2rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
 		margin: 0 12%;
 		border-bottom: #f0fdf4 1px solid;
 	}
 	.mistake a {
+		place-self: center;
 		text-decoration: none;
 		color: #f0fdf4;
 	}
 	.mistake span {
+		place-self: center;
+
 		text-align: center;
 	}
 </style>

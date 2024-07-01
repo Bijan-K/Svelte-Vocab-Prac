@@ -9,9 +9,9 @@
 	}
 
 	function changeList(e) {
-		let lang = e.target.innerText;
+		let list = e.target.innerText;
 		current.update((n) => {
-			n.list = lang.toLowerCase();
+			n.list = list.toLowerCase();
 			return n;
 		});
 	}
