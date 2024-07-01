@@ -162,3 +162,5 @@ export let menuState = writable(false);
 export let showSelector = writable(false);
 
 export let statsSettingMode = writable('reflect');
+
+export let pracMode = writable('normal');

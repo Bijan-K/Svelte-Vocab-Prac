@@ -3,7 +3,7 @@
 	import { slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
-	import { data, current, langs, overlayMode, overlayState } from '$lib/stores.js';
+	import { overlayMode, overlayState } from '$lib/stores.js';
 
 	import LinkIcon from '$lib/Icons/LinkIcon.svelte';
 	import InfoIcon from '$lib/Icons/InfoIcon.svelte';

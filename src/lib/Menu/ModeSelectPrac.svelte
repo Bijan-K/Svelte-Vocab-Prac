@@ -1,19 +1,26 @@
 <script>
-	let mode = true;
+	import { pracMode } from '$lib/stores.js';
+
+	function toggle() {
+		pracMode.update((n) => {
+			if (n == 'lexicon') return 'normal';
+			if (n == 'normal') return 'lexicon';
+		});
+	}
 </script>
 
 <div class="modeselect">
 	<div class="toggle-wrapper">
 		<div class="toggle transparent">
-			<input id="transparent" type="checkbox" />
+			<input id="transparent" type="checkbox" on:click={toggle} />
 			<label class="toggle-item" for="transparent"></label>
 		</div>
 
 		<div class="mode-text">
-			{#if mode}
-				Practice Lists
-			{:else}
-				Add Words
+			{#if $pracMode == 'normal'}
+				Normal
+			{:else if $pracMode == 'lexicon'}
+				Lexicon Linker
 			{/if}
 		</div>
 	</div>
@@ -28,7 +35,6 @@
 	.modeselect {
 		width: 100%;
 		height: 10%;
-		border: 1px white dashed;
 		display: flex;
 		justify-content: start;
 		align-items: center;

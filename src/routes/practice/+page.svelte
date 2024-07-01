@@ -2,7 +2,7 @@
 	import CorrectBtn from '../../lib/CoreButtons/CorrectBtn.svelte';
 	import WrongBtn from '../../lib/CoreButtons/WrongBtn.svelte';
 	import QuestionBtn from '../../lib/CoreButtons/QuestionBtn.svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { fade, fly, slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
 	import {
@@ -10,13 +10,14 @@
 		addWordtoMistakesList,
 		updateStatsMistakesList,
 		selectRandomWord,
-		newCurrentWordList
+		newCurrentWordList,
+		addWordtoList
 	} from '$lib/functions.js';
-	import { current, data, stats } from '$lib/stores.js';
+	import { current, data, stats, pracMode } from '$lib/stores.js';
 
 	// Initial animation
 	let display = false;
-	let mode = 'test';
+	let input = '';
 
 	function handleUp() {
 		let word = $current.word;
@@ -78,6 +79,18 @@
 		}
 	}
 
+	function handleKeyPress(event) {
+		if (event.key === 'Enter' || event.keyCode === 13) {
+			data.update((n) => {
+				n = addWordtoList($data, $current.lang, $current.list, input);
+				console.log(n);
+				return n;
+			});
+
+			input = '';
+		}
+	}
+
 	onMount(() => {
 		display = true;
 
@@ -91,19 +104,35 @@
 
 {#if display}
 	<div in:fly={{ y: 20, duration: 200 }} class="practice-container">
-		{#if mode == 'test'}
-			<div class="text">
+		{#if $pracMode == 'normal'}
+			<div in:fade={{ duration: 200 }} class="text">
 				{$current.word == '' || $current.word == undefined ? 'No words in the list' : $current.word}
 			</div>
-		{:else if mode == 'add'}
-			<input class="input" type="text" placeholder="Type the word you want to add" />
+		{:else if $pracMode == 'lexicon'}
+			<input
+				in:slide={{ duration: 200 }}
+				class="input"
+				type="text"
+				bind:value={input}
+				on:keydown={handleKeyPress}
+				placeholder="Type the word you want to add"
+			/>
 		{/if}
 	</div>
 
 	<div in:fade={{ y: 20, duration: 200 }} class="core-btn">
-		<WrongBtn />
-		<QuestionBtn />
-		<CorrectBtn />
+		{#if $pracMode == 'normal'}
+			<WrongBtn />
+			<QuestionBtn />
+			<CorrectBtn />
+		{:else if $pracMode == 'lexicon'}
+			<div class="lexicon-btns">
+				<button class="btn-lex">Add</button>
+				<div class="info">
+					<span> Or press enter </span>
+				</div>
+			</div>
+		{/if}
 	</div>
 {/if}
 
@@ -121,7 +150,6 @@
 		transform: translateY(-100%);
 		font-size: 5rem;
 	}
-
 	.core-btn {
 		position: fixed;
 		bottom: 12%;
@@ -133,12 +161,54 @@
 		display: flex;
 		gap: 0.5rem;
 	}
-
 	.input {
+		transform: translateY(-100%);
+		color: #ecfdf5;
 		border: none;
-		padding: 0.5rem;
+		font-size: 3rem;
+		width: 60%;
+		padding: 2.5rem 2rem;
 		background: transparent;
-		border-left: 1px #eee solid;
 		border-bottom: 1px #eee solid;
+		border-radius: 1rem;
+	}
+
+	.lexicon-btns {
+		display: grid;
+		grid-template-rows: 2fr 1fr;
+	}
+	.info {
+		place-self: center;
+		font-size: 0.5rem;
+		display: flex;
+		align-items: center;
+
+		gap: 10px;
+	}
+	.info span {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 1rem;
+	}
+
+	.btn-lex {
+		display: block;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: none;
+		padding: 0.75rem 2rem;
+		background: none;
+		color: #eee;
+		font-size: 2rem;
+		border-radius: 0.5rem;
+		background-color: rgb(9, 120, 90);
+	}
+	.btn-lex:hover {
+		cursor: pointer;
+	}
+	.btn-lex:active {
+		transform: translateY(+10%);
 	}
 </style>
