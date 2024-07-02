@@ -13,7 +13,6 @@
 	function handleSubmit() {
 		data.update((n) => {
 			n = addWordtoList($data, $current.lang, $current.list, word);
-			console.log(n);
 			return n;
 		});
 

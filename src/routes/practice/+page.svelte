@@ -14,6 +14,7 @@
 		addWordtoList
 	} from '$lib/functions.js';
 	import { current, data, stats, pracMode } from '$lib/stores.js';
+	import Typewriter from '../../lib/Typewriter.svelte';
 
 	// Initial animation
 	let display = false;
@@ -83,7 +84,6 @@
 		if (event.key === 'Enter' || event.keyCode === 13) {
 			data.update((n) => {
 				n = addWordtoList($data, $current.lang, $current.list, input);
-				console.log(n);
 				return n;
 			});
 
@@ -106,7 +106,12 @@
 	<div in:fly={{ y: 20, duration: 200 }} class="practice-container">
 		{#if $pracMode == 'normal'}
 			<div in:fade={{ duration: 200 }} class="text">
-				{$current.word == '' || $current.word == undefined ? 'No words in the list' : $current.word}
+				{#if $current.word == '' || $current.word == undefined}
+					<div>Empty List</div>
+				{:else}
+					<!-- {$current.word} -->
+					<Typewriter text={$current.word} />
+				{/if}
 			</div>
 		{:else if $pracMode == 'lexicon'}
 			<input

@@ -88,12 +88,9 @@ export function addWordtoList(data, Lang, List, word) {
 		if (currentObject.lang == Lang) {
 			for (let j = 0; j < currentObject.lists.length; j++) {
 				let currentList = currentObject.lists[j];
-				console.log(currentList.name);
 				if (currentList.name == List) {
 					if (!currentList.words.some((obj) => obj.word === word)) {
 						currentList.words.push({ word: word, known: false });
-						console.log('nw', currentList);
-
 						data[i]['lists'][j] = currentList;
 						return data;
 					}
@@ -112,13 +109,8 @@ export function removeWordfromList(data, Lang, List, word) {
 		if (currentObject.lang == Lang) {
 			for (let j = 0; j < currentObject.lists.length; j++) {
 				let currentList = currentObject.lists[j];
-				console.log('what', currentList.name);
-				console.log('ho?', List);
 				if (currentList.name == List) {
-					console.log('we are hre ----');
 					let newArray = currentList.words.filter((obj) => obj.word !== word);
-					console.log('\n\n\n', newArray);
-					console.log(data[i]['lists'][j]);
 					data[i]['lists'][j].words = newArray;
 					return data;
 				}

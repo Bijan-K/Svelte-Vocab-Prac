@@ -5,10 +5,6 @@
 	import WordBox from './WordBox.svelte';
 
 	$: wordsArray = returnWordsInList($data, $current.lang, $current.list);
-
-	$: console.log(wordsArray);
-	$: console.log($current.lang);
-	$: console.log($current.list);
 </script>
 
 <div class="edit-container">

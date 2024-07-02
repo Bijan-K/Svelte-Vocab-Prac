@@ -7,14 +7,9 @@
 	import { menuState, current, data, stats } from '$lib/stores.js';
 	import Menu from '$lib/Menu/Menu.svelte';
 
-	$: console.log('current lang : ', $current.lang);
-	$: console.log('current list : ', $current.list);
-	$: console.log('current word : ', $current.word);
-	$: console.log('-------');
-	$: console.log('-------------');
-	$: console.log('current Data : ', $data);
-	$: console.log('current Stats : ', $stats);
-	$: console.log('current Current : ', $current);
+	$: console.log('Data : ', $data);
+	$: console.log('Stats : ', $stats);
+	$: console.log('Current : ', $current);
 </script>
 
 <nav>

@@ -23,12 +23,10 @@
 	}
 
 	function removeHandler() {
-		console.log('impor', word.word);
 		let selectedWord = word.word;
 
 		data.update((n) => {
 			n = removeWordfromList($data, $current.lang, $current.list, selectedWord);
-			console.log(n);
 			return n;
 		});
 	}
@@ -81,6 +79,9 @@
 		position: absolute;
 		top: 5px;
 		left: 5px;
+	}
+	.btn:hover {
+		cursor: pointer;
 	}
 
 	.edit:active {
