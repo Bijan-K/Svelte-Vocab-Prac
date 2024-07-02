@@ -2,24 +2,30 @@
 	import XIcon from '$lib/Icons/XIcon.svelte';
 	import { overlayState } from '$lib/stores.js';
 	import FileReceiver from './FileReceiver.svelte';
-	import { fade, fly, slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 
 	let lang = '';
+	let define = '';
 
 	let init = false;
 	let stage = 0;
-	let firstyes = false;
 	let showFileReceiver = false;
 	let showFinal = false;
 
 	function closeHandler() {
 		overlayState.update((n) => !n);
 	}
-	function startStage2() {
-		stage = 2;
+
+	function fileReceivertoggle() {
+		showFileReceiver = true;
+		showFinal = true;
+	}
+	function showfinal() {
+		showFinal = true;
 	}
 
 	$: if (lang != '') init = true;
+	$: if (define != '') stage = 3;
 </script>
 
 <div class="board">
@@ -43,23 +49,20 @@
 				{#if init == 1}
 					<div in:fly={{ duration: 800, y: 20 }} class="">
 						<span>Equivalent of "define" in that language :</span>
-						<input class="inputText" type="text" on:blur={startStage2} />
+						<input
+							class="inputText"
+							type="text"
+							bind:value={define}
+							placeholder="google translate it"
+						/>
 					</div>
 				{/if}
 
-				{#if stage == 2}
-					<div in:fly={{ duration: 800, y: 20 }}>Added Mistakes list</div>
-				{:else if stage == 3}
-					<div in:fly={{ duration: 800, y: 20 }}>
+				{#if stage == 3}
+					<div class="question" in:fly={{ duration: 800, y: 20 }}>
 						<span> would you like to add a custom list to your lang? </span>
-						<button>Yes</button>
-						<button>No</button>
-					</div>
-				{:else if stage == 3 && firstyes == true}
-					<div in:fly={{ duration: 800, y: 20 }}>
-						<span> Do you have a file you would like to add? </span>
-						<button>Yes</button>
-						<button>No</button>
+						<button on:click={fileReceivertoggle}>Yes</button>
+						<button on:click={showfinal}>No</button>
 					</div>
 				{/if}
 			</div>
@@ -69,18 +72,44 @@
 			{/if}
 
 			{#if showFinal}
-				<button class="btn"> Add </button>
+				<button in:fly={{ duration: 800, y: 20 }} class="btn"> Add </button>
 			{/if}
 		</div>
 	</div>
 </div>
 
 <style>
+	.btn {
+		position: absolute;
+		right: 5rem;
+		margin: 0 10%;
+		font-size: 1.2rem;
+		padding: 0.5rem 2rem;
+		background-color: #08805ece;
+		color: #ecfdf5;
+		border: 1px #eee as;
+		border-radius: 1rem;
+	}
+
+	.question {
+		font-size: large;
+		padding: 1.5rem;
+	}
+	.question button {
+		font-size: large;
+		color: #ecfdf5;
+		border: none;
+		background-color: transparent;
+	}
+	.question button:hover {
+		border-bottom: 1px solid #eee;
+	}
 	.restofq {
 		padding: 0.5rem 0.5rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		flex-direction: column;
 	}
 
 	.firstq {

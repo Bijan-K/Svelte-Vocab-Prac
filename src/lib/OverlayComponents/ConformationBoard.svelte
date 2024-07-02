@@ -1,13 +1,41 @@
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
-	import { overlayState } from '$lib/stores.js';
+	import { overlayState, data, stats } from '$lib/stores.js';
 
 	function closeHandler() {
 		overlayState.update((n) => !n);
 	}
 
-	function conformHandler() {
-		//
+	function resetConformHandler() {
+		data.set([
+			{
+				lang: 'english',
+				lists: [
+					{
+						name: 'mistakes',
+						words: []
+					}
+				]
+			}
+		]);
+		stats.set({
+			record: {
+				date_list: [],
+				t_date: new Date(),
+				info: {
+					incorrect: 0,
+					correct: 0
+				}
+			},
+			streak: 0,
+			mistake_lang: [
+				{
+					lang: 'english',
+					defineKeyword: 'define',
+					mistakes: []
+				}
+			]
+		});
 	}
 </script>
 
@@ -20,7 +48,7 @@
 
 		<h3>Are you sure?</h3>
 		<div class="btn-container">
-			<button class="conform" on:click={conformHandler}>Yes </button>
+			<button class="conform" on:click={resetConformHandler}>Yes </button>
 			<button class="reject" on:click={closeHandler}>No </button>
 		</div>
 	</div>

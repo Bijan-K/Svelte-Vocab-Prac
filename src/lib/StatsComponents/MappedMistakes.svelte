@@ -44,6 +44,7 @@
 
 <style>
 	h1 {
+		padding: 0.75rem;
 		text-align: center;
 	}
 	.reflect-container {

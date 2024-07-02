@@ -4,6 +4,8 @@
 	import InfoIcon from '../Icons/InfoIcon.svelte';
 	import FileReceiver from './FileReceiver.svelte';
 
+	let listName = '';
+
 	function capitalizeFirstLetter(string) {
 		if (!string) return '';
 		return string.charAt(0).toUpperCase() + string.slice(1);
@@ -28,7 +30,7 @@
 			<div class="InputContainer">
 				<div class="inputHolder">
 					<span>The Name of your list: </span>
-					<input class="input" type="text" />
+					<input bind:value={listName} class="input" type="text" />
 				</div>
 
 				<div class="info-holder">
@@ -48,7 +50,7 @@
 			<FileReceiver />
 
 			<!--  -->
-			<button class="btn"> Add </button>
+			<button class="btn" disabled={listName != '' ? false : true}> Add </button>
 		</div>
 	</div>
 </div>
@@ -119,19 +121,21 @@
 	}
 	.btn {
 		height: 3rem;
-
 		font-size: larger;
 		margin: 5% auto;
 		padding: 0.5rem 2rem;
-
 		border-radius: 1rem;
-		background-color: aquamarine;
+		background-color: rgb(41, 106, 150);
+	}
+	.btn:disabled {
+		background-color: gray;
 	}
 
-	.btn:hover {
-		transform: translateY(-1%);
-	}
-	.btn:active {
+	.btn:not(:disabled):active {
 		transform: translateY(5%);
+	}
+
+	.btn:not(:disabled):hover {
+		transform: translateY(-1%);
 	}
 </style>

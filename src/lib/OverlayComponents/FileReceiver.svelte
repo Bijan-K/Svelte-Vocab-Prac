@@ -1,5 +1,6 @@
 <script>
 	import ToolTip from './ToolTip.svelte';
+	import { fly } from 'svelte/transition';
 
 	let fileContent = '';
 	let fileName = '';
@@ -38,13 +39,13 @@
 	}
 </script>
 
-<div class="file-receiver">
+<div in:fly={{ duration: 800, y: 20 }} class="file-receiver">
 	<div class="container">
 		<p>
 			You can add a file containing the words you would like to include in this list here. Be sure
 			that your file is either <ToolTip message="['word', 'word', 'word', etc]"
-				><i>.json</i></ToolTip
-			> or <ToolTip message="word"><i>.txt</i></ToolTip>and formatted like the ToolTip implies.
+				><strong>.json</strong></ToolTip
+			> or <ToolTip message="word"><strong>.txt</strong></ToolTip> and formatted like the ToolTip implies.
 		</p>
 	</div>
 
@@ -57,7 +58,7 @@
 </div>
 
 <style>
-	i {
+	strong {
 		text-decoration: underline;
 	}
 	.file-receiver {
