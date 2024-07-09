@@ -1,10 +1,32 @@
 <script>
 	import QuestionIcon from '$lib/Icons/QuestionIcon.svelte';
-	import { current } from '$lib/stores.js';
+	import { current, stats } from '$lib/stores.js';
+
+	function returnDefineWord(stats, current) {
+		let index = stats.mistake_lang.findIndex((element) => element.lang == current.lang);
+
+		if (index != -1) {
+			return stats.mistake_lang[index].defineKeyword;
+		}
+
+		return 'define';
+	}
+
+	//
+
+	$: {
+		$stats;
+		returnDefineWord($stats, $current);
+	}
 
 	function clickHandler() {
 		let word = $current.word;
-		window.open(`https://www.google.com/search?q=define+${word}`, '_blank').focus();
+		window
+			.open(
+				`https://www.google.com/search?q=${returnDefineWord($stats, $current)}+${word}`,
+				'_blank'
+			)
+			.focus();
 	}
 </script>
 

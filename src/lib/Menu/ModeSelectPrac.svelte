@@ -20,7 +20,7 @@
 			{#if $pracMode == 'normal'}
 				Normal
 			{:else if $pracMode == 'lexicon'}
-				Lexicon Linker
+				Lexicon Adder
 			{/if}
 		</div>
 	</div>

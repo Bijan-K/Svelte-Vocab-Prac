@@ -48,7 +48,6 @@
 		height: 20vh;
 		width: 40vw;
 		min-width: 300px;
-		background-color: #475569;
 		z-index: 901;
 	}
 	.container {
@@ -59,6 +58,11 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+	.input-container {
+		background-color: #475569;
+		padding: 2rem 2rem;
+		border-radius: 2rem;
 	}
 	.input {
 		max-width: 60vw;

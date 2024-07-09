@@ -65,13 +65,9 @@
 			> or <ToolTip message="word"><strong>.txt</strong></ToolTip> and formatted like the ToolTip implies.
 		</p>
 	</div>
-
-	<input type="file" accept=".json,.txt" on:change={handleFileUpload} />
-
-	{#if fileName}
-		<p>File Name: {fileName}</p>
-		<p>File Type: {fileType}</p>
-	{/if}
+	<div class="inputContainer">
+		<input type="file" accept=".json,.txt" on:change={handleFileUpload} />
+	</div>
 </div>
 
 <style>

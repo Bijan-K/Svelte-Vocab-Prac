@@ -12,7 +12,23 @@
 		return mistake_lang[index].mistakes;
 	}
 
+	function returnDefineWord(stats, current) {
+		let index = stats.mistake_lang.findIndex((element) => element.lang == current.lang);
+
+		if (index != -1) {
+			return stats.mistake_lang[index].defineKeyword;
+		}
+
+		return 'define';
+	}
+
 	//
+
+	$: {
+		$stats;
+		returnDefineWord($stats, $current);
+	}
+
 	$: mistakesArray = returnArray($stats.mistake_lang, $current.lang);
 </script>
 
@@ -30,7 +46,10 @@
 			<div class="mistake">
 				<span>{mistake.word}</span>
 				<span>{mistake.times}</span>
-				<a href="https://www.google.com/search?q=define+{mistake.word}" target="'_blank'">
+				<a
+					href="https://www.google.com/search?q={returnDefineWord($stats, $current)}+{mistake.word}"
+					target="'_blank'"
+				>
 					<SearchIcon />
 				</a>
 			</div>

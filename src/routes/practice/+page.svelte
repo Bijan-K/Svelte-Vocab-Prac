@@ -21,9 +21,31 @@
 	let input = '';
 	$: remaining = newCurrentWordList($data, $current.lang, $current.list);
 
+	function returnDefineWord(stats, current) {
+		let index = stats.mistake_lang.findIndex((element) => element.lang == current.lang);
+
+		if (index != -1) {
+			return stats.mistake_lang[index].defineKeyword;
+		}
+
+		return 'define';
+	}
+
+	//
+
+	$: {
+		$stats;
+		returnDefineWord($stats, $current);
+	}
+
 	function handleUp() {
 		let word = $current.word;
-		window.open(`https://www.google.com/search?q=define+${word}`, '_blank').focus();
+		window
+			.open(
+				`https://www.google.com/search?q=${returnDefineWord($stats, $current)}+${word}`,
+				'_blank'
+			)
+			.focus();
 	}
 	function handleLeft() {
 		data.update((n) => {

@@ -65,7 +65,7 @@
 			<span class="ico">
 				<InfoIcon />
 			</span>
-			<p>Your data is saved in LocalStorage.</p>
+			<p class="lower">Your data is saved in LocalStorage.</p>
 		</div>
 	{:else if $page.url.pathname === '/stats'}
 		<h2>Stats Settings:</h2>
@@ -77,8 +77,8 @@
 				<InfoIcon />
 			</span>
 			<p>
-				Use Enter when in reflect mode to quickly add new words. Also use Enter to save your word to
-				your specific list.
+				Use Enter when in reflect mode to quickly add new words to the list you want. Also use Enter
+				to save your word to your specific list.
 			</p>
 		</div>
 	{:else if $page.url.pathname === '/about'}
@@ -158,4 +158,16 @@
 	a span {
 		padding-left: 0.25rem;
 	}
+
+	.lower {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	/* p {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	} */
 </style>

@@ -31,12 +31,12 @@
 	function addHandler() {
 		let [newData, newStats] = addNewLang($data, $stats, lang, define);
 
-		console.log(newData);
-		console.log(newStats);
-
 		data.update((n) => newData);
-
 		stats.update((n) => newStats);
+		current.update((n) => {
+			n.lang = lang;
+			return n;
+		});
 
 		if (newlist != '') {
 			newData = addNewList($data, $current.lang, newlist);

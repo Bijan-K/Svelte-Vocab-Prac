@@ -54,6 +54,7 @@
 	}
 	div:hover {
 		cursor: pointer;
+		transform: translateY(-3%);
 	}
 	div:active {
 		transform: translateY(+10%);
