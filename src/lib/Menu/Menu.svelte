@@ -43,16 +43,44 @@
 		<ModeSelectPrac />
 
 		<div class="info">
-			<InfoIcon />
+			<span class="ico">
+				<InfoIcon />
+			</span>
 			<p>
 				You can also use the arrow keys <u>left</u>, <u>up</u> and <u>right</u> as an alternative in
 				PC.
 			</p>
 		</div>
+		<div class="info">
+			<span class="ico">
+				<InfoIcon />
+			</span>
+			<p>
+				This App offers its best UX on PC. Use PC bro. It doesn't even have a backend bro. I'll
+				improve the CSS later.
+			</p>
+		</div>
+
+		<div class="info">
+			<span class="ico">
+				<InfoIcon />
+			</span>
+			<p>Your data is saved in LocalStorage.</p>
+		</div>
 	{:else if $page.url.pathname === '/stats'}
 		<h2>Stats Settings:</h2>
 
 		<button on:click={resetHandler} class="reset">Reset all?</button>
+
+		<div class="info">
+			<span class="ico">
+				<InfoIcon />
+			</span>
+			<p>
+				Use Enter when in reflect mode to quickly add new words. Also use Enter to save your word to
+				your specific list.
+			</p>
+		</div>
 	{:else if $page.url.pathname === '/about'}
 		<h2 class="secondary-title">Source code:</h2>
 		<a href="https://github.com/Bijan-K" class="github">
@@ -62,6 +90,9 @@
 </div>
 
 <style>
+	.ico {
+		min-width: 20px;
+	}
 	.github {
 		padding: 0.5rem;
 		cursor: pointer;
@@ -114,7 +145,6 @@
 	}
 
 	.info {
-		height: 100%;
 		margin-top: auto;
 		padding: 1rem;
 		display: flex;

@@ -19,6 +19,7 @@
 	// Initial animation
 	let display = false;
 	let input = '';
+	$: remaining = newCurrentWordList($data, $current.lang, $current.list);
 
 	function handleUp() {
 		let word = $current.word;
@@ -90,6 +91,14 @@
 			input = '';
 		}
 	}
+	function addWord() {
+		data.update((n) => {
+			n = addWordtoList($data, $current.lang, $current.list, input);
+			return n;
+		});
+
+		input = '';
+	}
 
 	onMount(() => {
 		display = true;
@@ -110,7 +119,10 @@
 					<div>Empty List</div>
 				{:else}
 					<!-- {$current.word} -->
-					<Typewriter text={$current.word} />
+					<div class="middle">
+						<Typewriter text={$current.word} />
+						<span> Remaining : {remaining.length != 0 ? remaining.length : 'None'}</span>
+					</div>
 				{/if}
 			</div>
 		{:else if $pracMode == 'lexicon'}
@@ -132,7 +144,7 @@
 			<CorrectBtn />
 		{:else if $pracMode == 'lexicon'}
 			<div class="lexicon-btns">
-				<button class="btn-lex">Add</button>
+				<button on:click={addWord} class="btn-lex">Add</button>
 				<div class="info">
 					<span> Or press enter </span>
 				</div>
@@ -142,6 +154,23 @@
 {/if}
 
 <style>
+	.middle {
+		transform: translateY(10%);
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		align-items: center;
+		justify-content: center;
+		min-height: 100px;
+	}
+	.middle span {
+		font-size: 1rem;
+		position: absolute;
+		width: 500px;
+		bottom: -50%;
+		text-align: center;
+	}
+
 	.practice-container {
 		height: 100%;
 		align-items: center;

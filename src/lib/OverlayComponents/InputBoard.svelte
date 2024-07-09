@@ -1,8 +1,10 @@
 <script>
 	import { overlayState, data, current } from '$lib/stores.js';
 	import { addWordtoList } from '$lib/functions.js';
+	import { onMount } from 'svelte';
 
 	let word = '';
+	let inputElement;
 
 	function handleKeyPress(event) {
 		if (event.key === 'Enter' || event.keyCode === 13) {
@@ -18,6 +20,10 @@
 
 		overlayState.update((n) => false);
 	}
+
+	onMount(() => {
+		inputElement.focus();
+	});
 </script>
 
 <div class="board">
@@ -25,6 +31,7 @@
 		<!-- text -->
 		<div class="input-container">
 			<input
+				bind:this={inputElement}
 				class="input"
 				type="text"
 				bind:value={word}

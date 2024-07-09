@@ -1,6 +1,7 @@
 import { writable, derived } from 'svelte/store';
 import { returnLists } from './functions';
 
+// crucial
 export let data = writable([
 	{
 		lang: 'english',
@@ -61,45 +62,6 @@ export let data = writable([
 				words: []
 			}
 		]
-	},
-	{
-		lang: 'japanese',
-		lists: [
-			{
-				name: 'mistakes',
-				words: [
-					{
-						word: 'korean word',
-						known: false
-					}
-				]
-			},
-			{
-				name: 'list2',
-				words: [
-					{
-						word: 'salient',
-						known: false
-					},
-					{
-						word: 'brevity',
-						known: false
-					},
-					{
-						word: 'exposition',
-						known: false
-					},
-					{
-						word: 'appendix',
-						known: false
-					},
-					{
-						word: 'terse',
-						known: false
-					}
-				]
-			}
-		]
 	}
 ]);
 
@@ -138,6 +100,7 @@ export let current = writable({
 	word: ''
 });
 
+// necessary for navbar
 export let langs = derived(data, (data) => {
 	return data.map((obj) => obj.lang);
 });
@@ -152,7 +115,7 @@ export let lists = derived([data, current], (stores) => {
 });
 
 // modes:
-// selectlist selectlang conformation newword
+// options: selectlist / selectlang / conformation / newword
 export let overlayMode = writable(false);
 
 export let overlayState = writable(false);
@@ -164,3 +127,14 @@ export let showSelector = writable(false);
 export let statsSettingMode = writable('reflect');
 
 export let pracMode = writable('normal');
+
+// forms
+export let currentForm = writable({
+	Lang: '',
+	List: '',
+	defineWord: ''
+});
+
+export let formState = writable(false);
+
+export let fileWords = writable([]);

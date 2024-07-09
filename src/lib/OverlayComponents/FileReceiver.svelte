@@ -1,6 +1,7 @@
 <script>
 	import ToolTip from './ToolTip.svelte';
 	import { fly } from 'svelte/transition';
+	import { fileWords } from '$lib/stores.js';
 
 	let fileContent = '';
 	let fileName = '';
@@ -17,25 +18,41 @@
 		const reader = new FileReader();
 
 		reader.onload = (e) => {
+			console.log('File loaded');
 			const content = e.target.result;
 
 			if (fileType === 'application/json') {
 				try {
 					fileContent = JSON.parse(content);
-					words = fileContent.map((word) => ({ word, known: false }));
+					words = fileContent.map((word) => ({
+						word: word.replace(/\r/g, '').trim(),
+						known: false
+					}));
 				} catch (error) {
 					console.error('Error parsing JSON:', error);
 					fileContent = 'Error: Invalid JSON file';
 				}
 			} else if (fileType === 'text/plain') {
-				const lines = content.split('\n').filter((line) => line.trim() !== '');
-				words = lines.map((theWord) => ({ word: theWord, known: false }));
+				const lines = content
+					.replace(/\r/g, '')
+					.split('\n')
+					.map((line) => line.trim())
+					.filter((line) => line !== '');
+				words = lines.map((theWord) => ({
+					word: theWord.trim(),
+					known: false
+				}));
 			} else {
-				alert('Unsupported file type:', type);
+				alert('Unsupported file type: ' + fileType);
+				return;
 			}
+
+			console.log('Processing complete');
+			console.log('\n words', words);
+			fileWords.set(words);
 		};
 
-		// Add new words to the new list
+		reader.readAsText(file);
 	}
 </script>
 

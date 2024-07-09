@@ -3,9 +3,22 @@
 
 You can try it out [here.]()
 
+Things that it has::
+- Functioning lists 
+- Neat effects
+- Some what of a stats tracker
+- Easily editable lists
 
 things to be added in the future::
 - removing a list and language
-- better mobile viewport css
+- better mobile css
+
+
+to install you need to have node installed.
+
+```bash
+npm i
+npm run dev
+```
 
 

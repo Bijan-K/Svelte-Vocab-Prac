@@ -1,6 +1,7 @@
 <script>
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import './scrollbar.css';
 
 	import { current, showSelector, statsSettingMode } from '$lib/stores.js';
 
@@ -70,6 +71,7 @@
 		padding-top: 2rem;
 		overflow: scroll;
 	}
+	/* SCROLL BAR */
 
 	h2 {
 		font-size: 3rem;

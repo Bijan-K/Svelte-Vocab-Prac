@@ -1,6 +1,7 @@
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
-	import { overlayState, current } from '$lib/stores.js';
+	import { overlayState, current, data, fileWords } from '$lib/stores.js';
+	import { addNewList, addWordsToList } from '$lib/formFunctions.js';
 	import InfoIcon from '../Icons/InfoIcon.svelte';
 	import FileReceiver from './FileReceiver.svelte';
 
@@ -13,6 +14,25 @@
 
 	function closeHandler() {
 		overlayState.update((n) => !n);
+	}
+
+	function conformAddList() {
+		data.update((n) => {
+			let newData = addNewList($data, $current.lang, listName);
+			if ($fileWords != []) {
+				newData = addWordsToList($data, $current.lang, listName, $fileWords);
+			}
+			return newData;
+		});
+
+		fileWords.set([]);
+
+		current.update((n) => {
+			n.list = listName;
+			return n;
+		});
+
+		closeHandler();
 	}
 </script>
 
@@ -50,7 +70,9 @@
 			<FileReceiver />
 
 			<!--  -->
-			<button class="btn" disabled={listName != '' ? false : true}> Add </button>
+			<button on:click={conformAddList} class="btn" disabled={listName != '' ? false : true}>
+				Add
+			</button>
 		</div>
 	</div>
 </div>

@@ -1,8 +1,20 @@
 <script>
-	import { data, current } from '$lib/stores.js';
+	import { onMount } from 'svelte';
+	import { data, current, overlayMode, overlayState } from '$lib/stores.js';
 	import { returnWordsInList } from '$lib/functions.js';
 
 	import WordBox from './WordBox.svelte';
+
+	function handleKeydown(event) {
+		if (event.key === 'Enter' || event.keyCode === 13) {
+			overlayMode.update((n) => 'newword');
+			overlayState.update((n) => !n);
+		}
+	}
+
+	onMount(() => {
+		window.addEventListener('keydown', handleKeydown);
+	});
 
 	$: wordsArray = returnWordsInList($data, $current.lang, $current.list);
 </script>

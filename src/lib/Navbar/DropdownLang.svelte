@@ -1,6 +1,6 @@
 <script>
 	import './style.css';
-	import { onMount } from 'svelte';
+	import { onMount, afterUpdate } from 'svelte';
 	import { data, current, langs, overlayMode, overlayState } from '$lib/stores.js';
 	import {
 		capitalizeWord,
@@ -8,6 +8,84 @@
 		returnSingleWord,
 		returnWordsInList
 	} from '$lib/functions.js';
+
+	// what is this? mom's spaghetti
+	afterUpdate(() => {
+		let dropdown = document.querySelector('.dropdown');
+		let select = dropdown.querySelector('.select');
+		let caret = dropdown.querySelector('.caret');
+		let menu = dropdown.querySelector('.menu');
+		let options = dropdown.querySelectorAll('.menu li');
+		let selected = dropdown.querySelector('.selected');
+		// select.addEventListener('click', () => {
+		// 	select.classList.toggle('select-clicked');
+		// 	caret.classList.toggle('caret-rotate');
+		// 	menu.classList.toggle('menu-open');
+		// });
+
+		options.forEach((option) => {
+			option.addEventListener('click', () => {
+				if (option.innerText != '+') {
+					selected.innerText = option.innerText;
+					select.classList.remove('select-clicked');
+					caret.classList.remove('caret-rotate');
+					menu.classList.remove('menu-open');
+					options.forEach((option) => {
+						option.classList.remove('active');
+					});
+					option.classList.add('active');
+
+					// active class for list
+					current.update((n) => {
+						let tmp = n;
+						tmp.lang = option.innerText.toLowerCase();
+						tmp.list = returnLists($data, tmp.lang)[0];
+						tmp.word = capitalizeWord(
+							returnSingleWord(returnWordsInList($data, tmp.lang, tmp.list))
+						);
+						return tmp;
+					});
+
+					// active class for list
+					let dropdown1 = document.querySelector('.dropdown1');
+					let options1 = dropdown1.querySelectorAll('.menu1 li');
+					let selected1 = dropdown1.querySelector('.selected1');
+
+					selected1.innerText = capitalizeWord($current.list);
+					options1.forEach((option3) => {
+						if ($current.list != undefined) {
+							if (option3.innerText.toLowerCase() == $current.list) {
+								options1.forEach((option3) => {
+									option3.classList.remove('active');
+								});
+								option3.classList.add('active');
+							}
+
+							option3.addEventListener('click', () => {
+								if (option3.innerText != '+') {
+									selected1.innerText = option3.innerText;
+
+									options1.forEach((option3) => {
+										option3.classList.remove('active');
+									});
+									option3.classList.add('active');
+
+									current.update((n) => {
+										let tmp = n;
+										tmp.list = option3.innerText.toLowerCase();
+										tmp.word = capitalizeWord(
+											returnSingleWord(returnWordsInList($data, tmp.lang, tmp.list))
+										);
+										return tmp;
+									});
+								}
+							});
+						}
+					});
+				}
+			});
+		});
+	});
 
 	onMount(() => {
 		let dropdown = document.querySelector('.dropdown');

@@ -1,10 +1,12 @@
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
-	import { overlayState } from '$lib/stores.js';
+	import { overlayState, current, data, stats, fileWords } from '$lib/stores.js';
+	import { addNewLang, addNewList, addWordsToList } from '$lib/formFunctions.js';
 	import FileReceiver from './FileReceiver.svelte';
 	import { fly } from 'svelte/transition';
 
 	let lang = '';
+	let newlist = '';
 	let define = '';
 
 	let init = false;
@@ -17,11 +19,35 @@
 	}
 
 	function fileReceivertoggle() {
+		stage = 4;
 		showFileReceiver = true;
 		showFinal = true;
 	}
 	function showfinal() {
 		showFinal = true;
+	}
+
+	// Adding to data and stats
+	function addHandler() {
+		let [newData, newStats] = addNewLang($data, $stats, lang, define);
+
+		console.log(newData);
+		console.log(newStats);
+
+		data.update((n) => newData);
+
+		stats.update((n) => newStats);
+
+		if (newlist != '') {
+			newData = addNewList($data, $current.lang, newlist);
+			if ($fileWords != []) {
+				newData = addWordsToList($data, $current.lang, newlist, $fileWords);
+			}
+		}
+
+		fileWords.set([]);
+
+		closeHandler();
 	}
 
 	$: if (lang != '') init = true;
@@ -64,6 +90,10 @@
 						<button on:click={fileReceivertoggle}>Yes</button>
 						<button on:click={showfinal}>No</button>
 					</div>
+				{:else if stage == 4}
+					<div class="question" in:fly={{ duration: 800, y: 20 }}>
+						<input class="inputText" bind:value={newlist} type="text" placeholder="The new list" />
+					</div>
 				{/if}
 			</div>
 
@@ -72,7 +102,7 @@
 			{/if}
 
 			{#if showFinal}
-				<button in:fly={{ duration: 800, y: 20 }} class="btn"> Add </button>
+				<button on:click={addHandler} in:fly={{ duration: 800, y: 20 }} class="btn"> Add </button>
 			{/if}
 		</div>
 	</div>
