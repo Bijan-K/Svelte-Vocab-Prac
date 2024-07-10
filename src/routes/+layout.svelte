@@ -1,6 +1,5 @@
 <script>
 	import './globals.css';
-
 	import { onMount } from 'svelte';
 	import { stats, data } from '$lib/stores.js';
 	import { getCurrentDate } from '$lib/functions.js';
