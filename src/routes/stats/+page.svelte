@@ -1,7 +1,6 @@
 <script>
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	import './scrollbar.css';
 
 	import { current, showSelector, statsSettingMode } from '$lib/stores.js';
 

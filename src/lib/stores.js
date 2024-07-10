@@ -8,57 +8,6 @@ export let data = writable([
 		lists: [
 			{
 				name: 'mistakes',
-				words: [
-					{
-						word: 'Mistake1',
-						known: false
-					},
-					{
-						word: 'Mistake2',
-						known: false
-					},
-					{
-						word: 'Mistake3',
-						known: false
-					},
-					{
-						word: 'Mistake4',
-						known: false
-					}
-				]
-			},
-			{
-				name: 'default',
-				words: [
-					{
-						word: 'salient',
-						known: false
-					},
-					{
-						word: 'brevity',
-						known: false
-					},
-					{
-						word: 'exposition',
-						known: false
-					},
-					{
-						word: 'appendix',
-						known: false
-					},
-					{
-						word: 'terse',
-						known: false
-					}
-				]
-			}
-		]
-	},
-	{
-		lang: 'german',
-		lists: [
-			{
-				name: 'mistakes',
 				words: []
 			}
 		]
@@ -79,17 +28,7 @@ export let stats = writable({
 		{
 			lang: 'english',
 			defineKeyword: 'define',
-			mistakes: [{ word: 'word', times: 0 }]
-		},
-		{
-			lang: 'german',
-			defineKeyword: 'definieren',
-			mistakes: [{ word: 'word', times: 0 }]
-		},
-		{
-			lang: 'japanese',
-			defineKeyword: '定義する',
-			mistakes: [{ word: 'word', times: 0 }]
+			mistakes: []
 		}
 	]
 });

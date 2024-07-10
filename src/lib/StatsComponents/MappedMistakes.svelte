@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import { stats, current } from '$lib/stores.js';
 
 	// Icons
@@ -21,8 +20,6 @@
 
 		return 'define';
 	}
-
-	//
 
 	$: {
 		$stats;
