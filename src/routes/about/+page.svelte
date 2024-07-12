@@ -43,8 +43,19 @@
 
 		<p>The 2 users of this app can tell me their bugs or suggestions here:</p>
 
-		<form class="flex" name="contact" method="POST" data-netlify="true" on:submit|preventDefault>
+		<form
+			class="flex"
+			name="contact"
+			method="POST"
+			data-netlify="true"
+			netlify-honeypot="bot-field"
+		>
 			<input type="hidden" name="form-name" value="contact" />
+			<p class="hidden">
+				<label>
+					Don't fill this out if you're human: <input name="bot-field" />
+				</label>
+			</p>
 
 			<div class="inputGrid">
 				<input
@@ -66,7 +77,7 @@
 				/>
 			</div>
 
-			<button class="send" type="submit">send</button>
+			<button class="send" type="submit" on:submit|preventDefault>send</button>
 		</form>
 
 		<p>made by bijan</p>
@@ -126,6 +137,9 @@
 		border: #eee 1px solid;
 		color: #eee;
 		font-size: larger;
+	}
+	.hidden {
+		display: none;
 	}
 	.send:hover {
 		cursor: pointer;
