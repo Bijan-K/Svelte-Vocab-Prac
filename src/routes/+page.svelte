@@ -21,25 +21,27 @@
 		width: 100%;
 		display: flex;
 		flex-grow: 1;
-		gap: 5rem;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
 	.text-container {
 		display: flex;
-		padding: 10% 0;
+		padding: 3rem 0;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 0.5rem;
+		gap: 1rem;
+
+		transform: translateY(-10%);
 	}
 	h1 {
 		font-size: calc(60px + 1vw);
 		text-align: center;
 	}
 	.sub-header {
-		font-size: calc(20px + 1vw);
+		transform: translateY(70%);
+		font-size: calc(10px + 1vw);
 		text-align: center;
 	}
 
@@ -54,6 +56,10 @@
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;
+		}
+
+		.text-container {
+			padding: 10% 0;
 		}
 	}
 

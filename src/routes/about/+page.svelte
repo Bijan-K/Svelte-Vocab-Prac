@@ -1,6 +1,4 @@
 <script>
-	export const prerender = true;
-
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
@@ -41,48 +39,6 @@
 			This app was mostly designed for PC. and the mobile quirks and css still need polishing.
 		</p>
 
-		<h3>contacts</h3>
-
-		<p>The 2 users of this app can tell me their bugs or suggestions here:</p>
-
-		<form
-			class="flex"
-			name="contact"
-			method="POST"
-			data-netlify="true"
-			netlify-honeypot="bot-field"
-			netlify
-		>
-			<input type="hidden" name="form-name" value="contact" />
-			<p class="hidden">
-				<label>
-					Don't fill this out if you're human: <input name="bot-field" />
-				</label>
-			</p>
-
-			<div class="inputGrid">
-				<input
-					class="input"
-					id="name"
-					name="name"
-					type="text"
-					placeholder="name || .*"
-					bind:value={name}
-					required
-				/>
-				<textarea
-					class="textarea"
-					id="message"
-					name="message"
-					placeholder="Very nice app, didn't use it but it was cool."
-					bind:value={message}
-					required
-				/>
-			</div>
-
-			<button class="send" type="submit" on:submit|preventDefault>send</button>
-		</form>
-
 		<p>made by bijan</p>
 	</div>
 {/if}
@@ -96,57 +52,6 @@
 		width: 100%;
 		height: 90vh;
 		overflow-y: scroll;
-	}
-
-	.send {
-		padding: 0rem 0.5rem;
-	}
-	.input {
-		padding: 0.5rem;
-		font-size: larger;
-		background-color: transparent;
-		border: none;
-		border-bottom: 1px #eee solid;
-		color: #eee;
-		width: 100%;
-	}
-	.textarea {
-		padding: 0.2rem 0.5rem;
-		font-size: larger;
-		background-color: transparent;
-		border: none;
-		border-bottom: 1px #eee solid;
-		color: #eee;
-	}
-
-	.flex {
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-		padding: 1.5rem 2rem;
-		margin: 20px 0;
-		width: 100%;
-		border: #eee 1px solid;
-	}
-
-	.inputGrid {
-		display: grid;
-		grid-template-rows: 1fr 4fr;
-		gap: 10px;
-	}
-
-	.send {
-		padding: 1rem;
-		background-color: transparent;
-		border: #eee 1px solid;
-		color: #eee;
-		font-size: larger;
-	}
-	.hidden {
-		display: none;
-	}
-	.send:hover {
-		cursor: pointer;
 	}
 
 	h2 {
