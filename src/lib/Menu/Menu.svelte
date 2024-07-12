@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
 	import { overlayMode, overlayState } from '$lib/stores.js';
@@ -129,6 +129,14 @@
 		border-left: #eee 1px solid;
 		z-index: 99;
 	}
+
+	@media (max-width: 600px) {
+		/* Mobile-specific styles */
+		.menuOverlay {
+			width: 100%;
+		}
+	}
+
 	.dir-holder {
 		display: flex;
 		flex-direction: column;

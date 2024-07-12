@@ -217,6 +217,13 @@
 		display: flex;
 		gap: 0.5rem;
 	}
+
+	@media (max-width: 600px) {
+		.core-btn {
+			padding: 1rem 1.5rem;
+		}
+	}
+
 	.input {
 		transform: translateY(-100%);
 		color: #ecfdf5;

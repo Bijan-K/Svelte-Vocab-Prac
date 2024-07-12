@@ -11,8 +11,6 @@
 	import StatsHeadInfo from '$lib/StatsComponents/StatsHeadInfo.svelte';
 	import StatsListSetting from '$lib/StatsComponents/StatsListSetting.svelte';
 
-	// Icons
-
 	let display = false;
 
 	onMount(() => {
@@ -70,7 +68,6 @@
 		padding-top: 2rem;
 		overflow: scroll;
 	}
-	/* SCROLL BAR */
 
 	h2 {
 		font-size: 3rem;

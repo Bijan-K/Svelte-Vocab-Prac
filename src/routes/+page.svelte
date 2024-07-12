@@ -1,7 +1,3 @@
-<script>
-	import { data, current, langs, lists } from '$lib/stores.js';
-</script>
-
 <svelte:head>
 	<title>Vocabulary Practice</title>
 </svelte:head>
@@ -30,13 +26,6 @@
 		align-items: center;
 		justify-content: center;
 	}
-	h1 {
-		font-size: 6rem;
-	}
-	.sub-header {
-		transform: translateY(70%);
-		font-size: 1.2rem;
-	}
 	.text-container {
 		display: flex;
 		flex-direction: column;
@@ -44,12 +33,32 @@
 		align-items: center;
 		gap: 0.5rem;
 	}
+	h1 {
+		font-size: calc(70px + 1vw);
+		text-align: center;
+	}
+	.sub-header {
+		transform: translateY(70%);
+		font-size: 1.2rem;
+	}
+
 	.btn-container {
 		display: flex;
 		gap: 1rem;
 	}
+
+	@media (max-width: 600px) {
+		/* Mobile-specific styles */
+		.btn-container {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+	}
+
 	.btn {
 		text-decoration: none;
+		text-align: center;
 		color: beige;
 		background-color: darkcyan;
 		padding: 1rem 1.5rem;

@@ -75,6 +75,7 @@
 		background-color: transparent;
 		color: #f0fdf4;
 		opacity: 0.8;
-		font-size: larger;
+		font-size: calc(64px + 1vw);
+		text-align: center;
 	}
 </style>

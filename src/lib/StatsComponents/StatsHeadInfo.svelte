@@ -56,6 +56,7 @@
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 2rem;
 	}
+
 	.stats-item {
 		place-self: center;
 		width: 60%;

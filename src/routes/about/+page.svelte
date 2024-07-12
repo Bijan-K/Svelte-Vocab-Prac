@@ -101,15 +101,19 @@
 		background-color: transparent;
 		border: none;
 		border-bottom: 1px #eee solid;
+		color: #eee;
 	}
 
 	.flex {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
-		padding: 0.5rem 2rem;
-		width: 30%;
+		padding: 1.5rem 2rem;
+		margin: 20px 0;
+		width: 100%;
+		border: #eee 1px solid;
 	}
+
 	.inputGrid {
 		display: grid;
 		grid-template-rows: 1fr 4fr;
