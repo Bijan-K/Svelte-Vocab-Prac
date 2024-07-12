@@ -111,9 +111,15 @@
 		height: min-content;
 		overflow: scroll;
 		scrollbar-width: none;
-		width: 50vw;
+		width: 90vw;
 		background-color: #475569;
 		z-index: 901;
+	}
+
+	@media screen and (max-width: 600px) {
+		.board {
+			width: 90vw;
+		}
 	}
 	.container {
 		position: relative;

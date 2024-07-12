@@ -206,6 +206,14 @@
 		transform: translateY(-100%);
 		font-size: 5rem;
 	}
+
+	@media (max-width: 700px) {
+		.text {
+			transform: translateY(-150%);
+			font-size: 5rem;
+		}
+	}
+
 	.core-btn {
 		position: fixed;
 		bottom: 12%;

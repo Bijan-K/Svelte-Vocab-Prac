@@ -56,6 +56,8 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="mobile"></div>
 {/if}
 
 <style>
@@ -81,5 +83,15 @@
 
 		display: flex;
 		flex-direction: column;
+	}
+
+	.mobile {
+		display: none;
+		padding: 20px;
+	}
+	@media (max-width: 700px) {
+		.mobile {
+			display: block;
+		}
 	}
 </style>

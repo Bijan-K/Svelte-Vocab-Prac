@@ -41,9 +41,21 @@
 
 		<p>made by bijan</p>
 	</div>
+
+	<div class="mobile"></div>
 {/if}
 
 <style>
+	.mobile {
+		display: none;
+		padding: 20px;
+	}
+	@media (max-width: 700px) {
+		.mobile {
+			display: block;
+		}
+	}
+
 	.about-container {
 		font-family: 'Courier New', Courier, monospace;
 		display: flex;

@@ -175,6 +175,17 @@
 		background-color: #475569;
 		z-index: 901;
 	}
+
+	@media screen and (max-width: 600px) {
+		.board {
+			height: 80vh;
+			width: 90vw;
+		}
+		.btn {
+			margin: 10%;
+		}
+	}
+
 	.container {
 		position: relative;
 		height: 100%;
