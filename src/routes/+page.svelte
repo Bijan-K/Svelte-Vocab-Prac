@@ -28,18 +28,19 @@
 	}
 	.text-container {
 		display: flex;
+		padding: 10% 0;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		gap: 0.5rem;
 	}
 	h1 {
-		font-size: calc(70px + 1vw);
+		font-size: calc(60px + 1vw);
 		text-align: center;
 	}
 	.sub-header {
-		transform: translateY(70%);
-		font-size: 1.2rem;
+		font-size: calc(20px + 1vw);
+		text-align: center;
 	}
 
 	.btn-container {

@@ -69,6 +69,7 @@
 		padding-right: 10%;
 		padding-top: 2rem;
 		overflow: scroll;
+		overflow-x: hidden;
 	}
 
 	h2 {
