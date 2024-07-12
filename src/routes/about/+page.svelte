@@ -49,6 +49,7 @@
 			method="POST"
 			data-netlify="true"
 			netlify-honeypot="bot-field"
+			netlify
 		>
 			<input type="hidden" name="form-name" value="contact" />
 			<p class="hidden">
@@ -105,6 +106,7 @@
 		border: none;
 		border-bottom: 1px #eee solid;
 		color: #eee;
+		width: 100%;
 	}
 	.textarea {
 		padding: 0.2rem 0.5rem;
