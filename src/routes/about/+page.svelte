@@ -39,18 +39,23 @@
 			This app was mostly designed for PC. and the mobile quirks and css still need polishing.
 		</p>
 
-		<p>made by bijan</p>
+		<p class="credit">made by bijan</p>
+		<div class="mobile"></div>
 	</div>
-
-	<div class="mobile"></div>
 {/if}
 
 <style>
+	.credit {
+		border-top: 0.5px #eee solid;
+		padding-top: 1.5rem;
+		margin-top: 1.5rem;
+	}
+
 	.mobile {
 		display: none;
 		padding: 20px;
 	}
-	@media (max-width: 700px) {
+	@media screen and (max-width: 700px) {
 		.mobile {
 			display: block;
 		}

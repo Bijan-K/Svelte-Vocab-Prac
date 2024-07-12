@@ -55,9 +55,8 @@
 				{/if}
 			</div>
 		</div>
+		<div class="mobile"></div>
 	</div>
-
-	<div class="mobile"></div>
 {/if}
 
 <style>
@@ -89,7 +88,7 @@
 		display: none;
 		padding: 20px;
 	}
-	@media (max-width: 700px) {
+	@media screen and (max-width: 700px) {
 		.mobile {
 			display: block;
 		}
