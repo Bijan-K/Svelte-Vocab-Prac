@@ -47,7 +47,6 @@
 	.stats-container {
 		display: flex;
 		gap: 1rem;
-		justify-content: space-between;
 		width: 100%;
 	}
 	.stats-container .info {
@@ -55,6 +54,15 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 2rem;
+	}
+
+	@media (max-width: 600px) {
+		.info {
+			display: grid;
+			grid-template-columns: 1fr !important;
+			grid-template-rows: 1fr 1fr 1fr;
+			gap: 2rem;
+		}
 	}
 
 	.stats-item {

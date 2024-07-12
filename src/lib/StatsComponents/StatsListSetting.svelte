@@ -115,6 +115,19 @@
 		flex-grow: 1;
 		border-bottom: 1px solid #eee;
 	}
+	@media (max-width: 600px) {
+		.mode-header {
+			width: 100%;
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: 1fr 1fr;
+
+			border-bottom: 1px solid #eee;
+		}
+		.mode-change-btn {
+			place-self: end;
+		}
+	}
 
 	.mode-options {
 		display: flex;

@@ -35,23 +35,25 @@
 
 		<StatsHeadInfo />
 
-		<div class="setting-holder">
-			<StatsListSetting />
+		<div>
+			<div class="setting-holder">
+				<StatsListSetting />
 
-			<!-- lang/list selectors -->
-			{#if $showSelector == 'lang'}
-				<LangSelector />
-			{:else if $showSelector == 'list' && $statsSettingMode == 'edit'}
-				<ListSelector />
-			{/if}
-		</div>
-		<!-- Content Body -->
-		<div class="content-body">
-			{#if $statsSettingMode == 'reflect'}
-				<MappedMistakes />
-			{:else if $statsSettingMode == 'edit'}
-				<EditContainer />
-			{/if}
+				<!-- lang/list selectors -->
+				{#if $showSelector == 'lang'}
+					<LangSelector />
+				{:else if $showSelector == 'list' && $statsSettingMode == 'edit'}
+					<ListSelector />
+				{/if}
+			</div>
+			<!-- Content Body -->
+			<div class="content-body">
+				{#if $statsSettingMode == 'reflect'}
+					<MappedMistakes />
+				{:else if $statsSettingMode == 'edit'}
+					<EditContainer />
+				{/if}
+			</div>
 		</div>
 	</div>
 {/if}
@@ -62,7 +64,7 @@
 		flex-direction: column;
 		gap: 2rem;
 		width: 100%;
-		height: 100%;
+		height: 90vh;
 		padding: 10%;
 		padding-right: 10%;
 		padding-top: 2rem;

@@ -78,6 +78,19 @@
 
 		margin: 0 10%;
 	}
+	@media (max-width: 600px) {
+		.title {
+			margin: 0 2px;
+		}
+		.title h2 {
+			font-size: calc(16px + 1vw);
+		}
+
+		h1 {
+			font-size: calc(20px + 1vw);
+		}
+	}
+
 	.title h2 {
 		place-self: center;
 	}

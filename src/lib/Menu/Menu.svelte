@@ -1,6 +1,8 @@
 <script>
 	import { page } from '$app/stores';
-	import { fade, slide } from 'svelte/transition';
+	import { slide, fly } from 'svelte/transition';
+	import { afterNavigate } from '$app/navigation';
+	import { onMount } from 'svelte';
 	import { quintOut } from 'svelte/easing';
 
 	import { overlayMode, overlayState } from '$lib/stores.js';
@@ -9,6 +11,19 @@
 	import InfoIcon from '$lib/Icons/InfoIcon.svelte';
 	import GithubIcon from '$lib/Icons/GithubIcon.svelte';
 	import ModeSelectPrac from '$lib/Menu/ModeSelectPrac.svelte';
+
+	let visible = false;
+
+	onMount(() => {
+		visible = true;
+	});
+
+	afterNavigate(() => {
+		visible = false;
+		setTimeout(() => {
+			visible = true;
+		}, 200);
+	});
 
 	function resetHandler() {
 		overlayState.update((n) => !n);
@@ -25,97 +40,129 @@
 	<div class="dir-holder">
 		<a href="/practice">
 			<LinkIcon />
-			<span> Practice </span></a
-		>
+			<span> Practice </span>
+		</a>
 		<a href="/stats">
 			<LinkIcon />
 			<span> Stats </span>
 		</a>
 		<a href="/about">
 			<LinkIcon />
-			<span> About </span></a
-		>
+			<span> About </span>
+		</a>
 	</div>
 
-	{#if $page.url.pathname === '/practice'}
-		<h2 class="secondary-title">Practice Settings:</h2>
+	{#if $page.url.pathname === '/practice' && visible}
+		<div class="specific" in:fly={{ duration: 200, y: 20 }}>
+			<h2 class="secondary-title">Practice Settings:</h2>
 
-		<ModeSelectPrac />
+			<ModeSelectPrac />
 
-		<div class="info">
-			<span class="ico">
-				<InfoIcon />
-			</span>
-			<p>
-				You can also use the arrow keys <u>left</u>, <u>up</u> and <u>right</u> as an alternative in
-				PC.
-			</p>
+			<div class="info">
+				<span class="ico">
+					<InfoIcon />
+				</span>
+				<p>
+					You can also use the arrow keys <u>left</u>, <u>up</u> and <u>right</u> as an alternative in
+					PC.
+				</p>
+			</div>
+			<div class="info">
+				<span class="ico">
+					<InfoIcon />
+				</span>
+				<p>
+					This App offers its best UX on PC. Use PC bro. It doesn't even have a backend bro. I'll
+					improve the CSS later.
+				</p>
+			</div>
+
+			<div class="info">
+				<span class="ico">
+					<InfoIcon />
+				</span>
+				<p class="lower">Your data is saved in LocalStorage.</p>
+			</div>
 		</div>
-		<div class="info">
-			<span class="ico">
-				<InfoIcon />
-			</span>
-			<p>
-				This App offers its best UX on PC. Use PC bro. It doesn't even have a backend bro. I'll
-				improve the CSS later.
-			</p>
-		</div>
+	{:else if $page.url.pathname === '/stats' && visible}
+		<div class="specific" in:fly={{ duration: 200, y: 20 }}>
+			<h2>Stats Settings:</h2>
 
-		<div class="info">
-			<span class="ico">
-				<InfoIcon />
-			</span>
-			<p class="lower">Your data is saved in LocalStorage.</p>
-		</div>
-	{:else if $page.url.pathname === '/stats'}
-		<h2>Stats Settings:</h2>
+			<button class="reset" on:click={resetHandler}>Reset all?</button>
 
-		<button on:click={resetHandler} class="reset">Reset all?</button>
-
-		<div class="info">
-			<span class="ico">
-				<InfoIcon />
-			</span>
-			<p>
-				Use Enter when in reflect mode to quickly add new words to the list you want. Also use Enter
-				to save your word to your specific list.
-			</p>
+			<div class="info">
+				<span class="ico">
+					<InfoIcon />
+				</span>
+				<p>
+					Use Enter when in reflect mode to quickly add new words to the list you want. Also use
+					Enter to save your word to your specific list.
+				</p>
+			</div>
 		</div>
-	{:else if $page.url.pathname === '/about'}
-		<h2 class="secondary-title">Source code:</h2>
-		<a href="https://github.com/Bijan-K" class="github">
-			<GithubIcon />
-		</a>
+	{:else if $page.url.pathname === '/about' && visible}
+		<div class="specific" in:fly={{ duration: 200, y: 20 }}>
+			<h2 class="secondary-title">Source code:</h2>
+			<a class="github" href="https://github.com/Bijan-K">
+				<GithubIcon />
+			</a>
+		</div>
 	{/if}
 </div>
 
 <style>
-	.ico {
-		min-width: 20px;
+	.specific {
+		padding-top: 1rem;
 	}
+
+	a {
+		text-decoration: none;
+		color: #eee;
+		font-size: 1.1rem;
+		display: flex;
+		justify-content: start;
+		align-items: center;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	a span {
+		padding-left: 0.25rem;
+	}
+
+	.dir-holder {
+		display: flex;
+		flex-direction: column;
+		padding: 0.5rem;
+		gap: 0.3rem;
+		padding-bottom: 1rem;
+		border-bottom: #eee 1px solid;
+	}
+
 	.github {
 		padding: 0.5rem;
 		cursor: pointer;
 	}
 
-	.reset {
-		font-size: large;
-		margin: 0.5rem;
-		padding: 0.25rem 0.5rem;
-		border: none;
-		color: #eee;
-		border-radius: 0.25rem;
-		background-color: #9f1239;
-	}
-	.reset:hover {
-		transform: translateY(-5%);
-	}
-	.reset:active {
-		transform: translateY(5%);
+	.ico {
+		min-width: 20px;
 	}
 
-	.secondary-title {
-		margin-bottom: 0.5rem;
+	.info {
+		margin-top: auto;
+		padding: 1rem;
+		display: flex;
+		flex-direction: row;
+		justify-content: start;
+		gap: 1rem;
+	}
+
+	.lower {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	.menuOverlay {
@@ -130,52 +177,31 @@
 		z-index: 99;
 	}
 
+	.reset {
+		font-size: large;
+		margin: 0.5rem;
+		padding: 0.25rem 0.5rem;
+		border: none;
+		color: #eee;
+		border-radius: 0.25rem;
+		background-color: #9f1239;
+	}
+
+	.reset:hover {
+		transform: translateY(-5%);
+	}
+
+	.reset:active {
+		transform: translateY(5%);
+	}
+
+	.secondary-title {
+		margin-bottom: 0.5rem;
+	}
+
 	@media (max-width: 600px) {
-		/* Mobile-specific styles */
 		.menuOverlay {
 			width: 100%;
 		}
 	}
-
-	.dir-holder {
-		display: flex;
-		flex-direction: column;
-		padding: 0.5rem;
-		gap: 0.3rem;
-	}
-	a {
-		text-decoration: none;
-		color: #eee;
-		font-size: 1.1rem;
-		display: flex;
-		justify-content: start;
-		align-items: center;
-	}
-
-	.info {
-		margin-top: auto;
-		padding: 1rem;
-		display: flex;
-		flex-direction: row;
-		justify-content: start;
-		gap: 1rem;
-	}
-	a:hover {
-		text-decoration: underline;
-	}
-	a span {
-		padding-left: 0.25rem;
-	}
-
-	.lower {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	/* p {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	} */
 </style>
