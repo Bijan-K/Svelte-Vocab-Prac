@@ -103,7 +103,12 @@
 	{:else if $page.url.pathname === '/about' && visible}
 		<div class="specific" in:fly={{ duration: 200, y: 20 }}>
 			<h2 class="secondary-title">Source code:</h2>
-			<a class="github" href="https://github.com/Bijan-K">
+			<a
+				class="github"
+				target="_blank"
+				rel="noopener noreferrer"
+				href="https://github.com/Bijan-K/Svelte-Vocab-Prac.git"
+			>
 				<GithubIcon />
 			</a>
 		</div>

@@ -1,7 +1,7 @@
 # simple app for practicing vocabulary
 
 
-You can try it out [here.]()
+You can try it out [here.](https://practicevocab.netlify.app)
 
 Things that it has::
 - Functioning lists 
