@@ -40,7 +40,8 @@
 		</p>
 
 		<p class="credit">made by bijan</p>
-		<div class="mobile"></div>
+
+		<!-- <div class="mobile"></div> -->
 	</div>
 {/if}
 
@@ -67,7 +68,7 @@
 		flex-direction: column;
 		padding: 10px 10%;
 		width: 100%;
-		height: 90vh;
+		height: 90dvh;
 		overflow-y: scroll;
 	}
 
