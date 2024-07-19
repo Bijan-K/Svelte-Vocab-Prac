@@ -170,7 +170,7 @@
 
 	.board {
 		border-radius: 2rem;
-		height: 70vh;
+		height: 70dvh;
 		width: 50vw;
 		background-color: #475569;
 		z-index: 901;
@@ -178,7 +178,7 @@
 
 	@media screen and (max-width: 600px) {
 		.board {
-			height: 80vh;
+			height: 80dvh;
 			width: 90vw;
 		}
 		.btn {

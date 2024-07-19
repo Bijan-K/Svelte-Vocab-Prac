@@ -107,7 +107,7 @@
 
 	.board {
 		border-radius: 2rem;
-		min-height: 70vh;
+		min-height: 70dvh;
 		height: min-content;
 		overflow: scroll;
 		scrollbar-width: none;

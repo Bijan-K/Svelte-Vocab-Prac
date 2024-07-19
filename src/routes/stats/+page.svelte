@@ -55,7 +55,6 @@
 				{/if}
 			</div>
 		</div>
-		<div class="mobile"></div>
 	</div>
 {/if}
 
@@ -65,7 +64,7 @@
 		flex-direction: column;
 		gap: 2rem;
 		width: 100%;
-		height: 90vh;
+		height: 90dvh;
 		padding: 10%;
 		padding-right: 10%;
 		padding-top: 2rem;
@@ -82,15 +81,5 @@
 
 		display: flex;
 		flex-direction: column;
-	}
-
-	.mobile {
-		display: none;
-		padding: 20px;
-	}
-	@media screen and (max-width: 700px) {
-		.mobile {
-			display: block;
-		}
 	}
 </style>

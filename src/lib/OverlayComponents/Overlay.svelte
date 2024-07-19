@@ -29,7 +29,7 @@
 <style>
 	.overlay {
 		position: fixed;
-		height: 100vh;
+		height: 100dvh;
 		width: 100vw;
 		z-index: 900;
 		display: flex;
@@ -38,7 +38,7 @@
 	}
 	.overlay-toggle {
 		position: fixed;
-		height: 100vh;
+		height: 100dvh;
 		width: 100vw;
 		background-color: hsla(0, 0%, 0%, 0.25);
 	}

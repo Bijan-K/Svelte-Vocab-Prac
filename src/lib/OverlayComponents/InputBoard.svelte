@@ -45,7 +45,7 @@
 <style>
 	.board {
 		border-radius: 2rem;
-		height: 20vh;
+		height: 20dvh;
 		width: 40vw;
 		min-width: 300px;
 		z-index: 901;

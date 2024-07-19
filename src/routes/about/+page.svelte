@@ -6,10 +6,6 @@
 	onMount(() => {
 		display = true;
 	});
-
-	// form
-	let name = '';
-	let message = '';
 </script>
 
 {#if display}
@@ -40,8 +36,6 @@
 		</p>
 
 		<p class="credit">made by bijan</p>
-
-		<!-- <div class="mobile"></div> -->
 	</div>
 {/if}
 
@@ -50,16 +44,6 @@
 		border-top: 0.5px #eee solid;
 		padding-top: 1.5rem;
 		margin-top: 1.5rem;
-	}
-
-	.mobile {
-		display: none;
-		padding: 20px;
-	}
-	@media screen and (max-width: 700px) {
-		.mobile {
-			display: block;
-		}
 	}
 
 	.about-container {
