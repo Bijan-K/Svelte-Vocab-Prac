@@ -1,7 +1,5 @@
 // Add a new Lang to Data and Stats
 export function addNewLang(data, stats, langName = '', defineWord = '') {
-	console.log(data);
-
 	data.push({
 		lang: langName,
 		lists: [

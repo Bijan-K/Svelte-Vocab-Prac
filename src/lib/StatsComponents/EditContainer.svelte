@@ -7,11 +7,8 @@
 
 	function handleKeydown(event) {
 		if (event.key === 'Enter' || event.keyCode === 13) {
-			console.log('here');
 			overlayMode.update((n) => 'newword');
 			overlayState.update((n) => true);
-			console.log($overlayMode);
-			console.log($overlayState);
 		}
 	}
 

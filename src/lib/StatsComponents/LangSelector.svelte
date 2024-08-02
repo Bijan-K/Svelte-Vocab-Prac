@@ -8,7 +8,6 @@
 	}
 
 	function changeLang(e) {
-		console.log('clicked');
 		let lang = e.target.innerText;
 		current.update((n) => {
 			n.lang = lang.toLowerCase();

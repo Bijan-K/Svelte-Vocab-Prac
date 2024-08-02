@@ -18,7 +18,6 @@
 		const reader = new FileReader();
 
 		reader.onload = (e) => {
-			console.log('File loaded');
 			const content = e.target.result;
 
 			if (fileType === 'application/json') {
@@ -47,8 +46,6 @@
 				return;
 			}
 
-			console.log('Processing complete');
-			console.log('\n words', words);
 			fileWords.set(words);
 		};
 

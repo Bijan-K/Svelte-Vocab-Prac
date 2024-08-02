@@ -22,14 +22,6 @@
 
 	// Add to local after each update
 	onMount(() => {
-		data.subscribe((value) => {
-			localStorage.setItem('data', JSON.stringify(value));
-		});
-
-		stats.subscribe((value) => {
-			localStorage.setItem('stats', JSON.stringify(value));
-		});
-
 		function loadFromLocalStorage() {
 			const storedWords = localStorage.getItem('data');
 			const storedOther = localStorage.getItem('stats');
@@ -52,6 +44,14 @@
 		}
 
 		loadFromLocalStorage();
+
+		data.subscribe((value) => {
+			localStorage.setItem('data', JSON.stringify(value));
+		});
+
+		stats.subscribe((value) => {
+			localStorage.setItem('stats', JSON.stringify(value));
+		});
 	});
 
 	// Retrieve from local

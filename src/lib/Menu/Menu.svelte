@@ -63,15 +63,6 @@
 					<InfoIcon />
 				</span>
 				<p>
-					You can also use the arrow keys <u>left</u>, <u>up</u> and <u>right</u> as an alternative in
-					PC.
-				</p>
-			</div>
-			<div class="info">
-				<span class="ico">
-					<InfoIcon />
-				</span>
-				<p>
 					This App offers its best UX on PC. Use PC bro. It doesn't even have a backend bro. I'll
 					improve the CSS later.
 				</p>

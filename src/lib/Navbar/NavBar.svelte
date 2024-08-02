@@ -6,10 +6,6 @@
 
 	import { menuState, current, data, stats } from '$lib/stores.js';
 	import Menu from '$lib/Menu/Menu.svelte';
-
-	$: console.log('Data : ', $data);
-	$: console.log('Stats : ', $stats);
-	$: console.log('Current : ', $current);
 </script>
 
 <nav>
