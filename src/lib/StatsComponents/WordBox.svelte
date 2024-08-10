@@ -12,14 +12,14 @@
 	function editHandler() {
 		let selectedWord = word.word;
 
+		overlayMode.update((n) => 'newword');
+
+		overlayState.update((n) => !n);
+
 		data.update((n) => {
 			n = removeWordfromList($data, $current.lang, $current.list, selectedWord);
 			return n;
 		});
-
-		overlayMode.update((n) => 'newword');
-
-		overlayState.update((n) => !n);
 	}
 
 	function removeHandler() {

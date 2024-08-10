@@ -53,6 +53,6 @@
 		border-bottom: #eee 2px solid;
 	}
 	div:active {
-		transform: translateY(+10%);
+		transform: translateY(+3%);
 	}
 </style>

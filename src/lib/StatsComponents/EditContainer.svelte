@@ -34,4 +34,10 @@
 		padding: 0.5rem 2rem;
 		gap: 2.5rem;
 	}
+
+	@media (max-width: 600px) {
+		.edit-container {
+			grid-template-columns: 1fr;
+		}
+	}
 </style>

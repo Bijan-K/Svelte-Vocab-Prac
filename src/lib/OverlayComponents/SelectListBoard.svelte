@@ -95,9 +95,14 @@
 		border-bottom: #ecfdf5 1px solid;
 		color: #ecfdf5;
 		font-size: larger;
+		width: 90%;
 	}
 	.inputHolder {
+		width: 50%;
 		padding-bottom: 1rem;
+		display: flex;
+		gap: 10px;
+		flex-direction: column;
 	}
 	.contentContainer {
 		margin: 0 10%;
@@ -146,6 +151,9 @@
 		display: flex;
 		flex-direction: column;
 		padding: 1rem;
+		gap: 10px;
+		justify-content: center;
+		align-items: center;
 	}
 	.btn {
 		height: 3rem;

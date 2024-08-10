@@ -125,7 +125,7 @@
 			border-bottom: 1px solid #eee;
 		}
 		.mode-change-btn {
-			place-self: end;
+			place-self: center;
 		}
 	}
 

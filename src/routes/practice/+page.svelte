@@ -226,12 +226,6 @@
 		gap: 0.5rem;
 	}
 
-	@media (max-width: 600px) {
-		.core-btn {
-			padding: 1rem 1.5rem;
-		}
-	}
-
 	.input {
 		transform: translateY(-100%);
 		color: #ecfdf5;
@@ -242,6 +236,16 @@
 		background: transparent;
 		border-bottom: 1px #eee solid;
 		border-radius: 1rem;
+	}
+
+	@media (max-width: 600px) {
+		.core-btn {
+			padding: 1rem 1.5rem;
+		}
+		.input {
+			width: 90%;
+			font-size: 1.2rem;
+		}
 	}
 
 	.lexicon-btns {

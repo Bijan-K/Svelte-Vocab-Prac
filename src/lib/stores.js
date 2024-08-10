@@ -9,6 +9,10 @@ export let data = writable([
 			{
 				name: 'mistakes',
 				words: []
+			},
+			{
+				name: 'default',
+				words: ['salient', 'brevity', 'exposition', 'appendix', 'terse', 'quotient']
 			}
 		]
 	}
