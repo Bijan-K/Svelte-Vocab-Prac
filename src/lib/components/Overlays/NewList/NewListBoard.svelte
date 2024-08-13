@@ -128,11 +128,6 @@
 		z-index: 901;
 	}
 
-	@media screen and (max-width: 600px) {
-		.board {
-			width: 90vw;
-		}
-	}
 	.container {
 		position: relative;
 		height: 100%;
@@ -180,5 +175,14 @@
 
 	.btn:not(:disabled):hover {
 		transform: translateY(-1%);
+	}
+
+	@media screen and (max-width: 600px) {
+		.board {
+			width: 90vw;
+		}
+		.inputHolder {
+			width: 100%;
+		}
 	}
 </style>
