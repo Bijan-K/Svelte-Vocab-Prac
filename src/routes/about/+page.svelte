@@ -8,6 +8,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>About</title>
+</svelte:head>
+
 {#if display}
 	<div in:fly={{ y: 20, duration: 200 }} class="about-container">
 		<h2>About</h2>
@@ -54,6 +58,7 @@
 		width: 100%;
 		height: 90dvh;
 		overflow-y: scroll;
+		scrollbar-width: none;
 	}
 
 	h2 {

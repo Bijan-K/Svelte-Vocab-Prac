@@ -2,14 +2,16 @@
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
-	import { current, showSelector, statsSettingMode } from '$lib/stores.js';
+	import { current } from '$lib/stores/crucial.js';
+	import { showSelector, statsSettingMode } from '$lib/stores/mode.js';
 
-	import MappedMistakes from '$lib/StatsComponents/MappedMistakes.svelte';
-	import EditContainer from '$lib/StatsComponents/EditContainer.svelte';
-	import LangSelector from '$lib/StatsComponents/LangSelector.svelte';
-	import ListSelector from '$lib/StatsComponents/ListSelector.svelte';
-	import StatsHeadInfo from '$lib/StatsComponents/StatsHeadInfo.svelte';
-	import StatsListSetting from '$lib/StatsComponents/StatsListSetting.svelte';
+	import MappedMistakes from './components/ReflectMode/MappedMistakes.svelte';
+
+	import EditContainer from './components/EditMode/EditContainer.svelte';
+	import LangSelector from './components/LangSelector.svelte';
+	import ListSelector from './components/ListSelector.svelte';
+	import StatsInfoHeader from './components/StatsInfoHeader.svelte';
+	import StatsListSetting from './components/StatsListSetting.svelte';
 
 	let display = false;
 
@@ -33,7 +35,7 @@
 		<!-- title -->
 		<h2>Stats</h2>
 
-		<StatsHeadInfo />
+		<StatsInfoHeader />
 
 		<div>
 			<div class="setting-holder">
@@ -70,6 +72,7 @@
 		padding-top: 2rem;
 		overflow: scroll;
 		overflow-x: hidden;
+		scrollbar-width: none;
 	}
 
 	h2 {

@@ -50,6 +50,15 @@
 		gap: 1rem;
 	}
 
+	.btn {
+		text-decoration: none;
+		text-align: center;
+		color: beige;
+		background-color: darkcyan;
+		padding: 1rem 1.5rem;
+		border-radius: 0.25rem;
+	}
+
 	@media (max-width: 600px) {
 		/* Mobile-specific styles */
 		.btn-container {
@@ -61,14 +70,5 @@
 		.text-container {
 			padding: 10% 0;
 		}
-	}
-
-	.btn {
-		text-decoration: none;
-		text-align: center;
-		color: beige;
-		background-color: darkcyan;
-		padding: 1rem 1.5rem;
-		border-radius: 0.25rem;
 	}
 </style>

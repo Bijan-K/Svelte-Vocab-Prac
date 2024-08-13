@@ -1,10 +1,20 @@
 <script>
 	import './globals.css';
 	import { onMount } from 'svelte';
-	import { stats, data } from '$lib/stores.js';
-	import { getCurrentDate } from '$lib/functions.js';
+	import { stats, data, current } from '$lib/stores/crucial.js';
+	import { getCurrentDate } from '$lib/utils/generalFunctions.js';
+	import { getDefaultLang, getDefaultList } from '$lib/utils/initFunctions.js';
+
+	import { newCurrentList } from '$lib/utils/essentialFunctions.js';
+	import { returnSingleWord } from '$lib/utils/generalFunctions.js';
 
 	let hasRun = false;
+
+	let counter = 0;
+	$: {
+		counter++;
+		console.log(counter, 'Current:', $current);
+	}
 
 	function runOnce() {
 		stats.update((n) => {
@@ -13,6 +23,15 @@
 			n.record.date_list.push(getCurrentDate());
 			return n;
 		});
+
+		setTimeout(() => {
+			current.update((n) => {
+				n.lang = getDefaultLang($data);
+				n.list = getDefaultList($data, n.lang);
+				n.word = returnSingleWord(newCurrentList($data, n.lang, n.list));
+				return n;
+			});
+		}, 100);
 	}
 
 	$: if ($stats && !hasRun) {
@@ -53,8 +72,6 @@
 			localStorage.setItem('stats', JSON.stringify(value));
 		});
 	});
-
-	// Retrieve from local
 </script>
 
 <main>

@@ -1,10 +1,6 @@
 <script>
-	import NavBar from '$lib/Navbar/NavBar.svelte';
+	import NavBar from '$lib/components/Navbar/NavBar.svelte';
 </script>
-
-<svelte:head>
-	<title>About</title>
-</svelte:head>
 
 <NavBar />
 <slot />

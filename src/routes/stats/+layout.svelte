@@ -1,12 +1,16 @@
 <script>
-	import NavBar from '$lib/Navbar/NavBar.svelte';
-	import Overlay from '$lib/OverlayComponents/Overlay.svelte';
+	import NavBar from '$lib/components/Navbar/NavBar.svelte';
+	import Overlay from '$lib/components/Overlays/Overlay.svelte';
+	import { overlayState } from '$lib/stores/mode.js';
 </script>
 
 <svelte:head>
 	<title>Stats</title>
 </svelte:head>
 
-<Overlay />
+{#if overlayState}
+	<Overlay />
+{/if}
+
 <NavBar />
 <slot />

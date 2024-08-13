@@ -1,95 +1,103 @@
 <script>
-	import CorrectBtn from '../../lib/CoreButtons/CorrectBtn.svelte';
-	import WrongBtn from '../../lib/CoreButtons/WrongBtn.svelte';
-	import QuestionBtn from '../../lib/CoreButtons/QuestionBtn.svelte';
+	import CorrectBtn from './CoreButtons/CorrectBtn.svelte';
+	import WrongBtn from './CoreButtons/WrongBtn.svelte';
+	import QuestionBtn from './CoreButtons/QuestionBtn.svelte';
+	import Typewriter from './Typewriter.svelte';
+
 	import { fade, fly, slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
 	import {
-		changeWordKnownToCorrect,
-		addWordtoMistakesList,
-		updateStatsMistakesList,
 		selectRandomWord,
-		newCurrentWordList,
-		addWordtoList
-	} from '$lib/functions.js';
-	import { current, data, stats, pracMode } from '$lib/stores.js';
-	import Typewriter from '../../lib/Typewriter.svelte';
+		capitalizeWord,
+		returnSingleWord
+	} from '$lib/utils/generalFunctions.js';
+
+	import {
+		addWordtoMistakesList,
+		addWordtoList,
+		newCurrentList,
+		changeWordKnownToCorrect,
+		addWordToStatsMistakesList
+	} from '$lib/utils/essentialFunctions.js';
+
+	import { current, data, stats } from '$lib/stores/crucial.js';
+	import { pracMode } from '$lib/stores/mode.js';
 
 	// Initial animation
 	let display = false;
 	let input = '';
-	$: remaining = newCurrentWordList($data, $current.lang, $current.list);
+	$: remaining = newCurrentList($data, $current.lang, $current.list);
 
-	function returnDefineWord(stats, current) {
-		let index = stats.mistake_lang.findIndex((element) => element.lang == current.lang);
-
+	// For question button
+	function returnDefineKeyWord(stats, current) {
+		let index = stats.mistake_lang.findIndex(
+			(element) => element.lang.toLowerCase() == current.lang
+		);
 		if (index != -1) {
 			return stats.mistake_lang[index].defineKeyword;
 		}
-
 		return 'define';
 	}
 
-	//
-
-	$: {
-		$stats;
-		returnDefineWord($stats, $current);
-	}
-
-	function handleUp() {
-		let word = $current.word;
-		window
-			.open(
-				`https://www.google.com/search?q=${returnDefineWord($stats, $current)}+${word}`,
-				'_blank'
-			)
-			.focus();
-	}
-	function handleLeft() {
-		data.update((n) => {
-			n = addWordtoMistakesList($data, $current.lang, $current.word);
-			return n;
-		});
-
-		stats.update((n) => {
-			let tmp = n;
-			tmp.record.info.incorrect++;
-			return tmp;
-		});
-
-		stats.update((n) => {
-			n = updateStatsMistakesList($stats, $current.lang, $current.word);
-			return n;
-		});
-
-		current.update((n) => {
-			let tmp = n;
-			tmp.word = selectRandomWord(newCurrentWordList($data, $current.lang, $current.list)).word;
-			return tmp;
-		});
-	}
-	function handleRight() {
-		data.update((n) => {
-			n = changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
-			return n;
-		});
-
-		stats.update((n) => {
-			let tmp = n;
-			tmp.record.info.correct++;
-			return tmp;
-		});
-
-		current.update((n) => {
-			let tmp = n;
-			tmp.word = selectRandomWord(newCurrentWordList($data, $current.lang, $current.list)).word;
-			return tmp;
-		});
-	}
-
 	function handleKeydown(event) {
+		// Keyboard functions
+		function handleUp() {
+			let word = $current.word;
+			window
+				.open(
+					`https://www.google.com/search?q=${returnDefineKeyWord($stats, $current)}+${word}`,
+					'_blank'
+				)
+				.focus();
+		}
+
+		function handleLeft() {
+			if (input == '') return;
+			data.update((n) => {
+				n = addWordtoMistakesList($data, $current.lang, $current.word);
+				return n;
+			});
+
+			stats.update((n) => {
+				let tmp = n;
+				tmp.record.info.incorrect++;
+				return tmp;
+			});
+
+			stats.update((n) => {
+				n = updateStatsMistakesList($stats, $current.lang, $current.word);
+				return n;
+			});
+
+			current.update((n) => {
+				let tmp = n;
+				tmp.word = selectRandomWord(newCurrentList($data, $current.lang, $current.list)).word;
+				return tmp;
+			});
+		}
+
+		function handleRight() {
+			if (input == '') return;
+
+			data.update((n) => {
+				n = changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
+				return n;
+			});
+
+			stats.update((n) => {
+				let tmp = n;
+				tmp.record.info.correct++;
+				return tmp;
+			});
+
+			current.update((n) => {
+				let tmp = n;
+				tmp.word = selectRandomWord(newCurrentList($data, $current.lang, $current.list)).word;
+				return tmp;
+			});
+		}
+
 		switch (event.key) {
 			case 'ArrowUp':
 				handleUp();
@@ -103,34 +111,51 @@
 		}
 	}
 
-	function handleKeyPress(event) {
-		if (event.key === 'Enter' || event.keyCode === 13) {
-			data.update((n) => {
-				n = addWordtoList($data, $current.lang, $current.list, input);
-				return n;
-			});
-
-			input = '';
-		}
-	}
+	// For adding a new word
+	// Lexicon mode Word adder
 	function addWord() {
+		if (input == '') return;
+
 		data.update((n) => {
 			n = addWordtoList($data, $current.lang, $current.list, input);
 			return n;
 		});
 
+		if ($current.list == 'mistakes') {
+			stats.update((n) => {
+				n = addWordToStatsMistakesList($stats, $current.lang, input);
+				return n;
+			});
+		}
+
+		current.update((n) => {
+			let tmp = n;
+			tmp.word = returnSingleWord(newCurrentList($data, tmp.lang, tmp.list));
+			return tmp;
+		});
 		input = '';
+	}
+
+	function handleKeyPress(event) {
+		if (event.key === 'Enter' || event.keyCode === 13) {
+			addWord();
+		}
 	}
 
 	onMount(() => {
 		display = true;
-
 		window.addEventListener('keydown', handleKeydown);
-
 		return () => {
 			window.removeEventListener('keydown', handleKeydown);
 		};
 	});
+
+	// Updating Stats
+	$: {
+		$current;
+		$stats;
+		returnDefineKeyWord($stats, $current);
+	}
 </script>
 
 {#if display}
@@ -138,11 +163,11 @@
 		{#if $pracMode == 'normal'}
 			<div in:fade={{ duration: 200 }} class="text">
 				{#if $current.word == '' || $current.word == undefined}
-					<div>Empty List</div>
+					<div>No-Word</div>
 				{:else}
 					<!-- {$current.word} -->
 					<div class="middle">
-						<Typewriter text={$current.word} />
+						<Typewriter text={capitalizeWord($current.word)} />
 						<span> Remaining : {remaining.length != 0 ? remaining.length : 'None'}</span>
 					</div>
 				{/if}
@@ -207,13 +232,6 @@
 		font-size: 5rem;
 	}
 
-	@media (max-width: 700px) {
-		.text {
-			transform: translateY(-150%);
-			font-size: 5rem;
-		}
-	}
-
 	.core-btn {
 		position: fixed;
 		bottom: 12%;
@@ -236,16 +254,6 @@
 		background: transparent;
 		border-bottom: 1px #eee solid;
 		border-radius: 1rem;
-	}
-
-	@media (max-width: 600px) {
-		.core-btn {
-			padding: 1rem 1.5rem;
-		}
-		.input {
-			width: 90%;
-			font-size: 1.2rem;
-		}
 	}
 
 	.lexicon-btns {
@@ -285,5 +293,19 @@
 	}
 	.btn-lex:active {
 		transform: translateY(+10%);
+	}
+
+	@media (max-width: 700px) {
+		.text {
+			transform: translateY(-150%);
+			font-size: 5rem;
+		}
+		.core-btn {
+			padding: 1rem 1.5rem;
+		}
+		.input {
+			width: 90%;
+			font-size: 1.2rem;
+		}
 	}
 </style>
