@@ -4,10 +4,10 @@
 You can try it out [here.](https://practicevocab.netlify.app)
 
 Things that it has::
-- Functioning lists 
-- Neat effects
-- Some what of a stats tracker
-- Easily editable lists
+- Lists
+- Neat visual effects
+- Somewhat of a stats tracker
+- Easily editable lists (from stats)
 
 things to be added in the future::
 - removing a list and language
