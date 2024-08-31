@@ -8,6 +8,35 @@ export let data = writable([
 			{
 				name: 'mistakes',
 				words: []
+			},
+			{
+				name: 'default',
+				words: [
+					{
+						word: 'salient',
+						known: false
+					},
+					{
+						word: 'brevity',
+						known: false
+					},
+					{
+						word: 'exposition',
+						known: false
+					},
+					{
+						word: 'appendix',
+						known: false
+					},
+					{
+						word: 'terse',
+						known: false
+					},
+					{
+						word: 'quotient',
+						known: false
+					}
+				]
 			}
 		]
 	}
@@ -51,33 +80,3 @@ export let lists = derived([data, current], (stores) => {
 
 	return returnListsOfLang(data, lang);
 });
-
-// {
-// 	name: 'default',
-// 	words: [
-// 		{
-// 			word: 'salient',
-// 			known: false
-// 		},
-// 		{
-// 			word: 'brevity',
-// 			known: false
-// 		},
-// 		{
-// 			word: 'exposition',
-// 			known: false
-// 		},
-// 		{
-// 			word: 'appendix',
-// 			known: false
-// 		},
-// 		{
-// 			word: 'terse',
-// 			known: false
-// 		},
-// 		{
-// 			word: 'quotient',
-// 			known: false
-// 		}
-// 	]
-// }

@@ -2,11 +2,12 @@
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
+	// stores and functions
 	import { current } from '$lib/stores/crucial.js';
 	import { showSelector, statsSettingMode } from '$lib/stores/mode.js';
 
+	// components
 	import MappedMistakes from './components/ReflectMode/MappedMistakes.svelte';
-
 	import EditContainer from './components/EditMode/EditContainer.svelte';
 	import LangSelector from './components/LangSelector.svelte';
 	import ListSelector from './components/ListSelector.svelte';
