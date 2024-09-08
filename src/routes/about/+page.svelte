@@ -16,27 +16,11 @@
 	<div in:fly={{ y: 20, duration: 200 }} class="about-container">
 		<h2>About</h2>
 
-		<h3>whats dis?</h3>
+		<h3>"whats dis?"</h3>
 
 		<p>
-			Very simple web app you can use in order to practice new words you find on the net(or papers).
-		</p>
-
-		<h3>how to</h3>
-
-		<p>
-			Its most self-explanatory. Although there a few useful options in Stats page you should try
-			out. IMO, It's where this app becomes better than a simple text editor.
-
-			<br />
-			<br />
-
-			You can also find tips in the menu section.
-
-			<br />
-			<br />
-
-			This app was mostly designed for PC. and the mobile quirks and css still need polishing.
+			A very simple web app you can use in order to practice new words you find on the net(or
+			papers).
 		</p>
 
 		<p class="credit">made by bijan</p>
