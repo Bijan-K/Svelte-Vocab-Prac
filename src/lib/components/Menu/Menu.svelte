@@ -12,6 +12,7 @@
 	import GithubIcon from '$lib/Icons/GithubIcon.svelte';
 
 	import ModeSelectPrac from './ModeSelectPrac.svelte';
+	import DataFileHandler from './DataFileHandler.svelte';
 
 	let visible = false;
 
@@ -105,11 +106,16 @@
 			</a>
 		</div>
 	{/if}
+
+	<DataFileHandler />
 </div>
 
 <style>
 	.specific {
 		padding-top: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 	}
 
 	a {
@@ -148,7 +154,6 @@
 	}
 
 	.info {
-		margin-top: auto;
 		padding: 1rem;
 		display: flex;
 		flex-direction: row;
@@ -172,6 +177,9 @@
 		padding: 0.5rem;
 		border-left: #eee 1px solid;
 		z-index: 99;
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
 	}
 
 	.reset {
@@ -185,11 +193,11 @@
 	}
 
 	.reset:hover {
-		transform: translateY(-5%);
+		transform: translateY(-1%);
 	}
 
 	.reset:active {
-		transform: translateY(5%);
+		transform: translateY(1%);
 	}
 
 	.secondary-title {
