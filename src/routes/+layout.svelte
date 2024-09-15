@@ -13,7 +13,6 @@
 	let counter = 0;
 	$: {
 		counter++;
-		console.log(counter, 'Current:', $current);
 	}
 
 	function runOnce() {

@@ -33,7 +33,6 @@
 
 					if ($current.list.toLowerCase() != option.innerText.toLowerCase()) {
 						current.update((n) => {
-							console.log('-------------');
 							let tmp = n;
 							tmp.list = option.innerText.toLowerCase();
 							tmp.word = returnSingleWord(newCurrentList($data, tmp.lang, tmp.list));
@@ -44,8 +43,6 @@
 				}
 			});
 		});
-
-		console.log('-------Update-------------');
 	});
 
 	onMount(() => {

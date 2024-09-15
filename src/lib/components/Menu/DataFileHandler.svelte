@@ -1,8 +1,8 @@
 <script>
-	import { data } from '$lib/stores/crucial';
+	import { data, stats } from '$lib/stores/crucial';
 
 	function handleDownload() {
-		const jsonString = JSON.stringify($data);
+		const jsonString = JSON.stringify([$data, $stats]);
 		const blob = new Blob([jsonString], { type: 'application/json' });
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
@@ -21,7 +21,8 @@
 			reader.onload = (e) => {
 				try {
 					const json = JSON.parse(e.target.result);
-					data.set(json);
+					data.set(json[0]);
+					stats.set(json[1]);
 				} catch (error) {
 					console.error('Error parsing JSON:', error);
 				}

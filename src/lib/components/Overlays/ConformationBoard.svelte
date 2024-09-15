@@ -64,6 +64,7 @@
 		width: 50%;
 		background-color: #475569;
 		border-radius: 2rem;
+		border: #ecfdf55a 1px solid;
 	}
 	.container {
 		position: relative;
@@ -91,6 +92,7 @@
 		background-color: #05986eac;
 		color: #ecfdf5;
 		border-radius: 1rem;
+		cursor: pointer;
 	}
 	.reject {
 		font-size: larger;
@@ -99,6 +101,7 @@
 		color: #ecfdf5;
 		background-color: #ca154894;
 		border-radius: 1rem;
+		cursor: pointer;
 	}
 
 	.close-btn {

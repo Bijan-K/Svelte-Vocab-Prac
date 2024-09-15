@@ -72,8 +72,6 @@
 
 									if ($current.list.toLowerCase() != option3.innerText.toLowerCase()) {
 										current.update((n) => {
-											console.log('-------------');
-											let tmp = n;
 											tmp.list = option3.innerText.toLowerCase();
 											tmp.word = returnSingleWord(newCurrentList($data, tmp.lang, tmp.list));
 

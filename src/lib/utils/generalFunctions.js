@@ -93,15 +93,15 @@ export function returnSingleWord(list) {
 }
 
 export function resetKnown(data, targetLang, targetListName) {
-	for (const langObject of data) {
-		if (langObject.lang.toLowerCase() === targetLang) {
-			for (const list of langObject.lists) {
-				if (list.name === targetListName) {
-					list.words = list.words.map((word) => (word.known ? { ...word, known: false } : word));
-					return data;
-				}
-			}
-		}
-	}
+	const LangIndex = data.findIndex((obj) => (obj.name = targetLang));
+
+	const ListIndex = data[LangIndex].lists.findIndex(
+		(obj) => obj.name.toLowerCase() == targetListName
+	);
+
+	data[LangIndex].lists[ListIndex].words.forEach((element) => {
+		element.known = false;
+	});
+
 	return data;
 }

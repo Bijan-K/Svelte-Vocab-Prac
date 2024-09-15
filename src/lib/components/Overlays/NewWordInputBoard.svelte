@@ -1,7 +1,7 @@
 <script>
 	import { data, current, stats } from '$lib/stores/crucial.js';
 	import { overlayState, overlayMode } from '$lib/stores/mode.js';
-	import { addWordtoList } from '$lib/utils/essentialFunctions.js';
+	import { addWordtoList, addWordToStatsMistakesList } from '$lib/utils/essentialFunctions.js';
 	import { onDestroy, onMount } from 'svelte';
 
 	let word = '';
@@ -12,6 +12,7 @@
 
 		if (event.key === 'Enter' || event.keyCode === 13) {
 			handleSubmit();
+			word = '';
 		}
 	}
 
@@ -23,10 +24,9 @@
 		if ($current.list == 'mistakes') {
 			stats.update((n) => {
 				n = addWordToStatsMistakesList($stats, $current.lang, word);
+				return n;
 			});
 		}
-
-		word = '';
 	}
 
 	onMount(() => {
