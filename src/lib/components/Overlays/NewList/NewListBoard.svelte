@@ -87,7 +87,7 @@
 <style>
 	.info-holder {
 		display: flex;
-		justify-content: start;
+		justify-content: center;
 		align-items: start;
 		gap: 10px;
 	}
@@ -119,11 +119,8 @@
 
 	.board {
 		border-radius: 2rem;
-		min-height: 70dvh;
-		height: min-content;
-		overflow: scroll;
-		scrollbar-width: none;
-		width: 90vw;
+		height: 70dvh;
+		width: 50vw;
 		background-color: #475569;
 		z-index: 901;
 	}
@@ -155,16 +152,23 @@
 		padding: 1rem;
 		gap: 10px;
 		justify-content: center;
-		align-items: center;
+		align-items: start;
 	}
 	.btn {
 		height: 3rem;
 		font-size: larger;
 		margin: 5% auto;
 		padding: 0.5rem 2rem;
-		border-radius: 1rem;
-		background-color: rgb(41, 106, 150);
+		background-color: #08805ece;
+		color: #ecfdf5;
+		border-radius: 0.2rem;
+		box-shadow: 1px 1px 1.5px #ecfdf538;
 	}
+	.btn:hover {
+		background-color: #09966ece;
+		cursor: pointer;
+	}
+
 	.btn:disabled {
 		background-color: gray;
 	}
@@ -179,6 +183,7 @@
 
 	@media screen and (max-width: 600px) {
 		.board {
+			height: 80dvh;
 			width: 90vw;
 		}
 		.inputHolder {

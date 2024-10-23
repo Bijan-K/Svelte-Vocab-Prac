@@ -62,14 +62,14 @@
 		<!-- text -->
 		<div class="processContainer">
 			<div class="firstq">
-				<span>Enter the name of your language of choice:</span>
+				<p>Enter the name of your language of choice:</p>
 				<input class="inputText" type="text" bind:value={lang} placeholder="Japanese for example" />
 			</div>
 
 			<div class="restofq">
 				{#if init == 1}
 					<div in:fly={{ duration: 800, y: 20 }} class="">
-						<span>Equivalent of "define" in that language :</span>
+						<p>Equivalent of "define" in that language :</p>
 						<input
 							class="inputText"
 							type="text"
@@ -88,24 +88,36 @@
 </div>
 
 <style>
+	.container {
+		position: relative;
+		height: 100%;
+		width: 100%;
+	}
+
 	.btn {
 		position: absolute;
-		right: 5rem;
-		margin: 5% 10%;
+		width: 20%;
+		margin: 5% auto;
 		font-size: 1.2rem;
 		padding: 0.5rem 2rem;
 		background-color: #08805ece;
 		color: #ecfdf5;
-		border: 1px #eee as;
-		border-radius: 1rem;
+		border-radius: 0.2rem;
+		box-shadow: 1px 1px 1.5px #ecfdf538;
+	}
+	.btn:hover {
+		background-color: #09966ece;
+		cursor: pointer;
 	}
 
 	.restofq {
 		padding: 0.5rem 0.5rem;
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: start;
 		flex-direction: column;
+		font-size: 1.4rem;
+		gap: 0.2rem;
 	}
 
 	.firstq {
@@ -113,10 +125,10 @@
 		width: 100%;
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: start;
 		flex-direction: column;
-		gap: 1rem;
-		font-size: 1.5rem;
+		font-size: 1.4rem;
+		gap: 0.2rem;
 	}
 	.inputText {
 		background-color: transparent;
@@ -147,16 +159,12 @@
 			height: 80dvh;
 			width: 90vw;
 		}
+
 		.btn {
 			margin: 10%;
 		}
 	}
 
-	.container {
-		position: relative;
-		height: 100%;
-		width: 100%;
-	}
 	.close-btn {
 		position: absolute;
 		font-size: 1.5rem;

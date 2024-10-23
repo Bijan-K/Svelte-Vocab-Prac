@@ -43,6 +43,6 @@
 		position: fixed;
 		height: 100dvh;
 		width: 100vw;
-		background-color: hsla(0, 0%, 0%, 0.25);
+		background-color: hsla(0, 0%, 0%, 0.441);
 	}
 </style>
