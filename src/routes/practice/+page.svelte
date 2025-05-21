@@ -8,22 +8,18 @@
 	import { fade, fly, slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
-	import {
-		selectRandomWord,
-		capitalizeWord,
-		returnSingleWord
-	} from '$lib/utils/generalFunctions.js';
+	import { data, current, stats, pracMode } from '$lib/stores';
 
 	import {
-		addWordtoMistakesList,
 		addWordtoList,
-		newCurrentList,
 		changeWordKnownToCorrect,
-		addWordToStatsMistakesList
-	} from '$lib/utils/essentialFunctions.js';
-
-	import { current, data, stats } from '$lib/stores/crucial.js';
-	import { pracMode } from '$lib/stores/mode.js';
+		newCurrentList,
+		addWordToStatsMistakesList,
+		addWordtoMistakesList,
+		capitalizeWord,
+		selectRandomWord,
+		returnSingleWord
+	} from '$lib/utils';
 
 	// Initial animation
 	let display = false;

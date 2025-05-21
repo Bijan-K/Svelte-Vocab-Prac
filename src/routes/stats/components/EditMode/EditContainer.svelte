@@ -1,8 +1,8 @@
 <!-- src\routes\stats\components\EditMode\EditContainer.svelte -->
 <script>
-	import { data, current } from '$lib/stores/crucial.js';
+	import { data, current } from '$lib/stores';
 
-	import { returnWordsInList } from '$lib/utils/initFunctions.js';
+	import { returnWordsInList } from '$lib/utils';
 
 	import EditWordBox from './EditWordBox.svelte';
 

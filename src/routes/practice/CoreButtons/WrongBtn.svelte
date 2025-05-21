@@ -3,13 +3,13 @@
 	import { UIIcons } from '$lib/Icons/index.js';
 
 	import {
-		addWordtoMistakesList,
+		newCurrentList,
 		addWordToStatsMistakesList,
-		newCurrentList
-	} from '$lib/utils/essentialFunctions.js';
-	import { selectRandomWord } from '$lib/utils/generalFunctions.js';
+		addWordtoMistakesList,
+		selectRandomWord
+	} from '$lib/utils';
 
-	import { data, stats, current } from '$lib/stores/crucial.js';
+	import { data, current, stats } from '$lib/stores';
 
 	function clickHandler() {
 		data.update((n) => {

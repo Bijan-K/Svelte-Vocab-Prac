@@ -1,6 +1,6 @@
 <!-- src\lib\components\Menu\DataFileHandler.svelte -->
 <script>
-	import { data, stats } from '$lib/stores/crucial';
+	import { data, stats } from '$lib/stores';
 
 	function handleDownload() {
 		const jsonString = JSON.stringify([$data, $stats]);

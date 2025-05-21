@@ -1,9 +1,15 @@
 <!-- src\routes\stats\components\StatsListSetting.svelte -->
 <script>
-	import { current, data } from '$lib/stores/crucial.js';
-	import { showSelector, statsSettingMode, overlayMode, overlayState } from '$lib/stores/mode.js';
+	import {
+		data,
+		current,
+		overlayMode,
+		overlayState,
+		showSelector,
+		statsSettingMode
+	} from '$lib/stores';
 
-	import { resetKnown } from '$lib/utils/generalFunctions.js';
+	import { resetKnown } from '$lib/utils';
 
 	import { UIIcons, StatIcons } from '$lib/Icons/index.js';
 

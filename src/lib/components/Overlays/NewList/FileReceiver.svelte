@@ -2,7 +2,8 @@
 <script>
 	import ToolTip from './FileReceiverToolTip.svelte';
 	import { fly } from 'svelte/transition';
-	import { fileWords } from '$lib/stores/forms.js';
+
+	import { fileWords } from '$lib/stores';
 
 	let fileContent = '';
 	let fileName = '';

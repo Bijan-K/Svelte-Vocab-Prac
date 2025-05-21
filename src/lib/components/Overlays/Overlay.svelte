@@ -1,6 +1,6 @@
 <!-- src\lib\components\Overlays\Overlay.svelte -->
 <script>
-	import { overlayState, overlayMode } from '$lib/stores/mode.js';
+	import { overlayState, overlayMode } from '$lib/stores';
 	import NewLangBoard from './NewLang/NewLangBoard.svelte';
 	import NewListBoard from './NewList/NewListBoard.svelte';
 	import ConformationBoard from './ConformationBoard.svelte';

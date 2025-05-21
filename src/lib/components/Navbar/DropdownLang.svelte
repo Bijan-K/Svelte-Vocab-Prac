@@ -2,12 +2,10 @@
 <script>
 	import './style.css';
 	import { onMount, afterUpdate } from 'svelte';
-	import { data, current, langs } from '$lib/stores/crucial.js';
-	import { overlayMode, overlayState } from '$lib/stores/mode.js';
+	// Replace all store imports with this single import pattern
+	import { data, current, overlayMode, overlayState, langs, lists } from '$lib/stores';
 
-	import { newCurrentList } from '$lib/utils/essentialFunctions.js';
-	import { returnListsOfLang } from '$lib/utils/initFunctions.js';
-	import { capitalizeWord, returnSingleWord } from '$lib/utils/generalFunctions.js';
+	import { newCurrentList, returnListsOfLang, capitalizeWord, returnSingleWord } from '$lib/utils';
 
 	function overlayHandler() {
 		overlayState.update((n) => !n);

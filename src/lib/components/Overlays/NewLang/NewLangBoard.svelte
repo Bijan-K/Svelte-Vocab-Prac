@@ -1,15 +1,9 @@
 <!-- src\lib\components\Overlays\NewLang\NewLangBoard.svelte -->
 <script>
 	import { UIIcons } from '$lib/Icons/index.js';
-	import { current, data, stats } from '$lib/stores/crucial.js';
-	import { overlayState } from '$lib/stores/mode.js';
-	import { fileWords } from '$lib/stores/forms.js';
+	import { data, current, stats, overlayState, fileWords } from '$lib/stores';
 
-	import {
-		addNewLangToDataAndStats,
-		addNewListToLang,
-		addWordsToList
-	} from '$lib/utils/formFunctions.js';
+	import { addNewLangToDataAndStats, addNewListToLang, addWordsToList } from '$lib/utils';
 
 	import { fly } from 'svelte/transition';
 

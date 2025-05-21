@@ -1,12 +1,13 @@
 <!-- src\routes\stats\components\EditMode\EditWordBox.svelte -->
 <script>
-	import { data, current } from '$lib/stores/crucial.js';
-	import { overlayMode, overlayState } from '$lib/stores/mode.js';
 	import { fade } from 'svelte/transition';
 
-	import { UIIcons } from '$lib/Icons/index.js';
+	import { data, current, overlayState, overlayMode } from '$lib/stores';
+	console.log('loaded');
 
-	import { rmWordFromList } from '$lib/utils/essentialFunctions.js';
+	import { rmWordFromList } from '$lib/utils';
+
+	import { UIIcons } from '$lib/Icons/index.js';
 
 	export let word = { word: 'nothing here :\\', known: false };
 

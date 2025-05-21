@@ -6,7 +6,7 @@
 	import { onMount } from 'svelte';
 	import { quintOut } from 'svelte/easing';
 
-	import { overlayMode, overlayState } from '$lib/stores/mode.js';
+	import { overlayMode, overlayState } from '$lib/stores';
 
 	import { NavigationIcons } from '$lib/Icons/index.js';
 	import { UIIcons } from '$lib/Icons/index.js';
@@ -64,8 +64,7 @@
 
 			<div class="info">
 				<span class="ico">
-					<UIIcons icon ="info" />
-
+					<UIIcons icon="info" />
 				</span>
 				<p>
 					You can use arrow keys instead of buttons on PC. left for wrong, up for question and right
@@ -75,8 +74,7 @@
 
 			<div class="info">
 				<span class="ico">
-					<UIIcons icon ="info" />
-
+					<UIIcons icon="info" />
 				</span>
 				<p class="lower">Your data is saved in LocalStorage.</p>
 			</div>
@@ -89,7 +87,7 @@
 
 			<div class="info">
 				<span class="ico">
-					<UIIcons icon ="info" />
+					<UIIcons icon="info" />
 				</span>
 				<p>
 					Use Enter when in reflect mode to quickly add new words to the list you want. Also use

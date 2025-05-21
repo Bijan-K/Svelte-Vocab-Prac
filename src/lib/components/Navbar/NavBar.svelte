@@ -5,7 +5,7 @@
 	import DropdownList from './DropdownList.svelte';
 	import Setting from './SettingButton.svelte';
 
-	import { menuState } from '$lib/stores/mode.js';
+	import { menuState } from '$lib/stores';
 
 	import Menu from '$lib/components/Menu/Menu.svelte';
 </script>

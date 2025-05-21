@@ -4,8 +4,7 @@
 	import { onMount } from 'svelte';
 
 	// stores and functions
-	import { current } from '$lib/stores/crucial.js';
-	import { showSelector, statsSettingMode } from '$lib/stores/mode.js';
+	import { current, showSelector, statsSettingMode } from '$lib/stores';
 
 	// components
 	import MappedMistakes from './components/ReflectMode/MappedMistakes.svelte';

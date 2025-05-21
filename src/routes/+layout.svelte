@@ -2,12 +2,15 @@
 <script>
 	import './globals.css';
 	import { onMount } from 'svelte';
-	import { stats, data, current } from '$lib/stores/crucial.js';
-	import { getCurrentDate } from '$lib/utils/generalFunctions.js';
-	import { getDefaultLang, getDefaultList } from '$lib/utils/initFunctions.js';
+	import { data, current, stats } from '$lib/stores';
 
-	import { newCurrentList } from '$lib/utils/essentialFunctions.js';
-	import { returnSingleWord } from '$lib/utils/generalFunctions.js';
+	import {
+		newCurrentList,
+		getDefaultLang,
+		getCurrentDate,
+		returnSingleWord,
+		getDefaultList
+	} from '$lib/utils';
 
 	let hasRun = false;
 

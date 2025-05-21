@@ -1,11 +1,10 @@
 <!-- src\routes\practice\CoreButtons\CorrectBtn.svelte -->
 <script>
-	import {UIIcons} from '$lib/Icons/index.js';
+	import { UIIcons } from '$lib/Icons/index.js';
 
-	import { current, data, stats } from '$lib/stores/crucial.js';
+	import { data, current, stats } from '$lib/stores';
 
-	import { changeWordKnownToCorrect, newCurrentList } from '$lib/utils/essentialFunctions.js';
-	import { selectRandomWord } from '$lib/utils/generalFunctions.js';
+	import { changeWordKnownToCorrect, newCurrentList, selectRandomWord } from '$lib/utils';
 
 	function clickHandler() {
 		data.update((n) => {

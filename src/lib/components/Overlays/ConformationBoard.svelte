@@ -1,8 +1,7 @@
 <!-- src\lib\components\Overlays\ConformationBoard.svelte -->
 <script>
 	import { UIIcons } from '$lib/Icons/index.js';
-	import { data, stats } from '$lib/stores/crucial.js';
-	import { overlayState } from '$lib/stores/mode.js';
+	import { data, stats, overlayState } from '$lib/stores';
 
 	function closeHandler() {
 		overlayState.update((n) => !n);

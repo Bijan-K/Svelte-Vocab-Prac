@@ -2,7 +2,7 @@
 <script>
 	import NavBar from '$lib/components/Navbar/NavBar.svelte';
 	import Overlay from '$lib/components/Overlays/Overlay.svelte';
-	import { overlayState } from '$lib/stores/mode.js';
+	import { overlayState } from '$lib/stores';
 </script>
 
 <svelte:head>

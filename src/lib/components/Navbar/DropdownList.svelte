@@ -1,11 +1,9 @@
 <!-- src\lib\components\Navbar\DropdownList.svelte -->
 <script>
 	import { onMount, afterUpdate } from 'svelte';
-	import { current, lists, data } from '$lib/stores/crucial.js';
-	import { overlayState, overlayMode } from '$lib/stores/mode.js';
+	import { data, current, overlayMode, overlayState, lists } from '$lib/stores';
 
-	import { newCurrentList } from '$lib/utils/essentialFunctions.js';
-	import { capitalizeWord, returnSingleWord } from '$lib/utils/generalFunctions.js';
+	import { newCurrentList, capitalizeWord, returnSingleWord } from '$lib/utils';
 
 	import './style.css';
 

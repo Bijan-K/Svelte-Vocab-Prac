@@ -1,7 +1,7 @@
 <!-- src\routes\practice\CoreButtons\QuestionBtn.svelte -->
 <script>
-	import {UIIcons} from '$lib/Icons/index.js';
-	import { current, stats } from '$lib/stores/crucial.js';
+	import { UIIcons } from '$lib/Icons/index.js';
+	import { current, stats } from '$lib/stores';
 
 	function returnDefineWord(stats, current) {
 		let index = stats.mistake_lang.findIndex(

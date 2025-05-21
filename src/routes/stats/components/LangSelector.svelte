@@ -1,7 +1,8 @@
 <!-- src\routes\stats\components\LangSelector.svelte -->
 <script>
-	import { current, data } from '$lib/stores/crucial.js';
 	import { slide } from 'svelte/transition';
+
+	import { data, current } from '$lib/stores';
 
 	function capitalizeFirstLetter(string) {
 		if (!string) return '';

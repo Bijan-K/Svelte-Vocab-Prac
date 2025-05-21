@@ -1,6 +1,6 @@
 <!-- src\lib\components\Menu\ModeSelectPrac.svelte -->
 <script>
-	import { pracMode } from '$lib/stores/mode.js';
+	import { pracMode } from '$lib/stores';
 
 	function toggle() {
 		pracMode.update((n) => {

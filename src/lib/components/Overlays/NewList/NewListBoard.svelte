@@ -1,13 +1,9 @@
 <!-- src\lib\components\Overlays\NewList\NewListBoard.svelte -->
 <script>
 	import { UIIcons } from '$lib/Icons/index.js';
-	import { current, data } from '$lib/stores/crucial.js';
-	import { overlayState } from '$lib/stores/mode.js';
-	import { fileWords } from '$lib/stores/forms.js';
+	import { data, current, overlayState, fileWords } from '$lib/stores';
 
-	import { addNewListToLang, addWordsToList } from '$lib/utils/formFunctions.js';
-	import { newCurrentList } from '$lib/utils/essentialFunctions.js';
-	import { returnSingleWord } from '$lib/utils/generalFunctions.js';
+	import { newCurrentList, addNewListToLang, addWordsToList, returnSingleWord } from '$lib/utils';
 
 	import FileReceiver from './FileReceiver.svelte';
 

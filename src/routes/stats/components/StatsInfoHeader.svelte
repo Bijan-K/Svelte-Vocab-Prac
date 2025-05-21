@@ -1,8 +1,10 @@
 <!-- src\routes\stats\components\StatsInfoHeader.svelte -->
 <script>
 	import { StatIcons, UIIcons } from '$lib/Icons/index.js';
-	import { stats } from '$lib/stores/crucial.js';
-	import { getCurrentDate, calculateStreak } from '$lib/utils/generalFunctions.js';
+
+	import { stats } from '$lib/stores';
+
+	import { getCurrentDate, calculateStreak } from '$lib/utils';
 
 	let streak = calculateStreak($stats.record.date_list, getCurrentDate());
 </script>

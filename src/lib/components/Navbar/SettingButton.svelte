@@ -2,7 +2,7 @@
 <script>
 	import { UIIcons } from '$lib/Icons/index.js';
 	import { page } from '$app/stores';
-	import { menuState } from '$lib/stores/mode.js';
+	import { menuState } from '$lib/stores';
 
 	function clickHandler() {
 		menuState.update((n) => !n);

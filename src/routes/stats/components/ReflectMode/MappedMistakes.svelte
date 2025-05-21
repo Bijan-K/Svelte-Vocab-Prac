@@ -1,9 +1,9 @@
 <!-- src\routes\stats\components\ReflectMode\MappedMistakes.svelte -->
 <script>
-	import { stats, current } from '$lib/stores/crucial.js';
+	import { current, stats } from '$lib/stores';
 
-	import {StatIcons} from '$lib/Icons/index.js';
-	import {NavigationIcons} from '$lib/Icons/index.js';
+	import { StatIcons } from '$lib/Icons/index.js';
+	import { NavigationIcons } from '$lib/Icons/index.js';
 
 	function returnArray(mistake_lang, currentLang) {
 		let index = mistake_lang.findIndex((obj) => obj.lang.toLowerCase() == currentLang);
