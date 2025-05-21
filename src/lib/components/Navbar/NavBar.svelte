@@ -1,9 +1,7 @@
 <!-- src\lib\components\Navbar\NavBar.svelte -->
 <script>
 	import { page } from '$app/stores';
-	import { fly, fade } from 'svelte/transition';
-	import DropdownLang from './DropdownLang.svelte';
-	import DropdownList from './DropdownList.svelte';
+	import { fly } from 'svelte/transition';
 	import Setting from './SettingButton.svelte';
 	import { menuState } from '$lib/stores';
 	import Menu from '$lib/components/Menu/Menu.svelte';
@@ -31,13 +29,6 @@
 			</svg>
 			<span>Vocab Practice</span>
 		</a>
-
-		{#if $page.url.pathname === '/practice'}
-			<div class="dropdown-section" in:fade={{ duration: 200 }}>
-				<DropdownLang />
-				<DropdownList />
-			</div>
-		{/if}
 
 		<div class="nav-actions">
 			<div class="nav-links">
@@ -112,13 +103,6 @@
 		color: #0ea5e9;
 	}
 
-	.dropdown-section {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		margin: 0 1rem;
-	}
-
 	.nav-actions {
 		display: flex;
 		align-items: center;
@@ -154,13 +138,6 @@
 		.nav-container {
 			flex-wrap: wrap;
 			gap: 0.75rem;
-		}
-
-		.dropdown-section {
-			order: 3;
-			width: 100%;
-			margin: 0.5rem 0 0 0;
-			justify-content: space-between;
 		}
 	}
 

@@ -5,6 +5,7 @@
 	import QuestionBtn from './CoreButtons/QuestionBtn.svelte';
 	import Typewriter from './Typewriter.svelte';
 	import DictionaryPanel from './DictionaryPanel.svelte';
+	import PracticeHeader from './PracticeHeader.svelte';
 
 	import { fade, fly, slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
@@ -59,7 +60,9 @@
 		}
 
 		function handleLeft() {
-			if (input == '') return;
+			if (input === '' && $pracMode === 'lexicon') return;
+			if ($current.word === '') return;
+
 			data.update((n) => {
 				n = addWordtoMistakesList($data, $current.lang, $current.word);
 				return n;
@@ -84,7 +87,8 @@
 		}
 
 		function handleRight() {
-			if (input == '') return;
+			if (input === '' && $pracMode === 'lexicon') return;
+			if ($current.word === '') return;
 
 			data.update((n) => {
 				n = changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
@@ -120,14 +124,14 @@
 	// For adding a new word
 	// Lexicon mode Word adder
 	function addWord() {
-		if (input == '') return;
+		if (input === '') return;
 
 		data.update((n) => {
 			n = addWordtoList($data, $current.lang, $current.list, input);
 			return n;
 		});
 
-		if ($current.list == 'mistakes') {
+		if ($current.list === 'mistakes') {
 			stats.update((n) => {
 				n = addWordToStatsMistakesList($stats, $current.lang, input);
 				return n;
@@ -171,54 +175,62 @@
 <DictionaryPanel word={$dictionarySettings.currentWord} bind:show={$dictionarySettings.showPanel} />
 
 {#if display}
-	<div in:fly={{ y: 20, duration: 200 }} class="practice-container">
-		<div class="practice-header">
-			<div class="word-info">
-				<span class="language">{capitalizeWord($current.lang)}</span>
-				<span class="list-name">{capitalizeWord($current.list)}</span>
-			</div>
-			<div class="word-count">
-				Remaining: <span class="count">{remaining.length || 'None'}</span>
-			</div>
-		</div>
+	<div in:fade={{ duration: 300 }}>
+		<PracticeHeader />
 
-		{#if $pracMode == 'normal'}
-			<div in:fade={{ duration: 200 }} class="text">
-				{#if $current.word == '' || $current.word == undefined}
-					<div class="no-word">No words found</div>
-				{:else}
-					<div class="middle">
-						<Typewriter text={capitalizeWord($current.word)} />
+		<div class="practice-container">
+			{#if $pracMode === 'normal'}
+				<div in:fade={{ duration: 300 }} class="text">
+					{#if $current.word === '' || $current.word === undefined}
+						<div class="no-word">No words found</div>
+					{:else}
+						<div class="middle">
+							<Typewriter text={capitalizeWord($current.word)} />
+						</div>
+					{/if}
+				</div>
+			{:else if $pracMode === 'lexicon'}
+				<div class="lexicon-container" in:fly={{ y: 20, duration: 300 }}>
+					<div class="lexicon-header">
+						<h2>Add new words to your vocabulary</h2>
+						<p>
+							Type a word and press Enter or click Add to save it to your {capitalizeWord(
+								$current.list
+							)} list
+						</p>
 					</div>
-				{/if}
-			</div>
-		{:else if $pracMode == 'lexicon'}
-			<div class="lexicon-container">
-				<input
-					in:slide={{ duration: 200 }}
-					class="input"
-					type="text"
-					bind:value={input}
-					on:keydown={handleKeyPress}
-					placeholder="Type the word you want to add"
-				/>
-				<p class="lexicon-hint">Press Enter or click Add after typing a word</p>
-			</div>
-		{/if}
-	</div>
 
-	<div class="control-container">
-		<div in:fade={{ y: 20, duration: 200 }} class="core-btn">
-			{#if $pracMode == 'normal'}
-				<WrongBtn />
-				<QuestionBtn />
-				<CorrectBtn />
-			{:else if $pracMode == 'lexicon'}
-				<div class="lexicon-btns">
-					<button on:click={addWord} class="btn-lex">Add</button>
+					<div class="input-container">
+						<input
+							class="input"
+							type="text"
+							bind:value={input}
+							on:keydown={handleKeyPress}
+							placeholder="Type a new word..."
+						/>
+						<button class="add-button" on:click={addWord} disabled={!input}> Add </button>
+					</div>
 				</div>
 			{/if}
 		</div>
+
+		{#if $pracMode === 'normal'}
+			<div class="control-container">
+				<div in:fade={{ duration: 300 }} class="core-btn">
+					<WrongBtn />
+					<QuestionBtn />
+					<CorrectBtn />
+				</div>
+
+				<div class="shortcuts-hint" in:fade={{ duration: 300, delay: 500 }}>
+					<span class="hint-text">
+						<kbd>←</kbd> Unknown
+						<kbd>↑</kbd> Define
+						<kbd>→</kbd> Known
+					</span>
+				</div>
+			</div>
+		{/if}
 	</div>
 {/if}
 
@@ -226,50 +238,10 @@
 	.practice-container {
 		height: 70vh;
 		display: flex;
-		gap: 1rem;
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		padding: 1rem;
-	}
-
-	.practice-header {
-		position: absolute;
-		top: 80px;
-		left: 0;
-		right: 0;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1rem 2rem;
-		color: #94a3b8;
-	}
-
-	.word-info {
-		display: flex;
-		align-items: center;
-	}
-
-	.language {
-		font-weight: 600;
-		color: #0ea5e9;
-	}
-
-	.list-name {
-		margin-left: 0.5rem;
-		padding-left: 0.5rem;
-		border-left: 1px solid #475569;
-	}
-
-	.word-count {
-		font-size: 0.9rem;
-	}
-
-	.count {
-		font-weight: 600;
-		background: #1e293b;
-		padding: 0.25rem 0.5rem;
-		border-radius: 4px;
 	}
 
 	.text {
@@ -289,7 +261,7 @@
 	}
 
 	.no-word {
-		color: #94a3b8;
+		color: var(--text-muted);
 		font-size: 1.5rem;
 		font-style: italic;
 	}
@@ -300,12 +272,14 @@
 		left: 0;
 		right: 0;
 		display: flex;
-		justify-content: center;
+		flex-direction: column;
+		align-items: center;
 		padding-bottom: 2rem;
+		gap: 1rem;
 	}
 
 	.core-btn {
-		background-color: #1e293b;
+		background-color: var(--bg-medium);
 		border-radius: 12px;
 		padding: 1rem 2rem;
 		display: flex;
@@ -313,85 +287,112 @@
 		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 	}
 
+	.shortcuts-hint {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+		background-color: rgba(30, 41, 59, 0.7);
+		backdrop-filter: blur(8px);
+		padding: 0.5rem 1rem;
+		border-radius: 20px;
+	}
+
+	.hint-text {
+		display: flex;
+		gap: 1rem;
+	}
+
+	kbd {
+		background-color: var(--bg-light);
+		padding: 0.1rem 0.3rem;
+		border-radius: 4px;
+		font-family: monospace;
+		margin-right: 0.25rem;
+	}
+
 	.lexicon-container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1rem;
+		gap: 2rem;
 		width: 100%;
-		max-width: 500px;
+		max-width: 600px;
+		text-align: center;
+	}
+
+	.lexicon-header h2 {
+		margin-bottom: 0.75rem;
+		color: var(--text-primary);
+		font-size: 1.75rem;
+	}
+
+	.lexicon-header p {
+		color: var(--text-muted);
+	}
+
+	.input-container {
+		display: flex;
+		width: 100%;
+		gap: 0.5rem;
 	}
 
 	.input {
-		color: #f8fafc;
+		flex: 1;
+		color: var(--text-primary);
 		border: none;
-		font-size: 1.5rem;
-		width: 100%;
+		font-size: 1.2rem;
 		padding: 1rem 1.5rem;
 		background: rgba(30, 41, 59, 0.8);
-		border: 1px solid #475569;
+		border: 1px solid var(--border-light);
 		border-radius: 8px;
 		transition: all 0.2s;
 	}
 
 	.input:focus {
 		outline: none;
-		border-color: #0ea5e9;
+		border-color: var(--primary);
 		box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3);
 	}
 
-	.lexicon-hint {
-		color: #94a3b8;
-		font-size: 0.9rem;
-	}
-
-	.lexicon-btns {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.btn-lex {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	.add-button {
+		background-color: var(--primary);
+		color: white;
 		border: none;
-		padding: 0.75rem 2rem;
-		background: #0ea5e9;
-		color: #f8fafc;
-		font-size: 1.25rem;
-		font-weight: 500;
+		padding: 0 1.5rem;
 		border-radius: 8px;
+		font-weight: 500;
 		transition: all 0.2s;
 	}
 
-	.btn-lex:hover {
-		background: #0284c7;
-		cursor: pointer;
-		transform: translateY(-2px);
+	.add-button:hover:not(:disabled) {
+		background-color: var(--primary-dark);
 	}
 
-	.btn-lex:active {
-		transform: translateY(1px);
+	.add-button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 
 	@media (max-width: 700px) {
-		.practice-header {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 0.5rem;
-		}
-
 		.input {
-			width: 90%;
-			font-size: 1.2rem;
+			font-size: 1rem;
 			padding: 0.75rem 1rem;
 		}
 
 		.core-btn {
 			padding: 0.75rem 1.25rem;
 			gap: 1rem;
+		}
+
+		.shortcuts-hint {
+			display: none;
+		}
+
+		.lexicon-header h2 {
+			font-size: 1.4rem;
+		}
+
+		.lexicon-header p {
+			font-size: 0.9rem;
 		}
 	}
 </style>
