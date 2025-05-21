@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { slide, fly, fade } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 
 	import { overlayMode, overlayState, menuState, pracMode } from '$lib/stores';
@@ -22,6 +22,8 @@
 			activeTab = 'practice';
 		} else if ($page.url.pathname === '/stats') {
 			activeTab = 'stats';
+		} else if ($page.url.pathname === '/about') {
+			activeTab = 'about';
 		}
 	});
 
@@ -29,6 +31,17 @@
 		visible = false;
 		setTimeout(() => {
 			visible = true;
+
+			// Update active tab after navigation
+			if ($page.url.pathname === '/practice') {
+				activeTab = 'practice';
+			} else if ($page.url.pathname === '/stats') {
+				activeTab = 'stats';
+			} else if ($page.url.pathname === '/about') {
+				activeTab = 'about';
+			} else {
+				activeTab = 'settings';
+			}
 		}, 200);
 	});
 
@@ -39,6 +52,13 @@
 
 	function closeMenu() {
 		menuState.update((n) => !n);
+	}
+
+	function navigateTo(path, tabName) {
+		if ($page.url.pathname !== path) {
+			goto(path);
+		}
+		activeTab = tabName;
 	}
 </script>
 
@@ -79,8 +99,7 @@
 			<button
 				class="tab-btn"
 				class:active={activeTab === 'practice'}
-				on:click={() => (activeTab = 'practice')}
-				disabled={$page.url.pathname !== '/practice'}
+				on:click={() => navigateTo('/practice', 'practice')}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -102,8 +121,7 @@
 			<button
 				class="tab-btn"
 				class:active={activeTab === 'stats'}
-				on:click={() => (activeTab = 'stats')}
-				disabled={$page.url.pathname !== '/stats'}
+				on:click={() => navigateTo('/stats', 'stats')}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +142,7 @@
 			<button
 				class="tab-btn"
 				class:active={activeTab === 'about'}
-				on:click={() => (activeTab = 'about')}
+				on:click={() => navigateTo('/about', 'about')}
 			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -171,69 +189,84 @@
 						<DataFileHandler />
 					</div>
 				</div>
-			{:else if activeTab === 'practice' && $page.url.pathname === '/practice'}
+			{:else if activeTab === 'practice'}
 				<div class="settings-panel" in:fade={{ duration: 200 }}>
 					<div class="settings-section">
 						<h3>Practice Mode</h3>
-						<ModeSelectPrac />
 
-						<div class="settings-info">
-							<div class="info-card">
-								<div class="info-icon">
-									<UIIcons icon="info" />
-								</div>
-								<div class="info-content">
-									<strong>Keyboard Shortcuts</strong>
-									<p>Use arrow keys for quick actions:</p>
-									<ul>
-										<li><kbd>←</kbd> Mark as wrong</li>
-										<li><kbd>↑</kbd> Look up definition</li>
-										<li><kbd>→</kbd> Mark as correct</li>
-									</ul>
+						{#if $page.url.pathname === '/practice'}
+							<ModeSelectPrac />
+
+							<div class="settings-info">
+								<div class="info-card">
+									<div class="info-icon">
+										<UIIcons icon="info" />
+									</div>
+									<div class="info-content">
+										<strong>Keyboard Shortcuts</strong>
+										<p>Use arrow keys for quick actions:</p>
+										<ul>
+											<li><kbd>←</kbd> Mark as wrong</li>
+											<li><kbd>↑</kbd> Look up definition</li>
+											<li><kbd>→</kbd> Mark as correct</li>
+										</ul>
+									</div>
 								</div>
 							</div>
-						</div>
+						{:else}
+							<div class="not-in-section">
+								<p>Navigate to the Practice page to manage practice settings.</p>
+								<a href="/practice" class="action-link">Go to Practice</a>
+							</div>
+						{/if}
 					</div>
 				</div>
-			{:else if activeTab === 'stats' && $page.url.pathname === '/stats'}
+			{:else if activeTab === 'stats'}
 				<div class="settings-panel" in:fade={{ duration: 200 }}>
 					<div class="settings-section">
 						<h3>Stats Settings</h3>
 
-						<div class="settings-actions">
-							<button class="danger-btn" on:click={resetHandler}>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width="16"
-									height="16"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-								>
-									<path d="M3 6h18"></path>
-									<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-									<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-									<line x1="10" y1="11" x2="10" y2="17"></line>
-									<line x1="14" y1="11" x2="14" y2="17"></line>
-								</svg>
-								Reset All Data
-							</button>
-						</div>
+						{#if $page.url.pathname === '/stats'}
+							<div class="settings-actions">
+								<button class="danger-btn" on:click={resetHandler}>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path d="M3 6h18"></path>
+										<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+										<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+										<line x1="10" y1="11" x2="10" y2="17"></line>
+										<line x1="14" y1="11" x2="14" y2="17"></line>
+									</svg>
+									Reset All Data
+								</button>
+							</div>
 
-						<div class="settings-info">
-							<div class="info-card">
-								<div class="info-icon">
-									<UIIcons icon="info" />
-								</div>
-								<div class="info-content">
-									<strong>Quick Tips</strong>
-									<p>In Reflect mode, press Enter to quickly add new words to the list.</p>
+							<div class="settings-info">
+								<div class="info-card">
+									<div class="info-icon">
+										<UIIcons icon="info" />
+									</div>
+									<div class="info-content">
+										<strong>Quick Tips</strong>
+										<p>In Reflect mode, press Enter to quickly add new words to the list.</p>
+									</div>
 								</div>
 							</div>
-						</div>
+						{:else}
+							<div class="not-in-section">
+								<p>Navigate to the Stats page to view your progress and manage statistics.</p>
+								<a href="/stats" class="action-link">Go to Stats</a>
+							</div>
+						{/if}
 					</div>
 				</div>
 			{:else if activeTab === 'about'}
@@ -349,7 +382,7 @@
 		position: relative;
 	}
 
-	.tab-btn:hover:not(:disabled) {
+	.tab-btn:hover {
 		color: var(--text-secondary);
 	}
 
@@ -366,11 +399,6 @@
 		height: 2px;
 		background-color: var(--primary);
 		border-radius: 2px 2px 0 0;
-	}
-
-	.tab-btn:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
 	}
 
 	.menu-content {
@@ -548,6 +576,31 @@
 
 	.author {
 		font-style: italic;
+	}
+
+	.not-in-section {
+		text-align: center;
+		padding: 2rem 1rem;
+		background-color: var(--bg-dark);
+		border-radius: 8px;
+		color: var(--text-muted);
+	}
+
+	.action-link {
+		display: inline-block;
+		margin-top: 1rem;
+		padding: 0.75rem 1.5rem;
+		background-color: var(--primary);
+		color: white;
+		text-decoration: none;
+		border-radius: 8px;
+		font-weight: 500;
+		transition: all 0.2s;
+	}
+
+	.action-link:hover {
+		background-color: var(--primary-dark);
+		transform: translateY(-2px);
 	}
 
 	@media (max-width: 600px) {
