@@ -1,4 +1,4 @@
-<!-- src/lib/components/Dropdown/Dropdown.svelte -->
+<!-- src/lib/components/DropDown/Dropdown.svelte -->
 <script>
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { slide, fade } from 'svelte/transition';
@@ -176,7 +176,7 @@
 		border: 1px solid #475569;
 		border-radius: 8px;
 		overflow: hidden;
-		z-index: 100;
+		z-index: 900;
 		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 	}
 

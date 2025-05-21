@@ -74,121 +74,129 @@
 <svelte:window on:click={handleClickOutside} />
 
 <div class="practice-header">
-	<div class="selectors">
-		<div class="dropdown-container">
-			<button
-				class="selector-btn"
-				class:active={showLanguages}
-				on:click|stopPropagation={toggleLanguages}
-			>
-				<span>{capitalizeWord($current.lang)}</span>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="16"
-					height="16"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					style="transform: rotate({showLanguages ? '180deg' : '0deg'}); transition: transform 0.2s"
+	<div class="header-content">
+		<div class="selectors">
+			<div class="dropdown-container">
+				<button
+					class="selector-btn"
+					class:active={showLanguages}
+					on:click|stopPropagation={toggleLanguages}
 				>
-					<polyline points="6 9 12 15 18 9"></polyline>
-				</svg>
-			</button>
+					<span>{capitalizeWord($current.lang)}</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						style="transform: rotate({showLanguages
+							? '180deg'
+							: '0deg'}); transition: transform 0.2s"
+					>
+						<polyline points="6 9 12 15 18 9"></polyline>
+					</svg>
+				</button>
 
-			{#if showLanguages}
-				<div class="dropdown-menu" transition:slide={{ duration: 150 }} on:click|stopPropagation>
-					{#each $langs as lang}
-						<button
-							class="dropdown-item"
-							class:active={lang.toLowerCase() === $current.lang.toLowerCase()}
-							on:click={() => selectLanguage(lang)}
-						>
-							{capitalizeWord(lang)}
+				{#if showLanguages}
+					<div class="dropdown-menu" transition:slide={{ duration: 150 }} on:click|stopPropagation>
+						{#each $langs as lang}
+							<button
+								class="dropdown-item"
+								class:active={lang.toLowerCase() === $current.lang.toLowerCase()}
+								on:click={() => selectLanguage(lang)}
+							>
+								{capitalizeWord(lang)}
+							</button>
+						{/each}
+
+						<button class="dropdown-item add-item" on:click={addNewLanguage}>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="14"
+								height="14"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<line x1="12" y1="5" x2="12" y2="19"></line>
+								<line x1="5" y1="12" x2="19" y2="12"></line>
+							</svg>
+							<span>Add Language</span>
 						</button>
-					{/each}
+					</div>
+				{/if}
+			</div>
 
-					<button class="dropdown-item add-item" on:click={addNewLanguage}>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="14"
-							height="14"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<line x1="12" y1="5" x2="12" y2="19"></line>
-							<line x1="5" y1="12" x2="19" y2="12"></line>
-						</svg>
-						<span>Add Language</span>
-					</button>
-				</div>
-			{/if}
+			<div class="divider">/</div>
+
+			<div class="dropdown-container">
+				<button
+					class="selector-btn"
+					class:active={showLists}
+					on:click|stopPropagation={toggleLists}
+				>
+					<span>{capitalizeWord($current.list)}</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						style="transform: rotate({showLists ? '180deg' : '0deg'}); transition: transform 0.2s"
+					>
+						<polyline points="6 9 12 15 18 9"></polyline>
+					</svg>
+				</button>
+
+				{#if showLists}
+					<div class="dropdown-menu" transition:slide={{ duration: 150 }} on:click|stopPropagation>
+						{#each $lists as list}
+							<button
+								class="dropdown-item"
+								class:active={list.toLowerCase() === $current.list.toLowerCase()}
+								on:click={() => selectList(list)}
+							>
+								{capitalizeWord(list)}
+							</button>
+						{/each}
+
+						<button class="dropdown-item add-item" on:click={addNewList}>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="14"
+								height="14"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<line x1="12" y1="5" x2="12" y2="19"></line>
+								<line x1="5" y1="12" x2="19" y2="12"></line>
+							</svg>
+							<span>Add List</span>
+						</button>
+					</div>
+				{/if}
+			</div>
 		</div>
 
-		<div class="divider">/</div>
-
-		<div class="dropdown-container">
-			<button class="selector-btn" class:active={showLists} on:click|stopPropagation={toggleLists}>
-				<span>{capitalizeWord($current.list)}</span>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="16"
-					height="16"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					style="transform: rotate({showLists ? '180deg' : '0deg'}); transition: transform 0.2s"
-				>
-					<polyline points="6 9 12 15 18 9"></polyline>
-				</svg>
-			</button>
-
-			{#if showLists}
-				<div class="dropdown-menu" transition:slide={{ duration: 150 }} on:click|stopPropagation>
-					{#each $lists as list}
-						<button
-							class="dropdown-item"
-							class:active={list.toLowerCase() === $current.list.toLowerCase()}
-							on:click={() => selectList(list)}
-						>
-							{capitalizeWord(list)}
-						</button>
-					{/each}
-
-					<button class="dropdown-item add-item" on:click={addNewList}>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="14"
-							height="14"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<line x1="12" y1="5" x2="12" y2="19"></line>
-							<line x1="5" y1="12" x2="19" y2="12"></line>
-						</svg>
-						<span>Add List</span>
-					</button>
-				</div>
-			{/if}
-		</div>
-	</div>
-
-	<div class="word-info">
-		<div class="word-count">
-			Remaining: <span class="count">{remaining.length || 'None'}</span>
+		<div class="word-info">
+			<div class="word-count">
+				Remaining: <span class="count">{remaining.length || 'None'}</span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -200,10 +208,16 @@
 		left: 0;
 		right: 0;
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
+		justify-content: center;
 		padding: 1rem 2rem;
 		z-index: 20;
+	}
+
+	.header-content {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 
 	.selectors {
@@ -214,6 +228,8 @@
 		border-radius: 8px;
 		padding: 0.5rem;
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		position: relative;
+		z-index: 30; /* Added z-index to parent container */
 	}
 
 	.dropdown-container {
@@ -256,7 +272,7 @@
 		background-color: var(--bg-medium);
 		border-radius: 8px;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-		z-index: 30;
+		z-index: 100; /* Keep high z-index */
 		overflow: hidden;
 		max-height: 300px;
 		overflow-y: auto;
@@ -299,6 +315,8 @@
 		border-radius: 8px;
 		padding: 0.5rem 1rem;
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+		z-index: 20; /* Increased but still below selectors */
+		position: relative; /* Added to create stacking context */
 	}
 
 	.word-count {
@@ -315,6 +333,9 @@
 	@media (max-width: 600px) {
 		.practice-header {
 			padding: 0.75rem 1rem;
+		}
+
+		.header-content {
 			flex-direction: column;
 			gap: 0.5rem;
 			align-items: stretch;
@@ -323,10 +344,17 @@
 		.selectors {
 			width: 100%;
 			justify-content: center;
+			z-index: 30; /* Ensure it's maintained on mobile */
 		}
 
 		.word-info {
 			justify-content: center;
+			z-index: 20; /* Keep below selectors on mobile */
+		}
+
+		/* Keep dropdown with highest z-index */
+		.dropdown-menu {
+			z-index: 100;
 		}
 	}
 </style>

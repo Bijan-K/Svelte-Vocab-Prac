@@ -8,123 +8,105 @@
 			if (n == 'normal') return 'lexicon';
 		});
 	}
+
+	$: isLexiconMode = $pracMode === 'lexicon';
 </script>
 
 <div class="modeselect">
 	<div class="toggle-wrapper">
-		<div class="toggle transparent">
-			<input id="transparent" type="checkbox" on:click={toggle} />
-			<label class="toggle-item" for="transparent"></label>
+		<div class="mode-label-container">
+			<div class="mode-text">{isLexiconMode ? 'Lexicon Adder' : 'Practice Mode'}</div>
+			<div class="mode-description">
+				{#if isLexiconMode}
+					Add new words to your vocabulary
+				{:else}
+					Practice and learn your vocabulary words
+				{/if}
+			</div>
 		</div>
 
-		<div class="mode-text">
-			{#if $pracMode == 'normal'}
-				Practice Mode
-			{:else if $pracMode == 'lexicon'}
-				Lexicon Adder
-			{/if}
+		<div class="toggle-switch">
+			<button
+				class="toggle-button"
+				class:active={!isLexiconMode}
+				on:click={() => pracMode.set('normal')}
+			>
+				Practice
+			</button>
+			<button
+				class="toggle-button"
+				class:active={isLexiconMode}
+				on:click={() => pracMode.set('lexicon')}
+			>
+				Lexicon
+			</button>
 		</div>
 	</div>
 </div>
 
 <style>
-	.mode-text {
-		font-size: 1.5rem;
-		font-weight: 600;
-	}
-
 	.modeselect {
 		width: 100%;
-		height: 10%;
-		display: flex;
-		justify-content: start;
-		align-items: center;
-	}
-	.modeselect::before {
-		content: '';
-		position: absolute;
-	}
-	.modeselect::after {
-		content: '';
-		position: absolute;
-	}
-
-	input {
-		height: 40px;
-		left: 0;
-		opacity: 0;
-		position: absolute;
-		top: 0;
-		width: 40px;
+		padding: 1rem 0;
 	}
 
 	.toggle-wrapper {
-		flex: 1 1 calc(100% / 3);
 		display: flex;
-		align-items: center;
-		justify-content: start;
-		overflow: hidden;
-		position: relative;
+		flex-direction: column;
+		gap: 1rem;
 	}
 
-	@media (max-width: 960px) {
-		.toggle-wrapper {
-			flex: 1 1 calc(100% / 2);
-		}
-	}
-	@media (max-width: 700px) {
-		.toggle-wrapper {
-			flex: 1 1 100%;
-		}
+	.mode-label-container {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
 	}
 
-	.toggle {
-		position: relative;
-		display: inline-block;
+	.mode-text {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: var(--text-primary);
 	}
 
-	label.toggle-item {
-		width: 4rem;
-		background: #2e394d;
-		height: 1em;
-		display: inline-block;
-		border-radius: 50px;
-		margin: 10px;
-		position: relative;
-		transition: all 0.3s ease;
-		transform-origin: 20% center;
-		cursor: pointer;
+	.mode-description {
+		font-size: 0.9rem;
+		color: var(--text-muted);
 	}
 
-	label.toggle-item:before {
-		content: '';
-		display: block;
-		width: 1.3em;
-		height: 1.3em;
-		position: absolute;
-		top: 0.25em;
-		left: 0.25em;
-		border-radius: 2em;
-		border: 2px solid #88cf8f;
-		transition: 0.3s ease;
+	.toggle-switch {
+		display: flex;
+		background-color: var(--bg-dark);
+		border-radius: 8px;
+		padding: 0.25rem;
+		width: 100%;
 	}
 
-	.transparent > label {
+	.toggle-button {
+		flex: 1;
+		padding: 0.75rem 1rem;
+		border: none;
 		background: transparent;
-		border: 3px solid #fff;
-		height: 2.35em;
+		color: var(--text-muted);
+		font-weight: 500;
+		border-radius: 6px;
+		cursor: pointer;
+		transition: all 0.2s ease;
 	}
 
-	.transparent > label::before {
-		border: 3px solid #fff;
-		width: 1em;
-		height: 1em;
-		top: 0.35em;
-		left: 0.3em;
-		background: #fff;
+	.toggle-button.active {
+		background-color: var(--primary);
+		color: white;
 	}
 
-	#transparent:checked + label::before {
-		transform: translateX(28px);
+	.toggle-button:hover:not(.active) {
+		background-color: rgba(255, 255, 255, 0.05);
+		color: var(--text-secondary);
+	}
+
+	@media (max-width: 600px) {
+		.toggle-button {
+			padding: 0.6rem 0.75rem;
+			font-size: 0.95rem;
+		}
 	}
 </style>
