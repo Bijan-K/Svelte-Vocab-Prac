@@ -1,3 +1,4 @@
+<!-- src\lib\Icons\GithubIcon.svelte -->
 <svg
 	style="font-size: 2rem;"
 	xmlns="http://www.w3.org/2000/svg"

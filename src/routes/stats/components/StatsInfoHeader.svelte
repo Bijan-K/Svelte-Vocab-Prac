@@ -1,3 +1,4 @@
+<!-- src\routes\stats\components\StatsInfoHeader.svelte -->
 <script>
 	import TodayIcon from '$lib/Icons/TodayIcon.svelte';
 	import FireIcon from '$lib/Icons/FireIcon.svelte';

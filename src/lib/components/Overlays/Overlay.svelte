@@ -1,3 +1,4 @@
+<!-- src\lib\components\Overlays\Overlay.svelte -->
 <script>
 	import { overlayState, overlayMode } from '$lib/stores/mode.js';
 	import NewLangBoard from './NewLang/NewLangBoard.svelte';

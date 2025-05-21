@@ -1,3 +1,4 @@
+<!-- src\lib\Icons\SearchIcon.svelte -->
 <svg
 	style="transform: translateY(15%) scale(150%)"
 	xmlns="http://www.w3.org/2000/svg"

@@ -1,3 +1,4 @@
+<!-- src\routes\stats\components\ListSelector.svelte -->
 <script>
 	import { current, data } from '$lib/stores/crucial.js';
 	import { returnListsOfLang } from '$lib/utils/initFunctions.js';

@@ -1,3 +1,4 @@
+<!-- src\routes\practice\CoreButtons\WrongBtn.svelte -->
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
 

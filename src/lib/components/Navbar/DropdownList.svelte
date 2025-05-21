@@ -1,3 +1,4 @@
+<!-- src\lib\components\Navbar\DropdownList.svelte -->
 <script>
 	import { onMount, afterUpdate } from 'svelte';
 	import { current, lists, data } from '$lib/stores/crucial.js';

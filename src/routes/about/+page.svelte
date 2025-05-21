@@ -1,3 +1,4 @@
+<!-- src\routes\about\+page.svelte -->
 <script>
 	import { fly } from 'svelte/transition';
 	import { onMount } from 'svelte';

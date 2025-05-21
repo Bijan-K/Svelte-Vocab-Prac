@@ -1,3 +1,4 @@
+<!-- src\routes\stats\+layout.svelte -->
 <script>
 	import NavBar from '$lib/components/Navbar/NavBar.svelte';
 	import Overlay from '$lib/components/Overlays/Overlay.svelte';

@@ -1,3 +1,4 @@
+<!-- src\lib\components\Navbar\DropdownLang.svelte -->
 <script>
 	import './style.css';
 	import { onMount, afterUpdate } from 'svelte';

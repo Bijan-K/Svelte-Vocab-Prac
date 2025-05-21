@@ -1,3 +1,4 @@
+<!-- src\routes\practice\Typewriter.svelte -->
 <script>
 	import { onMount } from 'svelte';
 

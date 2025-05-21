@@ -1,3 +1,4 @@
+<!-- src\routes\practice\CoreButtons\QuestionBtn.svelte -->
 <script>
 	import QuestionIcon from '$lib/Icons/QuestionIcon.svelte';
 	import { current, stats } from '$lib/stores/crucial.js';

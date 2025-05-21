@@ -1,3 +1,4 @@
+<!-- src\routes\+page.svelte -->
 <svelte:head>
 	<title>Vocabulary Practice</title>
 </svelte:head>

@@ -1,3 +1,4 @@
+<!-- src\lib\components\Overlays\NewList\NewListBoard.svelte -->
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
 	import { current, data } from '$lib/stores/crucial.js';

@@ -1,3 +1,4 @@
+<!-- src\lib\Icons\CheckIcon.svelte -->
 <svg
 	style="transform: translateY(10%);"
 	xmlns="http://www.w3.org/2000/svg"

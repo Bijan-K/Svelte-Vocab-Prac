@@ -1,3 +1,4 @@
+<!-- src\lib\Icons\RefreshIcon.svelte -->
 <svg
 	style="transform: translateY(15%) scale(120%)"
 	xmlns="http://www.w3.org/2000/svg"

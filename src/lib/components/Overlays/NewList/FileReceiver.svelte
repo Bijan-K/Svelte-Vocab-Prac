@@ -1,3 +1,4 @@
+<!-- src\lib\components\Overlays\NewList\FileReceiver.svelte -->
 <script>
 	import ToolTip from './FileReceiverToolTip.svelte';
 	import { fly } from 'svelte/transition';

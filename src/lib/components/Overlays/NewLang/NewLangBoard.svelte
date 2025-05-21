@@ -1,3 +1,4 @@
+<!-- src\lib\components\Overlays\NewLang\NewLangBoard.svelte -->
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
 	import { current, data, stats } from '$lib/stores/crucial.js';

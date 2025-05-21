@@ -1,3 +1,4 @@
+<!-- src\lib\components\Navbar\NavBar.svelte -->
 <script>
 	import { page } from '$app/stores';
 	import DropdownLang from './DropdownLang.svelte';

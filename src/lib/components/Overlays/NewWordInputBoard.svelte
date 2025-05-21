@@ -1,3 +1,4 @@
+<!-- src\lib\components\Overlays\NewWordInputBoard.svelte -->
 <script>
 	import { data, current, stats } from '$lib/stores/crucial.js';
 	import { overlayState, overlayMode } from '$lib/stores/mode.js';

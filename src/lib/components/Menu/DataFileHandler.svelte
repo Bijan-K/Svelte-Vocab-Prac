@@ -1,3 +1,4 @@
+<!-- src\lib\components\Menu\DataFileHandler.svelte -->
 <script>
 	import { data, stats } from '$lib/stores/crucial';
 

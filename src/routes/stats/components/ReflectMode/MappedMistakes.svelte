@@ -1,3 +1,4 @@
+<!-- src\routes\stats\components\ReflectMode\MappedMistakes.svelte -->
 <script>
 	import { stats, current } from '$lib/stores/crucial.js';
 

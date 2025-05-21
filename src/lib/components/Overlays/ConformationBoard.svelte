@@ -1,3 +1,4 @@
+<!-- src\lib\components\Overlays\ConformationBoard.svelte -->
 <script>
 	import XIcon from '$lib/Icons/XIcon.svelte';
 	import { data, stats } from '$lib/stores/crucial.js';

@@ -1,3 +1,4 @@
+<!-- src\routes\stats\components\EditMode\EditWordBox.svelte -->
 <script>
 	import { data, current } from '$lib/stores/crucial.js';
 	import { overlayMode, overlayState } from '$lib/stores/mode.js';

@@ -1,3 +1,4 @@
+<!-- src\routes\practice\CoreButtons\CorrectBtn.svelte -->
 <script>
 	import TickIcon from '$lib/Icons/TickIcon.svelte';
 

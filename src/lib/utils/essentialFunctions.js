@@ -1,3 +1,4 @@
+// src\lib\utils\essentialFunctions.js
 export function addWordtoList(data, Lang, List, word) {
 	const langIndex = data.findIndex((obj) => obj.lang.toLowerCase() == Lang);
 

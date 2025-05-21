@@ -1,3 +1,4 @@
+// src\lib\utils\initFunctions.js
 export function getDefaultLang(data) {
 	return data[0].lang.toLowerCase();
 }

@@ -1,3 +1,4 @@
+<!-- src\routes\practice\+page.svelte -->
 <script>
 	import CorrectBtn from './CoreButtons/CorrectBtn.svelte';
 	import WrongBtn from './CoreButtons/WrongBtn.svelte';

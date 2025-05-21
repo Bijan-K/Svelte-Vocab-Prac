@@ -1,3 +1,4 @@
+<!-- src\routes\stats\components\EditMode\EditContainer.svelte -->
 <script>
 	import { data, current } from '$lib/stores/crucial.js';
 

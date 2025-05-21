@@ -1,3 +1,4 @@
+<!-- src\routes\stats\components\StatsListSetting.svelte -->
 <script>
 	import { current, data } from '$lib/stores/crucial.js';
 	import { showSelector, statsSettingMode, overlayMode, overlayState } from '$lib/stores/mode.js';

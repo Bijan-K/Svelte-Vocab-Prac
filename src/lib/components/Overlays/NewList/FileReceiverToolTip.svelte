@@ -1,3 +1,4 @@
+<!-- src\lib\components\Overlays\NewList\FileReceiverToolTip.svelte -->
 <script>
 	export let message;
 

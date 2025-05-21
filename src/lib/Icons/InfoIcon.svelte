@@ -1,3 +1,4 @@
+<!-- src\lib\Icons\InfoIcon.svelte -->
 <svg
 	style="transform: scale(200%) translateY(10%);"
 	xmlns="http://www.w3.org/2000/svg"

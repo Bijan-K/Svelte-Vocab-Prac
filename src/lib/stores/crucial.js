@@ -1,3 +1,4 @@
+// src\lib\stores\crucial.js
 import { writable, derived } from 'svelte/store';
 import { returnListsOfLang } from '$lib/utils/initFunctions.js';
 

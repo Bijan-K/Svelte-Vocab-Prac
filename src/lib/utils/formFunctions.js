@@ -1,3 +1,4 @@
+// src\lib\utils\formFunctions.js
 // Add a new Lang to Data and Stats
 export function addNewLangToDataAndStats(data, stats, langName, defineWord = '') {
 	data.push({

@@ -1,3 +1,4 @@
+<!-- src\lib\components\Navbar\SettingButton.svelte -->
 <script>
 	import SettingIcon from '$lib/Icons/SettingIcon.svelte';
 	import { page } from '$app/stores';

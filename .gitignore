@@ -1,3 +1,7 @@
+# Scripts and locations used for AI 
+process_sveltekit_files.py
+files/
+
 .DS_Store
 node_modules
 /build

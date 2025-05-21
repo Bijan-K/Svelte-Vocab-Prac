@@ -1,3 +1,4 @@
+<!-- src\lib\Icons\QIcon.svelte -->
 <svg
 	style="transform: scale(190%)"
 	xmlns="http://www.w3.org/2000/svg"

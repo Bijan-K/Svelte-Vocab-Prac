@@ -1,3 +1,4 @@
+<!-- src\lib\components\Menu\Menu.svelte -->
 <script>
 	import { page } from '$app/stores';
 	import { slide, fly } from 'svelte/transition';

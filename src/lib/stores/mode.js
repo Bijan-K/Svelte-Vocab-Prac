@@ -1,3 +1,4 @@
+// src\lib\stores\mode.js
 import { writable } from 'svelte/store';
 
 // modes:
