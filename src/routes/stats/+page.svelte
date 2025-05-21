@@ -1,89 +1,161 @@
 <!-- src\routes\stats\+page.svelte -->
 <script>
-	import { fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import { current, stats, data } from '$lib/stores';
 
-	// stores and functions
-	import { current, showSelector, statsSettingMode } from '$lib/stores';
+	// Components
+	import StatsHeader from './components/StatsHeader.svelte';
+	import TabNavigation from './components/TabNavigation.svelte';
+	import OverviewPanel from './components/OverviewPanel.svelte';
+	import VocabularyPanel from './components/VocabularyPanel.svelte';
+	import LanguagesPanel from './components/LanguagesPanel.svelte';
+	import MistakesPanel from './components/MistakesPanel.svelte';
 
-	// components
-	import MappedMistakes from './components/ReflectMode/MappedMistakes.svelte';
-	import EditContainer from './components/EditMode/EditContainer.svelte';
-	import LangSelector from './components/LangSelector.svelte';
-	import ListSelector from './components/ListSelector.svelte';
-	import StatsInfoHeader from './components/StatsInfoHeader.svelte';
-	import StatsListSetting from './components/StatsListSetting.svelte';
+	// State
+	let loaded = false;
+	let activeTab = 'overview';
+	let statsData = {
+		totalWords: 0,
+		totalKnown: 0,
+		totalUnknown: 0,
+		knownPercentage: 0,
+		languageStats: [],
+		streak: 0
+	};
 
-	let display = false;
-
+	// Initialize stats page
 	onMount(() => {
-		display = true;
-
 		current.update((n) => {
-			n.lang = 'english';
-			n.list = 'mistakes';
+			if (!n.lang) n.lang = 'english';
+			if (!n.list) n.list = 'mistakes';
 			return n;
 		});
+
+		calculateStats();
+		loaded = true;
 	});
+
+	function calculateStats() {
+		// Calculate language statistics
+		let totalWords = 0;
+		let totalKnown = 0;
+
+		let languageStats = $data.map((lang) => {
+			const langName = lang.lang;
+			const langTotalWords = lang.lists.reduce((sum, list) => sum + list.words.length, 0);
+			const langKnownWords = lang.lists.reduce(
+				(sum, list) => sum + list.words.filter((w) => w.known).length,
+				0
+			);
+			const langKnownPercentage =
+				langTotalWords > 0 ? Math.round((langKnownWords / langTotalWords) * 100) : 0;
+
+			// Add to totals
+			totalWords += langTotalWords;
+			totalKnown += langKnownWords;
+
+			// Calculate lists within this language
+			const listStats = lang.lists.map((list) => {
+				const listTotalWords = list.words.length;
+				const listKnownWords = list.words.filter((w) => w.known).length;
+				const listKnownPercentage =
+					listTotalWords > 0 ? Math.round((listKnownWords / listTotalWords) * 100) : 0;
+
+				return {
+					name: list.name,
+					totalWords: listTotalWords,
+					knownWords: listKnownWords,
+					unknownWords: listTotalWords - listKnownWords,
+					percentage: listKnownPercentage
+				};
+			});
+
+			return {
+				language: langName,
+				totalWords: langTotalWords,
+				knownWords: langKnownWords,
+				unknownWords: langTotalWords - langKnownWords,
+				percentage: langKnownPercentage,
+				lists: listStats
+			};
+		});
+
+		const totalUnknown = totalWords - totalKnown;
+		const knownPercentage = totalWords > 0 ? Math.round((totalKnown / totalWords) * 100) : 0;
+
+		// Update the stats data object
+		statsData = {
+			totalWords,
+			totalKnown,
+			totalUnknown,
+			knownPercentage,
+			languageStats,
+			streak: $stats.streak || 0
+		};
+	}
+
+	// Keep stats updated when data changes
+	$: {
+		$data;
+		$stats;
+		$current;
+		if (loaded) calculateStats();
+	}
+
+	// Handle tab changes
+	function handleTabChange(event) {
+		activeTab = event.detail.tab;
+	}
 </script>
 
 <svelte:head>
-	<title>Stats</title>
+	<title>Stats | Vocabulary Practice</title>
 </svelte:head>
 
-{#if display}
-	<div in:fly={{ y: 20, duration: 200 }} class="general">
-		<!-- title -->
-		<h2>Stats</h2>
+{#if loaded}
+	<div class="stats-container" in:fade={{ duration: 300 }}>
+		<!-- Header with key metrics -->
+		<StatsHeader {statsData} todayStats={$stats.record.info} />
 
-		<StatsInfoHeader />
+		<!-- Main content tabs -->
+		<TabNavigation {activeTab} on:tabChange={handleTabChange} />
 
-		<div>
-			<div class="setting-holder">
-				<StatsListSetting />
-
-				<!-- lang/list selectors -->
-				{#if $showSelector == 'lang'}
-					<LangSelector />
-				{:else if $showSelector == 'list' && $statsSettingMode == 'edit'}
-					<ListSelector />
-				{/if}
-			</div>
-			<!-- Content Body -->
-			<div class="content-body">
-				{#if $statsSettingMode == 'reflect'}
-					<MappedMistakes />
-				{:else if $statsSettingMode == 'edit'}
-					<EditContainer />
-				{/if}
-			</div>
+		<!-- Main content area -->
+		<div class="content-area">
+			{#if activeTab === 'overview'}
+				<OverviewPanel {statsData} todayStats={$stats.record.info} />
+			{:else if activeTab === 'vocabulary'}
+				<VocabularyPanel />
+			{:else if activeTab === 'languages'}
+				<LanguagesPanel languageStats={statsData.languageStats} />
+			{:else if activeTab === 'mistakes'}
+				<MistakesPanel />
+			{/if}
 		</div>
 	</div>
 {/if}
 
 <style>
-	.general {
+	.stats-container {
+		width: 100%;
+		max-width: 1300px;
+		margin: 0 auto;
+		padding: 2rem 1.5rem;
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
-		width: 100%;
-		height: 90dvh;
-		padding: 10%;
-		padding-right: 10%;
-		padding-top: 2rem;
-		overflow: scroll;
-		overflow-x: hidden;
-		scrollbar-width: none;
+		gap: 1.5rem;
 	}
 
-	h2 {
-		font-size: 3rem;
-		text-align: center;
+	.content-area {
+		flex: 1;
+		overflow-y: auto;
+		padding: 0 0.5rem;
 	}
-	.setting-holder {
-		width: 100%;
 
-		display: flex;
-		flex-direction: column;
+	@media (max-width: 600px) {
+		.stats-container {
+			padding: 1rem;
+		}
 	}
 </style>
