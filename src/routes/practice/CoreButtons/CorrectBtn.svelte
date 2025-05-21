@@ -1,9 +1,6 @@
 <!-- src\routes\practice\CoreButtons\CorrectBtn.svelte -->
 <script>
-	import { UIIcons } from '$lib/Icons/index.js';
-
 	import { data, current, stats } from '$lib/stores';
-
 	import { changeWordKnownToCorrect, newCurrentList, selectRandomWord } from '$lib/utils';
 
 	function clickHandler() {
@@ -26,29 +23,55 @@
 	}
 </script>
 
-<div on:click={clickHandler}>
-	<UIIcons icon="add" />
-</div>
+<button on:click={clickHandler} class="correct-btn" aria-label="Mark as known">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	>
+		<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+		<polyline points="22 4 12 14.01 9 11.01"></polyline>
+	</svg>
+</button>
 
 <style>
-	div {
-		display: block;
+	.correct-btn {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: rgba(16, 185, 129, 0.15);
+		color: #10b981;
 		border: none;
-		padding: 0.75rem 2rem;
-		background: none;
-		color: #eee;
-		font-size: 2rem;
-		border-radius: 0.5rem;
-		background-color: #064e3b;
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		transition: all 0.2s;
 	}
-	div:hover {
-		cursor: pointer;
-		transform: translateY(-3%);
+
+	.correct-btn:hover {
+		background-color: rgba(16, 185, 129, 0.25);
+		transform: translateY(-3px);
 	}
-	div:active {
-		transform: translateY(+3%);
+
+	.correct-btn:active {
+		transform: translateY(1px);
+	}
+
+	@media (max-width: 600px) {
+		.correct-btn {
+			width: 50px;
+			height: 50px;
+		}
+
+		.correct-btn svg {
+			width: 20px;
+			height: 20px;
+		}
 	}
 </style>

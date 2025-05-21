@@ -1,7 +1,5 @@
 <!-- src\routes\practice\CoreButtons\WrongBtn.svelte -->
 <script>
-	import { UIIcons } from '$lib/Icons/index.js';
-
 	import {
 		newCurrentList,
 		addWordToStatsMistakesList,
@@ -36,29 +34,55 @@
 	}
 </script>
 
-<div on:click={clickHandler}>
-	<UIIcons icon="x" />
-</div>
+<button on:click={clickHandler} class="wrong-btn" aria-label="Mark as unknown">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	>
+		<line x1="18" y1="6" x2="6" y2="18"></line>
+		<line x1="6" y1="6" x2="18" y2="18"></line>
+	</svg>
+</button>
 
 <style>
-	div {
-		display: block;
+	.wrong-btn {
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		background-color: rgba(239, 68, 68, 0.15);
+		color: #ef4444;
 		border: none;
-		padding: 0.75rem 2rem;
-		background: none;
-		color: #eee;
-		font-size: 2rem;
-		border-radius: 0.5rem;
-		background-color: rgb(159 18 57);
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		transition: all 0.2s;
 	}
-	div:hover {
-		cursor: pointer;
-		transform: translateY(-3%);
+
+	.wrong-btn:hover {
+		background-color: rgba(239, 68, 68, 0.25);
+		transform: translateY(-3px);
 	}
-	div:active {
-		transform: translateY(+3%);
+
+	.wrong-btn:active {
+		transform: translateY(1px);
+	}
+
+	@media (max-width: 600px) {
+		.wrong-btn {
+			width: 50px;
+			height: 50px;
+		}
+
+		.wrong-btn svg {
+			width: 20px;
+			height: 20px;
+		}
 	}
 </style>
