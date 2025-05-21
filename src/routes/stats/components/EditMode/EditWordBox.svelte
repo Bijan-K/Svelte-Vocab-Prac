@@ -4,10 +4,7 @@
 	import { overlayMode, overlayState } from '$lib/stores/mode.js';
 	import { fade } from 'svelte/transition';
 
-	import EditIcon from '$lib/Icons/EditIcon.svelte';
-	import RemoveIcon from '$lib/Icons/RemoveIcon.svelte';
-	import NegativeIcon from '$lib/Icons/NegativeIcon.svelte';
-	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
+	import { UIIcons } from '$lib/Icons/index.js';
 
 	import { rmWordFromList } from '$lib/utils/essentialFunctions.js';
 
@@ -39,15 +36,15 @@
 <div transition:fade class="wordbox">
 	<div class="known">
 		{#if word.known}
-			<CheckIcon />
+			<UIIcons icon="check" />
 		{:else}
-			<NegativeIcon />
+			<UIIcons icon="negative" />
 		{/if}
 	</div>
 
 	<div class="btn-holder">
-		<span on:click={editHandler} class="btn edit"><EditIcon /></span>
-		<span on:click={removeHandler} class="btn remove"><RemoveIcon /></span>
+		<span on:click={editHandler} class="btn edit"><UIIcons icon="edit" /></span>
+		<span on:click={removeHandler} class="btn remove"><UIIcons icon="remove" /></span>
 	</div>
 
 	<span class="word">{word.word}</span>

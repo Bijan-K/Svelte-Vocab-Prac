@@ -1,6 +1,6 @@
 <!-- src\routes\practice\CoreButtons\QuestionBtn.svelte -->
 <script>
-	import QuestionIcon from '$lib/Icons/QuestionIcon.svelte';
+	import {UIIcons} from '$lib/Icons/index.js';
 	import { current, stats } from '$lib/stores/crucial.js';
 
 	function returnDefineWord(stats, current) {
@@ -32,7 +32,7 @@
 </script>
 
 <div on:click={clickHandler}>
-	<QuestionIcon />
+	<UIIcons icon="question" />
 </div>
 
 <style>

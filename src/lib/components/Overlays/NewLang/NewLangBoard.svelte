@@ -1,6 +1,6 @@
 <!-- src\lib\components\Overlays\NewLang\NewLangBoard.svelte -->
 <script>
-	import XIcon from '$lib/Icons/XIcon.svelte';
+	import { UIIcons } from '$lib/Icons/index.js';
 	import { current, data, stats } from '$lib/stores/crucial.js';
 	import { overlayState } from '$lib/stores/mode.js';
 	import { fileWords } from '$lib/stores/forms.js';
@@ -54,7 +54,7 @@
 	<div class="container">
 		<!-- close btn -->
 		<div on:click={closeHandler} class="close-btn">
-			<XIcon />
+			<UIIcons icon="x" />
 		</div>
 
 		<!-- title -->

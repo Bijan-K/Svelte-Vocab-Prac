@@ -5,8 +5,7 @@
 
 	import { resetKnown } from '$lib/utils/generalFunctions.js';
 
-	import AddIcon from '$lib/Icons/AddIcon.svelte';
-	import RefreshIcon from '$lib/Icons/RefreshIcon.svelte';
+	import { UIIcons, StatIcons } from '$lib/Icons/index.js';
 
 	function capitalizeFirstLetter(string) {
 		if (!string) return '';
@@ -70,11 +69,11 @@
 				<span on:click={switchMode} class="relfect">Reflect</span>
 			{:else if $statsSettingMode == 'edit'}
 				<span class="refreshIcon" on:click={resetlist}>
-					<RefreshIcon />
+					<StatIcons icon="refresh" />
 				</span>
 
 				<span class="plusIcon" on:click={addNewWord}>
-					<AddIcon />
+					<UIIcons icon="add" />
 				</span>
 				<span on:click={switchMode}>Edit</span>
 			{/if}

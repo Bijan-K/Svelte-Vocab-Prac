@@ -1,6 +1,6 @@
 <!-- src\routes\practice\CoreButtons\WrongBtn.svelte -->
 <script>
-	import XIcon from '$lib/Icons/XIcon.svelte';
+	import { UIIcons } from '$lib/Icons/index.js';
 
 	import {
 		addWordtoMistakesList,
@@ -37,7 +37,7 @@
 </script>
 
 <div on:click={clickHandler}>
-	<XIcon />
+	<UIIcons icon="x" />
 </div>
 
 <style>

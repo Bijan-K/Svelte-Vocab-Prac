@@ -1,11 +1,6 @@
 <!-- src\routes\stats\components\StatsInfoHeader.svelte -->
 <script>
-	import TodayIcon from '$lib/Icons/TodayIcon.svelte';
-	import FireIcon from '$lib/Icons/FireIcon.svelte';
-	import CalendarIcon from '$lib/Icons/CalendarIcon.svelte';
-	import NegativeIcon from '$lib/Icons/NegativeIcon.svelte';
-	import CheckIcon from '$lib/Icons/CheckIcon.svelte';
-
+	import { StatIcons, UIIcons } from '$lib/Icons/index.js';
 	import { stats } from '$lib/stores/crucial.js';
 	import { getCurrentDate, calculateStreak } from '$lib/utils/generalFunctions.js';
 
@@ -17,25 +12,25 @@
 	<div class="info">
 		<!-- streak -->
 		<div class="stats-item">
-			<h3 class="stats-title">Streak <FireIcon /></h3>
+			<h3 class="stats-title">Streak <StatIcons icon="fire" /></h3>
 			<span class="stats-stat"> {streak} {streak === 1 ? 'day' : 'days'} </span>
 		</div>
 		<!-- current day -->
 		<div class="stats-item">
-			<h3 class="stats-title">Date <CalendarIcon /></h3>
+			<h3 class="stats-title">Date <StatIcons icon="calendar" /></h3>
 			<span class="stats-stat date">{getCurrentDate()}</span>
 		</div>
 		<!-- current day record -->
 		<div class="stats-item">
-			<h3 class="stats-title">Today <TodayIcon /></h3>
+			<h3 class="stats-title">Today <StatIcons icon="today" /></h3>
 			<div>
 				<span>
-					<CheckIcon />
+					<UIIcons icon="check" />
 
 					{$stats.record.info.correct}</span
 				>
 				<span>
-					<NegativeIcon />
+					<UIIcons icon="negative" />
 
 					{$stats.record.info.incorrect}</span
 				>

@@ -2,9 +2,8 @@
 <script>
 	import { stats, current } from '$lib/stores/crucial.js';
 
-	// Icons
-	import QIcon from '$lib/Icons/QIcon.svelte';
-	import SearchIcon from '$lib/Icons/SearchIcon.svelte';
+	import {StatIcons} from '$lib/Icons/index.js';
+	import {NavigationIcons} from '$lib/Icons/index.js';
 
 	function returnArray(mistake_lang, currentLang) {
 		let index = mistake_lang.findIndex((obj) => obj.lang.toLowerCase() == currentLang);
@@ -37,7 +36,7 @@
 		<div class="title">
 			<h2>Mistake</h2>
 			<h2>Times</h2>
-			<h2><QIcon /></h2>
+			<h2><StatIcons icon="q" /></h2>
 		</div>
 	</div>
 
@@ -50,7 +49,7 @@
 					href="https://www.google.com/search?q={returnDefineWord($stats, $current)}+{mistake.word}"
 					target="'_blank'"
 				>
-					<SearchIcon />
+					<NavigationIcons icon="search" />
 				</a>
 			</div>
 		{/each}

@@ -1,6 +1,6 @@
 <!-- src\routes\practice\CoreButtons\CorrectBtn.svelte -->
 <script>
-	import TickIcon from '$lib/Icons/TickIcon.svelte';
+	import {UIIcons} from '$lib/Icons/index.js';
 
 	import { current, data, stats } from '$lib/stores/crucial.js';
 
@@ -28,7 +28,7 @@
 </script>
 
 <div on:click={clickHandler}>
-	<TickIcon />
+	<UIIcons icon="add" />
 </div>
 
 <style>

@@ -1,6 +1,6 @@
 <!-- src\lib\components\Overlays\NewList\NewListBoard.svelte -->
 <script>
-	import XIcon from '$lib/Icons/XIcon.svelte';
+	import { UIIcons } from '$lib/Icons/index.js';
 	import { current, data } from '$lib/stores/crucial.js';
 	import { overlayState } from '$lib/stores/mode.js';
 	import { fileWords } from '$lib/stores/forms.js';
@@ -9,7 +9,6 @@
 	import { newCurrentList } from '$lib/utils/essentialFunctions.js';
 	import { returnSingleWord } from '$lib/utils/generalFunctions.js';
 
-	import InfoIcon from '$lib/Icons/InfoIcon.svelte';
 	import FileReceiver from './FileReceiver.svelte';
 
 	let listName = '';
@@ -48,7 +47,7 @@
 	<div class="container">
 		<!-- close btn -->
 		<div on:click={closeHandler} class="close-btn">
-			<XIcon />
+			<UIIcons icon="x" />
 		</div>
 
 		<!-- title -->
@@ -62,7 +61,7 @@
 				</div>
 
 				<div class="info-holder">
-					<InfoIcon />
+					<UIIcons icon="info" />
 					<div>
 						<p>
 							This list will be added to language: <strong

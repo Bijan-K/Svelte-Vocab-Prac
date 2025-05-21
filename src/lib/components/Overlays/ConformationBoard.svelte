@@ -1,6 +1,6 @@
 <!-- src\lib\components\Overlays\ConformationBoard.svelte -->
 <script>
-	import XIcon from '$lib/Icons/XIcon.svelte';
+	import { UIIcons } from '$lib/Icons/index.js';
 	import { data, stats } from '$lib/stores/crucial.js';
 	import { overlayState } from '$lib/stores/mode.js';
 
@@ -45,7 +45,7 @@
 	<div class="container">
 		<!-- close btn -->
 		<div on:click={closeHandler} class="close-btn">
-			<XIcon />
+			<UIIcons icon="x" />
 		</div>
 
 		<h3>Are you sure?</h3>

@@ -1,6 +1,6 @@
 <!-- src\lib\components\Navbar\SettingButton.svelte -->
 <script>
-	import SettingIcon from '$lib/Icons/SettingIcon.svelte';
+	import { UIIcons } from '$lib/Icons/index.js';
 	import { page } from '$app/stores';
 	import { menuState } from '$lib/stores/mode.js';
 
@@ -14,7 +14,7 @@
 	class="setting-button"
 	on:click={clickHandler}
 >
-	<SettingIcon />
+	<UIIcons icon="setting" />
 </button>
 
 <style>

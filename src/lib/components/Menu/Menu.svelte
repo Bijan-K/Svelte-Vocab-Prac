@@ -8,9 +8,8 @@
 
 	import { overlayMode, overlayState } from '$lib/stores/mode.js';
 
-	import LinkIcon from '$lib/Icons/LinkIcon.svelte';
-	import InfoIcon from '$lib/Icons/InfoIcon.svelte';
-	import GithubIcon from '$lib/Icons/GithubIcon.svelte';
+	import { NavigationIcons } from '$lib/Icons/index.js';
+	import { UIIcons } from '$lib/Icons/index.js';
 
 	import ModeSelectPrac from './ModeSelectPrac.svelte';
 	import DataFileHandler from './DataFileHandler.svelte';
@@ -42,15 +41,17 @@
 	<h2>Directories:</h2>
 	<div class="dir-holder">
 		<a href="/practice">
-			<LinkIcon />
+			<NavigationIcons icon="link" />
 			<span> Practice </span>
 		</a>
 		<a href="/stats">
-			<LinkIcon />
+			<NavigationIcons icon="link" />
+
 			<span> Stats </span>
 		</a>
 		<a href="/about">
-			<LinkIcon />
+			<NavigationIcons icon="link" />
+
 			<span> About </span>
 		</a>
 	</div>
@@ -63,7 +64,8 @@
 
 			<div class="info">
 				<span class="ico">
-					<InfoIcon />
+					<UIIcons icon ="info" />
+
 				</span>
 				<p>
 					You can use arrow keys instead of buttons on PC. left for wrong, up for question and right
@@ -73,7 +75,8 @@
 
 			<div class="info">
 				<span class="ico">
-					<InfoIcon />
+					<UIIcons icon ="info" />
+
 				</span>
 				<p class="lower">Your data is saved in LocalStorage.</p>
 			</div>
@@ -86,7 +89,7 @@
 
 			<div class="info">
 				<span class="ico">
-					<InfoIcon />
+					<UIIcons icon ="info" />
 				</span>
 				<p>
 					Use Enter when in reflect mode to quickly add new words to the list you want. Also use
@@ -103,7 +106,7 @@
 				rel="noopener noreferrer"
 				href="https://github.com/Bijan-K/Svelte-Vocab-Prac.git"
 			>
-				<GithubIcon />
+				<NavigationIcons icon="github" />
 			</a>
 		</div>
 	{/if}
