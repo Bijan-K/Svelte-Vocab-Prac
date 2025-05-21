@@ -4,11 +4,12 @@
 	import WrongBtn from './CoreButtons/WrongBtn.svelte';
 	import QuestionBtn from './CoreButtons/QuestionBtn.svelte';
 	import Typewriter from './Typewriter.svelte';
+	import DictionaryPanel from './DictionaryPanel.svelte';
 
 	import { fade, fly, slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
-	import { data, current, stats, pracMode } from '$lib/stores';
+	import { data, current, stats, pracMode, dictionarySettings } from '$lib/stores';
 
 	import {
 		addWordtoList,
@@ -41,12 +42,20 @@
 		// Keyboard functions
 		function handleUp() {
 			let word = $current.word;
-			window
-				.open(
-					`https://www.google.com/search?q=${returnDefineKeyWord($stats, $current)}+${word}`,
-					'_blank'
-				)
-				.focus();
+			if ($current.lang.toLowerCase() === 'english') {
+				dictionarySettings.update((s) => ({
+					...s,
+					showPanel: true,
+					currentWord: word
+				}));
+			} else {
+				window
+					.open(
+						`https://www.google.com/search?q=${returnDefineKeyWord($stats, $current)}+${word}`,
+						'_blank'
+					)
+					.focus();
+			}
 		}
 
 		function handleLeft() {
@@ -63,7 +72,7 @@
 			});
 
 			stats.update((n) => {
-				n = updateStatsMistakesList($stats, $current.lang, $current.word);
+				n = addWordToStatsMistakesList($stats, $current.lang, $current.word);
 				return n;
 			});
 
@@ -155,154 +164,234 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Practice | {capitalizeWord($current.lang)} - {capitalizeWord($current.list)}</title>
+</svelte:head>
+
+<DictionaryPanel word={$dictionarySettings.currentWord} bind:show={$dictionarySettings.showPanel} />
+
 {#if display}
 	<div in:fly={{ y: 20, duration: 200 }} class="practice-container">
+		<div class="practice-header">
+			<div class="word-info">
+				<span class="language">{capitalizeWord($current.lang)}</span>
+				<span class="list-name">{capitalizeWord($current.list)}</span>
+			</div>
+			<div class="word-count">
+				Remaining: <span class="count">{remaining.length || 'None'}</span>
+			</div>
+		</div>
+
 		{#if $pracMode == 'normal'}
 			<div in:fade={{ duration: 200 }} class="text">
 				{#if $current.word == '' || $current.word == undefined}
-					<div>No-Word</div>
+					<div class="no-word">No words found</div>
 				{:else}
-					<!-- {$current.word} -->
 					<div class="middle">
 						<Typewriter text={capitalizeWord($current.word)} />
-						<span> Remaining : {remaining.length != 0 ? remaining.length : 'None'}</span>
 					</div>
 				{/if}
 			</div>
 		{:else if $pracMode == 'lexicon'}
-			<input
-				in:slide={{ duration: 200 }}
-				class="input"
-				type="text"
-				bind:value={input}
-				on:keydown={handleKeyPress}
-				placeholder="Type the word you want to add"
-			/>
+			<div class="lexicon-container">
+				<input
+					in:slide={{ duration: 200 }}
+					class="input"
+					type="text"
+					bind:value={input}
+					on:keydown={handleKeyPress}
+					placeholder="Type the word you want to add"
+				/>
+				<p class="lexicon-hint">Press Enter or click Add after typing a word</p>
+			</div>
 		{/if}
 	</div>
 
-	<div in:fade={{ y: 20, duration: 200 }} class="core-btn">
-		{#if $pracMode == 'normal'}
-			<WrongBtn />
-			<QuestionBtn />
-			<CorrectBtn />
-		{:else if $pracMode == 'lexicon'}
-			<div class="lexicon-btns">
-				<button on:click={addWord} class="btn-lex">Add</button>
-				<div class="info">
-					<span> Or press enter </span>
+	<div class="control-container">
+		<div in:fade={{ y: 20, duration: 200 }} class="core-btn">
+			{#if $pracMode == 'normal'}
+				<WrongBtn />
+				<QuestionBtn />
+				<CorrectBtn />
+			{:else if $pracMode == 'lexicon'}
+				<div class="lexicon-btns">
+					<button on:click={addWord} class="btn-lex">Add</button>
 				</div>
-			</div>
-		{/if}
+			{/if}
+		</div>
 	</div>
 {/if}
 
 <style>
-	.middle {
-		transform: translateY(10%);
+	.practice-container {
+		height: 70vh;
 		display: flex;
+		gap: 1rem;
 		flex-direction: column;
-		gap: 0.75rem;
-		align-items: center;
 		justify-content: center;
-		min-height: 100px;
-	}
-	.middle span {
-		font-size: 1rem;
-		position: absolute;
-		width: 500px;
-		bottom: -50%;
-		text-align: center;
+		align-items: center;
+		padding: 1rem;
 	}
 
-	.practice-container {
-		height: 100%;
+	.practice-header {
+		position: absolute;
+		top: 80px;
+		left: 0;
+		right: 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem 2rem;
+		color: #94a3b8;
+	}
+
+	.word-info {
+		display: flex;
+		align-items: center;
+	}
+
+	.language {
+		font-weight: 600;
+		color: #0ea5e9;
+	}
+
+	.list-name {
+		margin-left: 0.5rem;
+		padding-left: 0.5rem;
+		border-left: 1px solid #475569;
+	}
+
+	.word-count {
+		font-size: 0.9rem;
+	}
+
+	.count {
+		font-weight: 600;
+		background: #1e293b;
+		padding: 0.25rem 0.5rem;
+		border-radius: 4px;
+	}
+
+	.text {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.middle {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
 		align-items: center;
 		justify-content: center;
-		display: flex;
-		gap: 5rem;
-		flex-direction: column;
-		flex: 2fr 1fr;
+		min-height: 120px;
 	}
-	.text {
-		transform: translateY(-100%);
-		font-size: 5rem;
+
+	.no-word {
+		color: #94a3b8;
+		font-size: 1.5rem;
+		font-style: italic;
+	}
+
+	.control-container {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		justify-content: center;
+		padding-bottom: 2rem;
 	}
 
 	.core-btn {
-		position: fixed;
-		bottom: 12%;
-		left: 50%;
-		transform: translateX(-50%);
-		background-color: #0f172a;
-		border-radius: 0.5rem;
-		padding: 2rem 3rem;
+		background-color: #1e293b;
+		border-radius: 12px;
+		padding: 1rem 2rem;
 		display: flex;
-		gap: 0.5rem;
+		gap: 1.5rem;
+		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+	}
+
+	.lexicon-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		width: 100%;
+		max-width: 500px;
 	}
 
 	.input {
-		transform: translateY(-100%);
-		color: #ecfdf5;
+		color: #f8fafc;
 		border: none;
-		font-size: 3rem;
-		width: 60%;
-		padding: 2.5rem 2rem;
-		background: transparent;
-		border-bottom: 1px #eee solid;
-		border-radius: 1rem;
+		font-size: 1.5rem;
+		width: 100%;
+		padding: 1rem 1.5rem;
+		background: rgba(30, 41, 59, 0.8);
+		border: 1px solid #475569;
+		border-radius: 8px;
+		transition: all 0.2s;
+	}
+
+	.input:focus {
+		outline: none;
+		border-color: #0ea5e9;
+		box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.3);
+	}
+
+	.lexicon-hint {
+		color: #94a3b8;
+		font-size: 0.9rem;
 	}
 
 	.lexicon-btns {
-		display: grid;
-		grid-template-rows: 2fr 1fr;
-	}
-	.info {
-		place-self: center;
-		font-size: 0.5rem;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-
-		gap: 10px;
-	}
-	.info span {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 1rem;
+		gap: 0.5rem;
 	}
 
 	.btn-lex {
-		display: block;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		border: none;
 		padding: 0.75rem 2rem;
-		background: none;
-		color: #eee;
-		font-size: 2rem;
-		border-radius: 0.5rem;
-		background-color: rgb(9, 120, 90);
+		background: #0ea5e9;
+		color: #f8fafc;
+		font-size: 1.25rem;
+		font-weight: 500;
+		border-radius: 8px;
+		transition: all 0.2s;
 	}
+
 	.btn-lex:hover {
+		background: #0284c7;
 		cursor: pointer;
+		transform: translateY(-2px);
 	}
+
 	.btn-lex:active {
-		transform: translateY(+10%);
+		transform: translateY(1px);
 	}
 
 	@media (max-width: 700px) {
-		.text {
-			transform: translateY(-150%);
-			font-size: 5rem;
+		.practice-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5rem;
 		}
-		.core-btn {
-			padding: 1rem 1.5rem;
-		}
+
 		.input {
 			width: 90%;
 			font-size: 1.2rem;
+			padding: 0.75rem 1rem;
+		}
+
+		.core-btn {
+			padding: 0.75rem 1.25rem;
+			gap: 1rem;
 		}
 	}
 </style>

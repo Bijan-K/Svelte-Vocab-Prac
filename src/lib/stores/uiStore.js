@@ -21,3 +21,10 @@ export const currentForm = writable({
 });
 
 export const formState = writable(false);
+
+// Dictionary settings
+export const dictionarySettings = writable({
+  showPanel: false,
+  currentWord: '',
+  preferApi: true, // Whether to use API (true) or Google (false)
+});

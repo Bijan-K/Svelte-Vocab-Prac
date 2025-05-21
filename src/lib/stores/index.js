@@ -15,5 +15,6 @@ export {
   statsSettingMode, 
   pracMode, 
   currentForm, 
-  formState 
+  formState,
+  dictionarySettings
 } from './uiStore.js';

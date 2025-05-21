@@ -1,7 +1,7 @@
 <!-- src\routes\practice\CoreButtons\QuestionBtn.svelte -->
 <script>
 	import { UIIcons } from '$lib/Icons/index.js';
-	import { current, stats } from '$lib/stores';
+	import { current, stats, dictionarySettings } from '$lib/stores';
 
 	function returnDefineWord(stats, current) {
 		let index = stats.mistake_lang.findIndex(
@@ -21,13 +21,23 @@
 	}
 
 	function clickHandler() {
-		let word = $current.word;
-		window
-			.open(
-				`https://www.google.com/search?q=${returnDefineWord($stats, $current)}+${word}`,
-				'_blank'
-			)
-			.focus();
+		if ($current.lang.toLowerCase() === 'english') {
+			// For English words, use our dictionary API and show the dictionary panel
+			dictionarySettings.update((s) => ({
+				...s,
+				showPanel: true,
+				currentWord: $current.word
+			}));
+		} else {
+			// For non-English languages, use Google search as before
+			let word = $current.word;
+			window
+				.open(
+					`https://www.google.com/search?q=${returnDefineWord($stats, $current)}+${word}`,
+					'_blank'
+				)
+				.focus();
+		}
 	}
 </script>
 
@@ -43,17 +53,18 @@
 		justify-content: center;
 		border: none;
 		padding: 0.5rem 1rem;
-
 		background: none;
-		color: #eee;
+		color: #f8fafc;
 		font-size: 2rem;
 		border-radius: 0.5rem;
+		transition: all 0.2s;
 	}
 	div:hover {
 		cursor: pointer;
-		border-bottom: #eee 2px solid;
+		background: rgba(255, 255, 255, 0.1);
+		transform: translateY(-2px);
 	}
 	div:active {
-		transform: translateY(+3%);
+		transform: translateY(1px);
 	}
 </style>
