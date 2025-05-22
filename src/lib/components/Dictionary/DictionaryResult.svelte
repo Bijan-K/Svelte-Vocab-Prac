@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { UIIcons } from '$lib/Icons/index.js';
 	import { fade, slide } from 'svelte/transition';
+	import { current, stats } from '$lib/stores';
 
 	export let word = '';
 	export let fallbackSearch = true;
@@ -13,8 +14,28 @@
 	let activeTab = 0;
 	let audioSrc = '';
 
+	// Check if current language is English
+	$: isEnglish = $current?.lang?.toLowerCase() === 'english';
+
+	// Get define keyword for current language
+	function getDefineKeyword() {
+		if (!$stats?.mistake_lang) return 'define';
+
+		const langData = $stats.mistake_lang.find(
+			(l) => l.lang.toLowerCase() === $current?.lang?.toLowerCase()
+		);
+
+		return langData?.defineKeyword || 'define';
+	}
+
 	async function fetchWordData() {
 		if (!word) return;
+
+		// For non-English languages, immediately redirect to Google
+		if (!isEnglish) {
+			openGoogleSearch();
+			return;
+		}
 
 		loading = true;
 		error = false;
@@ -53,7 +74,11 @@
 
 	function openGoogleSearch() {
 		if (!word) return;
-		window.open(`https://www.google.com/search?q=define+${encodeURIComponent(word)}`, '_blank');
+		const defineKeyword = getDefineKeyword();
+		window.open(
+			`https://www.google.com/search?q=${defineKeyword}+${encodeURIComponent(word)}`,
+			'_blank'
+		);
 	}
 
 	function playAudio() {
@@ -67,7 +92,15 @@
 </script>
 
 <div class="dictionary-result">
-	{#if loading}
+	{#if !isEnglish}
+		<div class="non-english-message" in:fade>
+			<p>
+				Opening Google search for <strong>{word}</strong> in {$current?.lang ||
+					'selected language'}...
+			</p>
+			<button on:click={openGoogleSearch} class="google-button"> Open Google Search </button>
+		</div>
+	{:else if loading}
 		<div class="loading" in:fade>
 			<div class="loader"></div>
 			<p>Looking up <strong>{word}</strong>...</p>
@@ -174,7 +207,8 @@
 	}
 
 	.loading,
-	.error {
+	.error,
+	.non-english-message {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -362,6 +396,15 @@
 
 	.google-button:hover {
 		background: #0284c7;
+	}
+
+	.non-english-message {
+		color: #cbd5e1;
+	}
+
+	.non-english-message p {
+		margin-bottom: 1rem;
+		font-size: 1rem;
 	}
 
 	@media (max-width: 600px) {

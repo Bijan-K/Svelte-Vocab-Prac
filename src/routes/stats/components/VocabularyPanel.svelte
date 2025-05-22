@@ -2,8 +2,15 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import { data, current } from '$lib/stores';
-	import { capitalizeWord, returnListsOfLang, returnWordsInList, addWordtoList } from '$lib/utils';
+	import { data, current, stats } from '$lib/stores';
+	import {
+		capitalizeWord,
+		returnListsOfLang,
+		returnWordsInList,
+		addWordtoList,
+		deleteWordFromList,
+		removeWordFromStatsMistakesList
+	} from '$lib/utils';
 	import { UIIcons } from '$lib/Icons/index.js';
 	import Card from './shared/Card.svelte';
 	import EmptyState from './shared/EmptyState.svelte';
@@ -54,6 +61,18 @@
 		newWord = '';
 	}
 
+	// Delete a word from the current list
+	function deleteWord(word) {
+		data.update((n) => {
+			return deleteWordFromList(n, filterLanguage, filterList, word);
+		});
+
+		// Also remove from stats mistakes if it exists
+		stats.update((n) => {
+			return removeWordFromStatsMistakesList(n, filterLanguage, word);
+		});
+	}
+
 	// Handle enter key press to add word
 	function handleKeyPress(event) {
 		if (event.key === 'Enter' && newWord.trim()) {
@@ -95,33 +114,36 @@
 			</div>
 
 			<div class="search-container">
-				<input
-					type="text"
-					placeholder="Search words..."
-					bind:value={searchTerm}
-					class="search-input"
-				/>
-
-				<button class="clear-button" on:click={() => (searchTerm = '')} disabled={!searchTerm}>
-					{#if searchTerm}
-						<UIIcons icon="x" />
-					{:else}
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="16"
-							height="16"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<circle cx="11" cy="11" r="8"></circle>
-							<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-						</svg>
-					{/if}
-				</button>
+				<div class="search-input-wrapper">
+					<svg
+						class="search-icon"
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<circle cx="11" cy="11" r="8"></circle>
+						<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+					</svg>
+					<input
+						type="text"
+						placeholder="Search words..."
+						bind:value={searchTerm}
+						class="search-input"
+					/>
+					<button class="clear-button" on:click={() => (searchTerm = '')} disabled={!searchTerm}>
+						{#if searchTerm}
+							<UIIcons icon="x" />
+						{:else}
+							<span class="clear-placeholder"></span>
+						{/if}
+					</button>
+				</div>
 			</div>
 		</div>
 	</Card>
@@ -167,6 +189,14 @@
 							{/if}
 						</div>
 						<div class="word-actions">
+							<button
+								class="word-action delete"
+								title="Delete word"
+								on:click={() => deleteWord(word.word)}
+							>
+								<UIIcons icon="remove" />
+							</button>
+
 							<a
 								href={`https://www.google.com/search?q=define+${encodeURIComponent(word.word)}`}
 								target="_blank"
@@ -241,8 +271,20 @@
 	}
 
 	.search-container {
-		position: relative;
 		min-width: 200px;
+	}
+
+	.search-input-wrapper {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.search-icon {
+		position: absolute;
+		left: 0.75rem;
+		color: var(--text-muted);
+		z-index: 1;
 	}
 
 	.search-input {
@@ -252,6 +294,7 @@
 		border: 1px solid var(--border-dark);
 		border-radius: 6px;
 		padding: 0.5rem 0.75rem;
+		padding-left: 2.5rem;
 		padding-right: 2.5rem;
 		font-size: 0.95rem;
 	}
@@ -264,8 +307,6 @@
 	.clear-button {
 		position: absolute;
 		right: 0.5rem;
-		top: 50%;
-		transform: translateY(-50%);
 		background: none;
 		border: none;
 		color: var(--text-muted);
@@ -274,11 +315,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		width: 20px;
+		height: 20px;
 	}
 
 	.clear-button:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+
+	.clear-placeholder {
+		width: 16px;
+		height: 16px;
 	}
 
 	.add-word-form {
@@ -386,6 +434,7 @@
 	.word-actions {
 		display: flex;
 		justify-content: flex-end;
+		gap: 0.5rem;
 		margin-top: 0.5rem;
 	}
 
@@ -399,11 +448,22 @@
 		background-color: var(--bg-light);
 		color: var(--text-muted);
 		transition: all 0.2s;
+		border: none;
+		cursor: pointer;
+	}
+
+	.word-action.lookup {
+		text-decoration: none;
 	}
 
 	.word-action.lookup:hover {
 		background-color: rgba(14, 165, 233, 0.1);
 		color: var(--primary);
+	}
+
+	.word-action.delete:hover {
+		background-color: rgba(239, 68, 68, 0.1);
+		color: #ef4444;
 	}
 
 	@media (max-width: 768px) {

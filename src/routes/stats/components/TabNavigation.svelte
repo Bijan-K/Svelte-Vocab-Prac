@@ -59,6 +59,10 @@
 		padding-bottom: 0.5rem;
 	}
 
+	.tab-icon {
+		padding-top: 0.25rem;
+	}
+
 	.tab-button {
 		display: flex;
 		align-items: center;

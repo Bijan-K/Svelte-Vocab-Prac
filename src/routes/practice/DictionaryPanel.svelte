@@ -15,10 +15,14 @@
 {#if show && word}
 	<div class="panel-overlay" transition:fade={{ duration: 150 }} on:click={close}>
 		<div class="dictionary-panel" in:fly={{ y: 20, duration: 200 }} on:click|stopPropagation>
-			<button class="close-button" on:click={close}>
-				<UIIcons icon="x" />
-			</button>
-			<DictionaryResult {word} fallbackSearch={false} />
+			<div class="panel-header">
+				<button class="close-button" on:click={close}>
+					<UIIcons icon="x" />
+				</button>
+			</div>
+			<div class="panel-content">
+				<DictionaryResult {word} fallbackSearch={false} />
+			</div>
 		</div>
 	</div>
 {/if}
@@ -46,29 +50,43 @@
 		max-height: 90vh;
 		border-radius: 12px;
 		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+		overflow: hidden;
+		background-color: var(--bg-medium);
+	}
+
+	.panel-header {
+		position: relative;
+		height: 40px;
+		background-color: rgba(30, 41, 59, 0.8);
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		padding: 0 0.5rem;
 	}
 
 	.close-button {
-		position: absolute;
-		top: 10px;
-		right: 10px;
-		background: rgba(30, 41, 59, 0.8);
+		background: transparent;
 		border: none;
 		color: #cbd5e1;
-		width: 30px;
-		height: 30px;
+		width: 32px;
+		height: 32px;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
-		z-index: 1010;
 		transition: all 0.2s;
 	}
 
 	.close-button:hover {
 		background: #475569;
 		color: #f8fafc;
+	}
+
+	.panel-content {
+		width: 100%;
+		height: calc(100% - 40px);
+		overflow-y: auto;
 	}
 
 	@media (max-width: 600px) {
