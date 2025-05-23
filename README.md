@@ -1,24 +1,11 @@
-# simple app for practicing vocabulary
-
+# Web App for Practicing Vocabulary
 
 You can try it out [here.](https://practicevocab.netlify.app)
 
 Things that it has::
-- Lists
+- Decks(lists)
 - Neat visual effects
-- Somewhat of a stats tracker
-- Easily editable lists (from stats)
-
-things to be added in the future::
-- removing a list and language
-- better mobile css
-
-
-to install you need to have node installed.
-
-```bash
-npm i
-npm run dev
-```
-
+- Informative stats tracker
+- Easily editable lists (from the stats tab)
+- Anki-like SRS
 
