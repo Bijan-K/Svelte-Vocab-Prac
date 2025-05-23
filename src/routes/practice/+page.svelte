@@ -14,8 +14,9 @@
 
 	import {
 		addWordtoList,
-		changeWordKnownToCorrect,
-		newCurrentList,
+		markWordCorrect,
+		markWordIncorrect,
+		getDueWords,
 		addWordToStatsMistakesList,
 		addWordtoMistakesList,
 		capitalizeWord,
@@ -26,7 +27,7 @@
 	// Initial animation
 	let display = false;
 	let input = '';
-	$: remaining = newCurrentList($data, $current.lang, $current.list);
+	$: remaining = getDueWords($data, $current.lang, $current.list);
 
 	// For question button
 	function returnDefineKeyWord(stats, current) {
@@ -61,16 +62,26 @@
 
 		function handleLeft() {
 			if (input === '' && $pracMode === 'lexicon') return;
-			if ($current.word === '') return;
+			if ($current.word === '' || $current.word === 'All caught up! 🎉') return;
 
+			// Mark word as incorrect (SRS regression)
 			data.update((n) => {
-				n = addWordtoMistakesList($data, $current.lang, $current.word);
+				n = markWordIncorrect($data, $current.lang, $current.list, $current.word);
 				return n;
 			});
+
+			// Add to mistakes list if not in mistakes already
+			if ($current.list !== 'mistakes') {
+				data.update((n) => {
+					n = addWordtoMistakesList($data, $current.lang, $current.word);
+					return n;
+				});
+			}
 
 			stats.update((n) => {
 				let tmp = n;
 				tmp.record.info.incorrect++;
+				tmp.record.info.totalReviews++;
 				return tmp;
 			});
 
@@ -79,31 +90,37 @@
 				return n;
 			});
 
+			// Get next word
 			current.update((n) => {
 				let tmp = n;
-				tmp.word = selectRandomWord(newCurrentList($data, $current.lang, $current.list)).word;
+				const dueWords = getDueWords($data, $current.lang, $current.list);
+				tmp.word = selectRandomWord(dueWords).word;
 				return tmp;
 			});
 		}
 
 		function handleRight() {
 			if (input === '' && $pracMode === 'lexicon') return;
-			if ($current.word === '') return;
+			if ($current.word === '' || $current.word === 'All caught up! 🎉') return;
 
+			// Mark word as correct (SRS progression)
 			data.update((n) => {
-				n = changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
+				n = markWordCorrect($data, $current.lang, $current.list, $current.word);
 				return n;
 			});
 
 			stats.update((n) => {
 				let tmp = n;
 				tmp.record.info.correct++;
+				tmp.record.info.totalReviews++;
 				return tmp;
 			});
 
+			// Get next word
 			current.update((n) => {
 				let tmp = n;
-				tmp.word = selectRandomWord(newCurrentList($data, $current.lang, $current.list)).word;
+				const dueWords = getDueWords($data, $current.lang, $current.list);
+				tmp.word = selectRandomWord(dueWords).word;
 				return tmp;
 			});
 		}
@@ -138,9 +155,16 @@
 			});
 		}
 
+		stats.update((n) => {
+			let tmp = n;
+			tmp.record.info.newWords++;
+			return tmp;
+		});
+
 		current.update((n) => {
 			let tmp = n;
-			tmp.word = returnSingleWord(newCurrentList($data, tmp.lang, tmp.list));
+			const dueWords = getDueWords($data, tmp.lang, tmp.list);
+			tmp.word = returnSingleWord(dueWords);
 			return tmp;
 		});
 		input = '';
@@ -183,6 +207,11 @@
 				<div in:fade={{ duration: 300 }} class="text">
 					{#if $current.word === '' || $current.word === undefined}
 						<div class="no-word">No words found</div>
+					{:else if $current.word === 'All caught up! 🎉'}
+						<div class="celebration">
+							<div class="celebration-text">All caught up! 🎉</div>
+							<div class="celebration-subtitle">No words are due for review right now</div>
+						</div>
 					{:else}
 						<div class="middle">
 							<Typewriter text={capitalizeWord($current.word)} />
@@ -214,7 +243,7 @@
 			{/if}
 		</div>
 
-		{#if $pracMode === 'normal'}
+		{#if $pracMode === 'normal' && $current.word !== 'All caught up! 🎉'}
 			<div class="control-container">
 				<div in:fade={{ duration: 300 }} class="core-btn">
 					<WrongBtn />
@@ -264,6 +293,25 @@
 		color: var(--text-muted);
 		font-size: 1.5rem;
 		font-style: italic;
+	}
+
+	.celebration {
+		text-align: center;
+		color: var(--text-primary);
+	}
+
+	.celebration-text {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+		background: linear-gradient(45deg, #10b981, #0ea5e9);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.celebration-subtitle {
+		font-size: 1.2rem;
+		color: var(--text-muted);
 	}
 
 	.control-container {
@@ -393,6 +441,10 @@
 
 		.lexicon-header p {
 			font-size: 0.9rem;
+		}
+
+		.celebration-text {
+			font-size: 2rem;
 		}
 	}
 </style>

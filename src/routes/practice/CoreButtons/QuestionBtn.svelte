@@ -15,9 +15,22 @@
 		return 'define';
 	}
 
+	function returnLLMPrompt(stats, current) {
+		let index = stats.mistake_lang.findIndex(
+			(element) => element.lang.toLowerCase() == current.lang
+		);
+
+		if (index != -1) {
+			return stats.mistake_lang[index].llmPrompt;
+		}
+
+		return 'What is the meaning of';
+	}
+
 	$: {
 		$stats;
 		returnDefineWord($stats, $current);
+		returnLLMPrompt($stats, $current);
 	}
 
 	function clickHandler() {

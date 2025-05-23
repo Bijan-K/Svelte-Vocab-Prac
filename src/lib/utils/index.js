@@ -11,10 +11,15 @@ export {
   addWordtoMistakesList,
   findWordReturnArrayIndex,
   changeWordKnownToCorrect,
+  markWordCorrect,
+  markWordIncorrect,
   newCurrentList,
+  getDueWords,
   selectRandomWord,
   returnSingleWord,
-  resetKnown
+  resetKnown,
+  resetListProgress,
+  getListStats
 } from './wordUtils.js';
 
 // List utilities
@@ -34,3 +39,11 @@ export {
   getCurrentDate,
   calculateStreak
 } from './formatUtils.js';
+
+// SRS utilities (re-exported from dataStore for convenience)
+export {
+  createNewWord,
+  isWordDue,
+  calculateNextDueDate,
+  SRS_INTERVALS
+} from '../stores/dataStore.js';

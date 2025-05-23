@@ -9,7 +9,9 @@
 		returnWordsInList,
 		addWordtoList,
 		deleteWordFromList,
-		removeWordFromStatsMistakesList
+		removeWordFromStatsMistakesList,
+		isWordDue,
+		SRS_INTERVALS
 	} from '$lib/utils';
 	import { UIIcons } from '$lib/Icons/index.js';
 	import Card from './shared/Card.svelte';
@@ -77,6 +79,53 @@
 	function handleKeyPress(event) {
 		if (event.key === 'Enter' && newWord.trim()) {
 			addNewWord();
+		}
+	}
+
+	// Get SRS status info
+	function getSRSStatus(word) {
+		const isDue = isWordDue(word);
+		const level = word.level || 0;
+		const nextInterval = SRS_INTERVALS[Math.min(level, SRS_INTERVALS.length - 1)];
+
+		let statusText = '';
+		let statusClass = '';
+
+		if (level === 0) {
+			statusText = 'New';
+			statusClass = 'new';
+		} else if (level < 4) {
+			statusText = 'Learning';
+			statusClass = 'learning';
+		} else {
+			statusText = 'Mature';
+			statusClass = 'mature';
+		}
+
+		if (isDue) {
+			statusText += ' (Due)';
+			statusClass += ' due';
+		}
+
+		return { statusText, statusClass, nextInterval, isDue };
+	}
+
+	// Format date for display
+	function formatDate(dateString) {
+		if (!dateString) return 'Never';
+		const date = new Date(dateString);
+		const now = new Date();
+		const diffTime = date - now;
+		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+		if (diffDays < 0) {
+			return 'Due now';
+		} else if (diffDays === 0) {
+			return 'Today';
+		} else if (diffDays === 1) {
+			return 'Tomorrow';
+		} else {
+			return `In ${diffDays} days`;
 		}
 	}
 </script>
@@ -175,19 +224,33 @@
 		{:else}
 			<div class="words-grid">
 				{#each filteredWords as word (word.word)}
-					<div class="word-card" class:known={word.known} animate:flip={{ duration: 200 }}>
-						<div class="word-text">{word.word}</div>
-						<div class="word-status">
-							{#if word.known}
-								<span class="status known">
-									<UIIcons icon="check" />
-								</span>
-							{:else}
-								<span class="status unknown">
-									<UIIcons icon="negative" />
-								</span>
-							{/if}
+					{@const srsStatus = getSRSStatus(word)}
+					<div class="word-card" class:due={srsStatus.isDue} animate:flip={{ duration: 200 }}>
+						<div class="word-header">
+							<div class="word-text">{word.word}</div>
+							<div class="word-level">Level {word.level || 0}</div>
 						</div>
+
+						<div class="word-srs-info">
+							<div class="srs-status {srsStatus.statusClass}">
+								{srsStatus.statusText}
+							</div>
+							<div class="srs-details">
+								<div class="srs-detail">
+									<span class="detail-label">Next review:</span>
+									<span class="detail-value">{formatDate(word.dueDate)}</span>
+								</div>
+								<div class="srs-detail">
+									<span class="detail-label">Streak:</span>
+									<span class="detail-value">{word.correctStreak || 0}</span>
+								</div>
+								<div class="srs-detail">
+									<span class="detail-label">Total reviews:</span>
+									<span class="detail-value">{word.totalReviews || 0}</span>
+								</div>
+							</div>
+						</div>
+
 						<div class="word-actions">
 							<button
 								class="word-action delete"
@@ -377,7 +440,7 @@
 
 	.words-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 		gap: 1rem;
 	}
 
@@ -385,16 +448,16 @@
 		background-color: var(--bg-dark);
 		border-radius: 8px;
 		padding: 1rem;
-		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 0.75rem;
 		transition: all 0.2s;
 		border-left: 3px solid var(--border-light);
 	}
 
-	.word-card.known {
-		border-left-color: #10b981;
+	.word-card.due {
+		border-left-color: #ef4444;
+		background-color: rgba(239, 68, 68, 0.05);
 	}
 
 	.word-card:hover {
@@ -402,33 +465,81 @@
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 	}
 
+	.word-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
 	.word-text {
 		font-weight: 500;
 		color: var(--text-secondary);
 		word-break: break-word;
+		font-size: 1.1rem;
 	}
 
-	.word-status {
-		font-size: 0.9rem;
-	}
-
-	.status {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.25rem;
-		font-size: 0.85rem;
+	.word-level {
+		background-color: var(--bg-light);
+		color: var(--text-muted);
 		padding: 0.25rem 0.5rem;
 		border-radius: 4px;
+		font-size: 0.8rem;
+		font-weight: 500;
 	}
 
-	.status.known {
+	.word-srs-info {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.srs-status {
+		padding: 0.25rem 0.5rem;
+		border-radius: 4px;
+		font-size: 0.8rem;
+		font-weight: 500;
+		align-self: flex-start;
+	}
+
+	.srs-status.new {
+		background-color: rgba(14, 165, 233, 0.1);
+		color: #0ea5e9;
+	}
+
+	.srs-status.learning {
+		background-color: rgba(245, 158, 11, 0.1);
+		color: #f59e0b;
+	}
+
+	.srs-status.mature {
 		background-color: rgba(16, 185, 129, 0.1);
 		color: #10b981;
 	}
 
-	.status.unknown {
+	.srs-status.due {
 		background-color: rgba(239, 68, 68, 0.1);
 		color: #ef4444;
+	}
+
+	.srs-details {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		font-size: 0.8rem;
+	}
+
+	.srs-detail {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.detail-label {
+		color: var(--text-muted);
+	}
+
+	.detail-value {
+		color: var(--text-secondary);
+		font-weight: 500;
 	}
 
 	.word-actions {
@@ -470,11 +581,17 @@
 		.vocabulary-controls {
 			flex-direction: column;
 		}
+
+		.words-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	@media (max-width: 600px) {
-		.words-grid {
-			grid-template-columns: 1fr;
+		.word-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5rem;
 		}
 	}
 </style>

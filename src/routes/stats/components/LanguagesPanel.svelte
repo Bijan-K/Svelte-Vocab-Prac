@@ -2,8 +2,8 @@
 <script>
 	import { fade, slide } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import { capitalizeWord } from '$lib/utils';
-	import { current, overlayState, overlayMode } from '$lib/stores';
+	import { capitalizeWord, getListStats, resetListProgress } from '$lib/utils';
+	import { current, overlayState, overlayMode, data } from '$lib/stores';
 	import { UIIcons } from '$lib/Icons/index.js';
 
 	import Card from './shared/Card.svelte';
@@ -14,6 +14,7 @@
 
 	// State
 	let showDetailsCard = null;
+	let resetConfirm = null;
 
 	// Toggle language details
 	function toggleDetailsCard(item) {
@@ -42,6 +43,27 @@
 			n.list = list;
 			return n;
 		});
+	}
+
+	// Reset list progress
+	function handleResetList(lang, list) {
+		resetConfirm = `${lang}-${list}`;
+	}
+
+	function confirmResetList(lang, list) {
+		data.update((n) => {
+			return resetListProgress(n, lang, list);
+		});
+		resetConfirm = null;
+	}
+
+	function cancelReset() {
+		resetConfirm = null;
+	}
+
+	// Calculate enhanced stats for each list
+	function getEnhancedListStats(lang, list) {
+		return getListStats($data, lang, list);
 	}
 </script>
 
@@ -126,12 +148,16 @@
 								</EmptyState>
 							{:else}
 								{#each lang.lists as list (list.name)}
+									{@const enhancedStats = getEnhancedListStats(lang.language, list.name)}
 									<div class="list-card" animate:flip={{ duration: 200 }}>
 										<div class="list-info">
 											<h4>{capitalizeWord(list.name)}</h4>
 											<div class="list-stats">
-												<div class="list-stat">
-													<span>{list.knownWords}/{list.totalWords} words</span>
+												<div class="srs-stats">
+													<span class="stat-item new">New: {enhancedStats.new}</span>
+													<span class="stat-item learning">Learning: {enhancedStats.learning}</span>
+													<span class="stat-item mature">Mature: {enhancedStats.mature}</span>
+													<span class="stat-item due">Due: {enhancedStats.due}</span>
 												</div>
 											</div>
 										</div>
@@ -157,6 +183,45 @@
 													<polygon points="5 3 19 12 5 21 5 3"></polygon>
 												</svg>
 											</a>
+
+											{#if resetConfirm === `${lang.language}-${list.name}`}
+												<div class="reset-confirm" transition:slide={{ duration: 200 }}>
+													<span class="reset-text">Reset progress?</span>
+													<button
+														class="confirm-btn"
+														on:click={() => confirmResetList(lang.language, list.name)}
+														title="Confirm reset"
+													>
+														<UIIcons icon="check" />
+													</button>
+													<button class="cancel-btn" on:click={cancelReset} title="Cancel reset">
+														<UIIcons icon="x" />
+													</button>
+												</div>
+											{:else}
+												<button
+													class="list-action reset"
+													title="Reset list progress"
+													on:click={() => handleResetList(lang.language, list.name)}
+												>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="16"
+														height="16"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+														<path d="M21 3v5h-5"></path>
+														<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+														<path d="M3 21v-5h5"></path>
+													</svg>
+												</button>
+											{/if}
 										</div>
 									</div>
 								{/each}
@@ -289,6 +354,7 @@
 		flex-direction: column;
 		gap: 0.75rem;
 		transition: all 0.2s;
+		border-left: 3px solid var(--border-light);
 	}
 
 	.list-card:hover {
@@ -302,14 +368,43 @@
 		font-size: 1rem;
 	}
 
-	.list-stats {
-		font-size: 0.9rem;
-		color: var(--text-muted);
+	.srs-stats {
+		display: flex;
+		gap: 0.75rem;
+		font-size: 0.8rem;
+	}
+
+	.stat-item {
+		padding: 0.2rem 0.5rem;
+		border-radius: 4px;
+		font-weight: 500;
+	}
+
+	.stat-item.new {
+		background-color: rgba(14, 165, 233, 0.1);
+		color: #0ea5e9;
+	}
+
+	.stat-item.learning {
+		background-color: rgba(245, 158, 11, 0.1);
+		color: #f59e0b;
+	}
+
+	.stat-item.mature {
+		background-color: rgba(16, 185, 129, 0.1);
+		color: #10b981;
+	}
+
+	.stat-item.due {
+		background-color: rgba(239, 68, 68, 0.1);
+		color: #ef4444;
 	}
 
 	.list-actions {
 		display: flex;
 		justify-content: flex-end;
+		gap: 0.5rem;
+		align-items: center;
 	}
 
 	.list-action {
@@ -321,16 +416,76 @@
 		border-radius: 6px;
 		color: var(--text-muted);
 		transition: all 0.2s;
+		border: none;
+		cursor: pointer;
+		background: none;
 	}
 
 	.list-action.practice {
 		background-color: rgba(16, 185, 129, 0.1);
 		color: #10b981;
+		text-decoration: none;
 	}
 
 	.list-action.practice:hover {
 		background-color: rgba(16, 185, 129, 0.2);
 		color: #10b981;
+	}
+
+	.list-action.reset {
+		background-color: rgba(239, 68, 68, 0.1);
+		color: #ef4444;
+	}
+
+	.list-action.reset:hover {
+		background-color: rgba(239, 68, 68, 0.2);
+		color: #ef4444;
+	}
+
+	.reset-confirm {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		background-color: var(--bg-light);
+		padding: 0.5rem;
+		border-radius: 6px;
+		font-size: 0.8rem;
+	}
+
+	.reset-text {
+		color: var(--text-muted);
+		white-space: nowrap;
+	}
+
+	.confirm-btn,
+	.cancel-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		border-radius: 4px;
+		border: none;
+		cursor: pointer;
+		transition: all 0.2s;
+	}
+
+	.confirm-btn {
+		background-color: rgba(16, 185, 129, 0.1);
+		color: #10b981;
+	}
+
+	.confirm-btn:hover {
+		background-color: rgba(16, 185, 129, 0.2);
+	}
+
+	.cancel-btn {
+		background-color: rgba(239, 68, 68, 0.1);
+		color: #ef4444;
+	}
+
+	.cancel-btn:hover {
+		background-color: rgba(239, 68, 68, 0.2);
 	}
 
 	@media (max-width: 1024px) {
@@ -343,11 +498,20 @@
 		.language-stats {
 			gap: 1rem;
 		}
+
+		.srs-stats {
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
 	}
 
 	@media (max-width: 768px) {
 		.languages-actions {
 			flex-direction: column;
+		}
+
+		.language-lists {
+			grid-template-columns: 1fr;
 		}
 	}
 </style>

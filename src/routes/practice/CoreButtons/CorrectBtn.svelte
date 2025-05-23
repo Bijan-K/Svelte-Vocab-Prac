@@ -1,23 +1,27 @@
 <!-- src\routes\practice\CoreButtons\CorrectBtn.svelte -->
 <script>
 	import { data, current, stats } from '$lib/stores';
-	import { changeWordKnownToCorrect, newCurrentList, selectRandomWord } from '$lib/utils';
+	import { markWordCorrect, getDueWords, selectRandomWord } from '$lib/utils';
 
 	function clickHandler() {
+		if ($current.word === 'All caught up! 🎉') return;
+
 		data.update((n) => {
-			n = changeWordKnownToCorrect($data, $current.lang, $current.list, $current.word);
+			n = markWordCorrect($data, $current.lang, $current.list, $current.word);
 			return n;
 		});
 
 		stats.update((n) => {
 			let tmp = n;
 			tmp.record.info.correct++;
+			tmp.record.info.totalReviews++;
 			return tmp;
 		});
 
 		current.update((n) => {
 			let tmp = n;
-			tmp.word = selectRandomWord(newCurrentList($data, $current.lang, $current.list)).word;
+			const dueWords = getDueWords($data, $current.lang, $current.list);
+			tmp.word = selectRandomWord(dueWords).word;
 			return tmp;
 		});
 	}

@@ -1,8 +1,10 @@
 // src/lib/utils/wordUtils.js
-// Functions for manipulating word data
+// Functions for manipulating word data with spaced repetition support
+
+import { createNewWord, calculateNextDueDate, isWordDue } from '$lib/stores/dataStore.js';
 
 /**
- * Add a word to a specific list
+ * Add a word to a specific list with SRS properties
  */
 export function addWordtoList(data, Lang, List, word) {
   const langIndex = data.findIndex((obj) => obj.lang.toLowerCase() == Lang);
@@ -10,7 +12,7 @@ export function addWordtoList(data, Lang, List, word) {
     const listIndex = data[langIndex].lists.findIndex((obj) => obj.name.toLowerCase() == List);
 
     if (listIndex != -1) {
-      data[langIndex].lists[listIndex].words.push({ word: word, known: false });
+      data[langIndex].lists[listIndex].words.push(createNewWord(word));
       return data;
     }
   }
@@ -25,7 +27,6 @@ export function rmWordFromList(data, lang, list, word) {
   const langObject = data.find((obj) => obj.lang.toLowerCase() == lang);
 
   if (langObject) {
-
     const targetList = langObject.lists.find((l) => l.name.toLowerCase() == list);
 
     if (targetList) {
@@ -99,7 +100,7 @@ export function addWordToStatsMistakesList(stats, currentLang, word) {
 }
 
 /**
- * Add a word to the mistakes list
+ * Add a word to the mistakes list with SRS properties
  */
 export function addWordtoMistakesList(data, currentLang, word) {
   const langIndex = data.findIndex((obj) => obj.lang.toLowerCase() === currentLang);
@@ -108,9 +109,13 @@ export function addWordtoMistakesList(data, currentLang, word) {
     let index = data[langIndex].lists[0].words.findIndex((obj) => obj.word === word);
 
     if (index == -1) {
-      data[langIndex].lists[0].words.push({ word: word, known: false });
+      // Add as new word if not exists
+      data[langIndex].lists[0].words.push(createNewWord(word));
     } else {
-      data[langIndex].lists[0].words[index].known = false;
+      // Reset the word's progress if it already exists
+      const wordData = data[langIndex].lists[0].words[index];
+      const updates = calculateNextDueDate(wordData, false);
+      Object.assign(data[langIndex].lists[0].words[index], updates);
     }
     return data;
   }
@@ -139,22 +144,46 @@ export function findWordReturnArrayIndex(data, currentLang, currentList, word) {
 }
 
 /**
- * Mark a word as known/correct
+ * Update word after correct answer (SRS progression)
  */
-export function changeWordKnownToCorrect(data, currentLang, currentList, word) {
+export function markWordCorrect(data, currentLang, currentList, word) {
   const [i, j, k] = [...findWordReturnArrayIndex(data, currentLang, currentList, word)];
 
   if (i != -1) {
-    data[i].lists[j].words[k].known = true;
+    const wordData = data[i].lists[j].words[k];
+    const updates = calculateNextDueDate(wordData, true);
+    Object.assign(data[i].lists[j].words[k], updates);
   }
 
   return data;
 }
 
 /**
- * Get a new list of words based on current selection
+ * Update word after incorrect answer (SRS reset)
  */
-export function newCurrentList(data, currentLang, currentList) {
+export function markWordIncorrect(data, currentLang, currentList, word) {
+  const [i, j, k] = [...findWordReturnArrayIndex(data, currentLang, currentList, word)];
+
+  if (i != -1) {
+    const wordData = data[i].lists[j].words[k];
+    const updates = calculateNextDueDate(wordData, false);
+    Object.assign(data[i].lists[j].words[k], updates);
+  }
+
+  return data;
+}
+
+/**
+ * Legacy function - now redirects to markWordCorrect
+ */
+export function changeWordKnownToCorrect(data, currentLang, currentList, word) {
+  return markWordCorrect(data, currentLang, currentList, word);
+}
+
+/**
+ * Get words that are due for review in a specific list
+ */
+export function getDueWords(data, currentLang, currentList) {
   const langObject = data.find((obj) => obj.lang.toLowerCase() === currentLang);
 
   if (langObject) {
@@ -163,10 +192,8 @@ export function newCurrentList(data, currentLang, currentList) {
     );
 
     if (thisListIndex != -1) {
-      let toBeFiltered = langObject.lists[thisListIndex];
-      toBeFiltered = toBeFiltered.words.filter((item) => item.known == false);
-
-      return toBeFiltered;
+      const allWords = langObject.lists[thisListIndex].words;
+      return allWords.filter(word => isWordDue(word));
     }
   }
 
@@ -174,38 +201,99 @@ export function newCurrentList(data, currentLang, currentList) {
 }
 
 /**
- * Select a random word from a list
+ * Get new list of words based on current selection (due words)
+ */
+export function newCurrentList(data, currentLang, currentList) {
+  return getDueWords(data, currentLang, currentList);
+}
+
+/**
+ * Select a random word from due words
  */
 export function selectRandomWord(listWords) {
   if (listWords.length != 0) {
     return listWords[Math.floor(Math.random() * listWords.length)];
   }
 
-  return { word: 'Completed ^^' };
+  return { word: 'All caught up! 🎉' };
 }
 
 /**
  * Return a single random word from a list
  */
 export function returnSingleWord(list) {
-  if (list.length == 0) return 'empty list';
+  if (list.length == 0) return 'All caught up! 🎉';
 
   return list[Math.floor(Math.random() * list.length)].word;
 }
 
 /**
- * Reset the known status of all words in a list
+ * Reset all words in a list to initial SRS state
  */
-export function resetKnown(data, targetLang, targetListName) {
-  const LangIndex = data.findIndex((obj) => (obj.name = targetLang));
+export function resetListProgress(data, targetLang, targetListName) {
+  const langIndex = data.findIndex((obj) => obj.lang.toLowerCase() === targetLang.toLowerCase());
 
-  const ListIndex = data[LangIndex].lists.findIndex(
-    (obj) => obj.name.toLowerCase() == targetListName
-  );
+  if (langIndex !== -1) {
+    const listIndex = data[langIndex].lists.findIndex(
+      (obj) => obj.name.toLowerCase() === targetListName.toLowerCase()
+    );
 
-  data[LangIndex].lists[ListIndex].words.forEach((element) => {
-    element.known = false;
-  });
+    if (listIndex !== -1) {
+      data[langIndex].lists[listIndex].words.forEach((wordObj) => {
+        wordObj.level = 0;
+        wordObj.dueDate = new Date().toISOString();
+        wordObj.lastReviewed = null;
+        wordObj.correctStreak = 0;
+        wordObj.incorrectCount = 0;
+        wordObj.totalReviews = 0;
+      });
+    }
+  }
 
   return data;
+}
+
+/**
+ * Legacy function - now redirects to resetListProgress
+ */
+export function resetKnown(data, targetLang, targetListName) {
+  return resetListProgress(data, targetLang, targetListName);
+}
+
+/**
+ * Get statistics for a specific list
+ */
+export function getListStats(data, lang, listName) {
+  const langObject = data.find((obj) => obj.lang.toLowerCase() === lang.toLowerCase());
+  
+  if (!langObject) return { total: 0, new: 0, learning: 0, mature: 0, due: 0 };
+  
+  const list = langObject.lists.find((l) => l.name.toLowerCase() === listName.toLowerCase());
+  
+  if (!list) return { total: 0, new: 0, learning: 0, mature: 0, due: 0 };
+  
+  const now = new Date();
+  const stats = {
+    total: list.words.length,
+    new: 0,
+    learning: 0,
+    mature: 0,
+    due: 0
+  };
+  
+  list.words.forEach(word => {
+    if (word.level === 0) {
+      stats.new++;
+    } else if (word.level < 4) {
+      stats.learning++;
+    } else {
+      stats.mature++;
+    }
+    
+    if (isWordDue(word)) {
+      stats.due++;
+    }
+  });
+  
+  return stats;
 }

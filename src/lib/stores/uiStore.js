@@ -11,13 +11,14 @@ export const showSelector = writable(false);
 
 // Mode controls
 export const statsSettingMode = writable('reflect');
-export const pracMode = writable('normal');
+export const pracMode = writable('normal'); // normal or lexicon
 
 // Form controls
 export const currentForm = writable({
   Lang: '',
   List: '',
-  defineWord: ''
+  defineWord: '',
+  llmPrompt: ''
 });
 
 export const formState = writable(false);

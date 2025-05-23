@@ -2,6 +2,7 @@
 <script>
 	import { slide, fade } from 'svelte/transition';
 	import { fileWords } from '$lib/stores';
+	import { createNewWord } from '$lib/stores/dataStore.js';
 
 	let isDragging = false;
 	let fileName = '';
@@ -59,20 +60,14 @@
 						error = 'Invalid JSON format. Expected an array of words.';
 						return;
 					}
-					words = parsed.map((word) => ({
-						word: word.replace(/\r/g, '').trim(),
-						known: false
-					}));
+					words = parsed.map((word) => createNewWord(word.replace(/\r/g, '').trim()));
 				} else {
 					const lines = content
 						.replace(/\r/g, '')
 						.split('\n')
 						.map((line) => line.trim())
 						.filter((line) => line !== '');
-					words = lines.map((theWord) => ({
-						word: theWord.trim(),
-						known: false
-					}));
+					words = lines.map((theWord) => createNewWord(theWord.trim()));
 				}
 
 				fileWords.set(words);
@@ -206,6 +201,9 @@ word3</code
 					></pre>
 			</div>
 		</div>
+		<p class="srs-note">
+			All imported words will start with level 0 and be due immediately for learning.
+		</p>
 	</div>
 </div>
 
@@ -317,6 +315,16 @@ word3</code
 		border-radius: 4px;
 		font-family: monospace;
 		margin-bottom: 0.25rem;
+	}
+
+	.srs-note {
+		margin-top: 0.75rem;
+		padding: 0.5rem;
+		background-color: rgba(14, 165, 233, 0.05);
+		border-radius: 4px;
+		border-left: 3px solid var(--primary);
+		font-size: 0.8rem;
+		color: var(--text-secondary);
 	}
 
 	pre {

@@ -1,7 +1,18 @@
 // src/lib/stores/index.js
 
 // Data stores
-export { data, current, langs, lists, fileWords } from './dataStore.js';
+export { 
+  data, 
+  current, 
+  langs, 
+  lists, 
+  fileWords, 
+  DATA_VERSION, 
+  SRS_INTERVALS, 
+  createNewWord, 
+  isWordDue, 
+  calculateNextDueDate 
+} from './dataStore.js';
 
 // Stats store
 export { stats } from './statsStore.js';

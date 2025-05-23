@@ -9,6 +9,7 @@
 	let lang = '';
 	let newlist = '';
 	let define = '';
+	let llmPrompt = '';
 
 	let step = 1;
 	let isFormValid = false;
@@ -18,7 +19,7 @@
 	}
 
 	function addHandler() {
-		let [newData, newStats] = addNewLangToDataAndStats($data, $stats, lang, define);
+		let [newData, newStats] = addNewLangToDataAndStats($data, $stats, lang, define, llmPrompt);
 
 		data.update((n) => newData);
 		stats.update((n) => newStats);
@@ -40,7 +41,7 @@
 	}
 
 	$: isFormValid = lang !== '';
-	$: canContinue = step === 1 ? lang !== '' : define !== '';
+	$: canContinue = step === 1 ? lang !== '' : define !== '' && llmPrompt !== '';
 </script>
 
 <div class="modal-overlay" on:click={closeHandler}>
@@ -85,12 +86,27 @@
 						id="define-word"
 						type="text"
 						bind:value={define}
-						placeholder="Translation of 'define' in {lang} (for lookups)"
+						placeholder="Translation of 'define' in {lang} (for Google lookups)"
 						required
 					/>
 					<small
 						>This will be used for dictionary lookups in Google (e.g. "define" in English)</small
 					>
+
+					<div class="llm-prompt-section">
+						<label for="llm-prompt">LLM Prompt Template</label>
+						<input
+							id="llm-prompt"
+							type="text"
+							bind:value={llmPrompt}
+							placeholder="e.g. What is the meaning of, Qué significa, Was bedeutet"
+							required
+						/>
+						<small
+							>This will be used to generate prompts for AI assistants (e.g. "What is the meaning of
+							[word]")</small
+						>
+					</div>
 				</div>
 			{/if}
 		</div>
@@ -180,7 +196,7 @@
 
 	.modal-body {
 		padding: 2rem 1.5rem;
-		min-height: 200px;
+		min-height: 250px;
 	}
 
 	.form-group {
@@ -217,6 +233,15 @@
 	}
 
 	.optional-list {
+		margin-top: 1rem;
+		padding-top: 1rem;
+		border-top: 1px dashed var(--border-dark);
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.llm-prompt-section {
 		margin-top: 1rem;
 		padding-top: 1rem;
 		border-top: 1px dashed var(--border-dark);
@@ -314,6 +339,7 @@
 
 		.modal-body {
 			padding: 1.5rem 1.25rem;
+			min-height: 200px;
 		}
 	}
 </style>

@@ -13,6 +13,7 @@
 	let wordData = null;
 	let activeTab = 0;
 	let audioSrc = '';
+	let copySuccess = false;
 
 	// Check if current language is English
 	$: isEnglish = $current?.lang?.toLowerCase() === 'english';
@@ -26,6 +27,17 @@
 		);
 
 		return langData?.defineKeyword || 'define';
+	}
+
+	// Get LLM prompt for current language
+	function getLLMPrompt() {
+		if (!$stats?.mistake_lang) return 'What is the meaning of';
+
+		const langData = $stats.mistake_lang.find(
+			(l) => l.lang.toLowerCase() === $current?.lang?.toLowerCase()
+		);
+
+		return langData?.llmPrompt || 'What is the meaning of';
 	}
 
 	async function fetchWordData() {
@@ -81,6 +93,37 @@
 		);
 	}
 
+	async function copyLLMPrompt() {
+		const llmPrompt = getLLMPrompt();
+		const promptText = `${llmPrompt} "${word}"`;
+
+		try {
+			await navigator.clipboard.writeText(promptText);
+			copySuccess = true;
+			setTimeout(() => {
+				copySuccess = false;
+			}, 2000);
+		} catch (err) {
+			console.error('Failed to copy text: ', err);
+			// Fallback for older browsers
+			const textArea = document.createElement('textarea');
+			textArea.value = promptText;
+			document.body.appendChild(textArea);
+			textArea.focus();
+			textArea.select();
+			try {
+				document.execCommand('copy');
+				copySuccess = true;
+				setTimeout(() => {
+					copySuccess = false;
+				}, 2000);
+			} catch (fallbackErr) {
+				console.error('Fallback copy failed: ', fallbackErr);
+			}
+			document.body.removeChild(textArea);
+		}
+	}
+
 	function playAudio() {
 		if (audioSrc) {
 			const audio = new Audio(audioSrc);
@@ -98,7 +141,31 @@
 				Opening Google search for <strong>{word}</strong> in {$current?.lang ||
 					'selected language'}...
 			</p>
-			<button on:click={openGoogleSearch} class="google-button"> Open Google Search </button>
+			<div class="action-buttons">
+				<button on:click={openGoogleSearch} class="google-button"> Open Google Search </button>
+				<button on:click={copyLLMPrompt} class="copy-button" class:success={copySuccess}>
+					{#if copySuccess}
+						<UIIcons icon="check" />
+						Copied!
+					{:else}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+							<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+						</svg>
+						Copy LLM Prompt
+					{/if}
+				</button>
+			</div>
 		</div>
 	{:else if loading}
 		<div class="loading" in:fade>
@@ -108,9 +175,33 @@
 	{:else if error}
 		<div class="error" in:fade>
 			<p>Sorry, couldn't find the definition for <strong>{word}</strong>.</p>
-			{#if !fallbackSearch}
-				<button on:click={openGoogleSearch} class="google-button"> Search on Google </button>
-			{/if}
+			<div class="action-buttons">
+				{#if !fallbackSearch}
+					<button on:click={openGoogleSearch} class="google-button"> Search on Google </button>
+				{/if}
+				<button on:click={copyLLMPrompt} class="copy-button" class:success={copySuccess}>
+					{#if copySuccess}
+						<UIIcons icon="check" />
+						Copied!
+					{:else}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+							<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+						</svg>
+						Copy LLM Prompt
+					{/if}
+				</button>
+			</div>
 		</div>
 	{:else if wordData}
 		<div class="result" in:slide={{ duration: 300 }}>
@@ -140,6 +231,30 @@
 						{/if}
 					</div>
 				{/if}
+				<div class="header-actions">
+					<button on:click={copyLLMPrompt} class="copy-button" class:success={copySuccess}>
+						{#if copySuccess}
+							<UIIcons icon="check" />
+							Copied!
+						{:else}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="16"
+								height="16"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+								<path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+							</svg>
+							Copy LLM Prompt
+						{/if}
+					</button>
+				</div>
 			</div>
 
 			<!-- Tab navigation for meanings -->
@@ -270,6 +385,59 @@
 		color: #f8fafc;
 	}
 
+	.header-actions {
+		margin-top: 1rem;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.action-buttons {
+		display: flex;
+		gap: 0.75rem;
+		margin-top: 1rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.google-button {
+		background: #0ea5e9;
+		color: white;
+		border: none;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 0.9rem;
+		transition: background-color 0.2s;
+	}
+
+	.google-button:hover {
+		background: #0284c7;
+	}
+
+	.copy-button {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		background: rgba(139, 92, 246, 0.1);
+		color: #a78bfa;
+		border: 1px solid rgba(139, 92, 246, 0.2);
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 0.9rem;
+		transition: all 0.2s;
+	}
+
+	.copy-button:hover {
+		background: rgba(139, 92, 246, 0.2);
+	}
+
+	.copy-button.success {
+		background: rgba(16, 185, 129, 0.1);
+		color: #10b981;
+		border-color: rgba(16, 185, 129, 0.2);
+	}
+
 	.meaning-tabs {
 		display: flex;
 		flex-wrap: wrap;
@@ -382,22 +550,6 @@
 		font-size: 0.95rem;
 	}
 
-	.google-button {
-		margin-top: 1rem;
-		background: #0ea5e9;
-		color: white;
-		border: none;
-		padding: 0.5rem 1rem;
-		border-radius: 4px;
-		cursor: pointer;
-		font-size: 0.9rem;
-		transition: background-color 0.2s;
-	}
-
-	.google-button:hover {
-		background: #0284c7;
-	}
-
 	.non-english-message {
 		color: #cbd5e1;
 	}
@@ -420,6 +572,15 @@
 		.tab-button {
 			padding: 0.35rem 0.75rem;
 			font-size: 0.8rem;
+		}
+
+		.action-buttons {
+			flex-direction: column;
+		}
+
+		.header-actions {
+			margin-top: 0.5rem;
+			justify-content: center;
 		}
 	}
 </style>

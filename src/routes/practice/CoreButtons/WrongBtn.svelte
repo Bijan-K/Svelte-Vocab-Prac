@@ -1,23 +1,36 @@
 <!-- src\routes\practice\CoreButtons\WrongBtn.svelte -->
 <script>
 	import {
-		newCurrentList,
+		getDueWords,
 		addWordToStatsMistakesList,
 		addWordtoMistakesList,
-		selectRandomWord
+		selectRandomWord,
+		markWordIncorrect
 	} from '$lib/utils';
 
 	import { data, current, stats } from '$lib/stores';
 
 	function clickHandler() {
+		if ($current.word === 'All caught up! 🎉') return;
+
+		// Mark word as incorrect (SRS regression)
 		data.update((n) => {
-			n = addWordtoMistakesList($data, $current.lang, $current.word);
+			n = markWordIncorrect($data, $current.lang, $current.list, $current.word);
 			return n;
 		});
+
+		// Add to mistakes list if not in mistakes already
+		if ($current.list !== 'mistakes') {
+			data.update((n) => {
+				n = addWordtoMistakesList($data, $current.lang, $current.word);
+				return n;
+			});
+		}
 
 		stats.update((n) => {
 			let tmp = n;
 			tmp.record.info.incorrect++;
+			tmp.record.info.totalReviews++;
 			return tmp;
 		});
 
@@ -28,7 +41,8 @@
 
 		current.update((n) => {
 			let tmp = n;
-			tmp.word = selectRandomWord(newCurrentList($data, $current.lang, $current.list)).word;
+			const dueWords = getDueWords($data, $current.lang, $current.list);
+			tmp.word = selectRandomWord(dueWords).word;
 			return tmp;
 		});
 	}

@@ -2,7 +2,7 @@
 <script>
 	import { fade, slide } from 'svelte/transition';
 	import { data, current, overlayMode, overlayState, langs, lists } from '$lib/stores';
-	import { newCurrentList, returnSingleWord, capitalizeWord, returnListsOfLang } from '$lib/utils';
+	import { getDueWords, returnSingleWord, capitalizeWord, returnListsOfLang } from '$lib/utils';
 
 	let showLanguages = false;
 	let showLists = false;
@@ -25,7 +25,7 @@
 				let tmp = n;
 				tmp.lang = selectedLang;
 				tmp.list = returnListsOfLang($data, tmp.lang)[0];
-				tmp.word = returnSingleWord(newCurrentList($data, tmp.lang, tmp.list));
+				tmp.word = returnSingleWord(getDueWords($data, tmp.lang, tmp.list));
 				return tmp;
 			});
 		}
@@ -40,7 +40,7 @@
 			current.update((n) => {
 				let tmp = n;
 				tmp.list = selectedList;
-				tmp.word = returnSingleWord(newCurrentList($data, tmp.lang, tmp.list));
+				tmp.word = returnSingleWord(getDueWords($data, tmp.lang, tmp.list));
 				return tmp;
 			});
 		}
@@ -68,7 +68,7 @@
 		}
 	}
 
-	$: remaining = newCurrentList($data, $current.lang, $current.list);
+	$: remaining = getDueWords($data, $current.lang, $current.list);
 </script>
 
 <svelte:window on:click={handleClickOutside} />
@@ -195,7 +195,7 @@
 
 		<div class="word-info">
 			<div class="word-count">
-				Remaining: <span class="count">{remaining.length || 'None'}</span>
+				Due: <span class="count">{remaining.length || 'None'}</span>
 			</div>
 		</div>
 	</div>

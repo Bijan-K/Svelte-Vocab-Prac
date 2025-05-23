@@ -1,6 +1,6 @@
 <!-- src\lib\components\Menu\DataFileHandler.svelte -->
 <script>
-	import { data, stats } from '$lib/stores';
+	import { data, stats, DATA_VERSION, createNewWord } from '$lib/stores';
 	import { slide } from 'svelte/transition';
 
 	let exportSuccess = false;
@@ -30,12 +30,24 @@
 
 	function handleDownload() {
 		try {
-			const jsonString = JSON.stringify([$data, $stats]);
+			const exportData = {
+				version: DATA_VERSION,
+				timestamp: new Date().toISOString(),
+				data: $data,
+				stats: $stats
+			};
+
+			const jsonString = JSON.stringify(exportData, null, 2);
 			const blob = new Blob([jsonString], { type: 'application/json' });
 			const url = URL.createObjectURL(blob);
 			const a = document.createElement('a');
 			a.href = url;
-			a.download = 'vocabulary-data.json';
+
+			// Generate filename with timestamp
+			const now = new Date();
+			const dateStr = now.toISOString().split('T')[0];
+			a.download = `vocabulary-data-${dateStr}.json`;
+
 			document.body.appendChild(a);
 			a.click();
 			document.body.removeChild(a);
@@ -44,7 +56,65 @@
 			showExportSuccess();
 		} catch (error) {
 			console.error('Error exporting data:', error);
+			showImportError('Error exporting data. Please try again.');
 		}
+	}
+
+	function migrateOldFormat(importedData) {
+		// Check if it's the old array format
+		if (Array.isArray(importedData) && importedData.length === 2) {
+			console.log('Migrating from old format...');
+			const [oldData, oldStats] = importedData;
+
+			// Migrate data structure
+			const migratedData = oldData.map((langData) => ({
+				...langData,
+				lists: langData.lists.map((list) => ({
+					...list,
+					words: list.words.map((word) => {
+						// If word already has new structure, keep it
+						if (word.level !== undefined) return word;
+
+						// Migrate from old boolean structure
+						return createNewWord(word.word);
+					})
+				}))
+			}));
+
+			// Migrate stats structure
+			const migratedStats = {
+				...oldStats,
+				version: DATA_VERSION,
+				record: {
+					...oldStats.record,
+					info: {
+						...oldStats.record.info,
+						totalReviews: oldStats.record.info.totalReviews || 0,
+						newWords: oldStats.record.info.newWords || 0
+					}
+				},
+				mistake_lang: oldStats.mistake_lang.map((langMistakes) => ({
+					...langMistakes,
+					llmPrompt: langMistakes.llmPrompt || 'What is the meaning of'
+				})),
+				srs: {
+					totalWordsLearning: 0,
+					wordsReviewedToday: 0,
+					averageAccuracy: 0,
+					longestStreak: 0
+				}
+			};
+
+			return { data: migratedData, stats: migratedStats };
+		}
+
+		// Check if it's the new format
+		if (importedData.version && importedData.data && importedData.stats) {
+			console.log('Loading new format...');
+			return { data: importedData.data, stats: importedData.stats };
+		}
+
+		throw new Error('Unrecognized file format');
 	}
 
 	function handleUpload(event) {
@@ -55,21 +125,52 @@
 				try {
 					const json = JSON.parse(e.target.result);
 
-					if (!Array.isArray(json) || json.length !== 2) {
+					const { data: migratedData, stats: migratedStats } = migrateOldFormat(json);
+
+					// Validate the migrated data structure
+					if (!Array.isArray(migratedData) || typeof migratedStats !== 'object') {
 						showImportError('Invalid file format. Please upload a valid vocabulary data file.');
 						return;
 					}
 
-					data.set(json[0]);
-					stats.set(json[1]);
+					// Additional validation for data structure
+					const isValidData = migratedData.every(
+						(lang) =>
+							lang.lang &&
+							Array.isArray(lang.lists) &&
+							lang.lists.every(
+								(list) =>
+									list.name &&
+									Array.isArray(list.words) &&
+									list.words.every(
+										(word) =>
+											typeof word.word === 'string' &&
+											typeof word.level === 'number' &&
+											typeof word.dueDate === 'string'
+									)
+							)
+					);
+
+					if (!isValidData) {
+						showImportError('Invalid data structure in file. Please check the file format.');
+						return;
+					}
+
+					data.set(migratedData);
+					stats.set(migratedStats);
 					showImportSuccess();
 				} catch (error) {
 					console.error('Error parsing JSON:', error);
-					showImportError("Error parsing the file. Please make sure it's a valid JSON file.");
+					showImportError(
+						"Error parsing the file. Please make sure it's a valid vocabulary data file."
+					);
 				}
 			};
 			reader.readAsText(file);
 		}
+
+		// Reset the file input
+		event.target.value = '';
 	}
 </script>
 
@@ -141,7 +242,7 @@
 				<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
 				<polyline points="22 4 12 14.01 9 11.01"></polyline>
 			</svg>
-			<span>Data exported successfully!</span>
+			<span>Data exported successfully with SRS support!</span>
 		</div>
 	{/if}
 
@@ -161,7 +262,7 @@
 				<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
 				<polyline points="22 4 12 14.01 9 11.01"></polyline>
 			</svg>
-			<span>Data imported successfully!</span>
+			<span>Data imported successfully! Old format automatically migrated.</span>
 		</div>
 	{/if}
 
@@ -203,8 +304,8 @@
 			<line x1="12" y1="8" x2="12.01" y2="8"></line>
 		</svg>
 		<span
-			>Your data is stored locally in your browser. Export regularly to back up your vocabulary
-			lists.</span
+			>Your data includes spaced repetition progress. Export regularly to back up your learning
+			progress. Old format files are automatically migrated.</span
 		>
 	</div>
 </div>
